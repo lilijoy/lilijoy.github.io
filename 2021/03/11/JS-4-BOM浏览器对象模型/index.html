@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="什么是BOM 浏览器的顶级对象 页面加载事件以及注意事项 定时器函数 JS执行机制 页面跳转、刷新 history、navigator对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS-4-BOM浏览器对象模型">
+<meta property="og:url" content="http://example.com/2021/03/11/JS-4-BOM%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="lilijoy">
+<meta property="og:description" content="什么是BOM 浏览器的顶级对象 页面加载事件以及注意事项 定时器函数 JS执行机制 页面跳转、刷新 history、navigator对象">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-11T15:07:42.000Z">
+<meta property="article:modified_time" content="2021-03-12T07:53:25.469Z">
+<meta property="article:author" content="Li Jing">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2021/03/11/JS-4-BOM%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>JS-4-BOM浏览器对象模型 | lilijoy</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">lilijoy</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFBOM"><span class="nav-number">1.</span> <span class="nav-text">什么是BOM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BOM%E7%9A%84%E6%9E%84%E6%88%90"><span class="nav-number">1.1.</span> <span class="nav-text">BOM的构成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#window%E5%AF%B9%E8%B1%A1%E5%B8%B8%E8%A7%81%E4%BA%8B%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">window对象常见事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E7%AA%97%E5%8F%A3%E5%A4%A7%E5%B0%8F%E4%BA%8B%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">调整窗口大小事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">定时器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="nav-number">3.1.</span> <span class="nav-text">两种定时器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#this"><span class="nav-number">3.2.</span> <span class="nav-text">this</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JS%E6%89%A7%E8%A1%8C%E9%98%9F%E5%88%97"><span class="nav-number">4.</span> <span class="nav-text">JS执行队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JS%E5%8D%95%E7%BA%BF%E7%A8%8B"><span class="nav-number">4.1.</span> <span class="nav-text">JS单线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JS%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6"><span class="nav-number">4.2.</span> <span class="nav-text">JS执行机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Location%E5%AF%B9%E8%B1%A1"><span class="nav-number">5.</span> <span class="nav-text">Location对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Location%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="nav-number">5.1.</span> <span class="nav-text">Location对象的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Location%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">5.2.</span> <span class="nav-text">Location常用方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#navigator%E5%AF%B9%E8%B1%A1"><span class="nav-number">6.</span> <span class="nav-text">navigator对象</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Li Jing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/11/JS-4-BOM%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Li Jing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lilijoy">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JS-4-BOM浏览器对象模型
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-11 23:07:42" itemprop="dateCreated datePublished" datetime="2021-03-11T23:07:42+08:00">2021-03-11</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-12 15:53:25" itemprop="dateModified" datetime="2021-03-12T15:53:25+08:00">2021-03-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>什么是BOM</p>
+<p>浏览器的顶级对象</p>
+<p>页面加载事件以及注意事项</p>
+<p>定时器函数</p>
+<p>JS执行机制</p>
+<p>页面跳转、刷新</p>
+<p>history、navigator对象</p>
+<span id="more"></span>
+
+<h2 id="什么是BOM"><a href="#什么是BOM" class="headerlink" title="什么是BOM"></a>什么是BOM</h2><p>浏览器对象模型(Browser Object Model)，主要作用是提供独立于内容而与浏览器窗口进行交互的对象，核心是window，BOM缺乏标准</p>
+<p>###对比</p>
+<p>DOM                                    BOM</p>
+<p>文档对象模型                                浏览器对象模型</p>
+<p>顶级对象的document                        顶级对象是window</p>
+<p>主要学习操作元素                            主要和浏览器窗口交互，刷新跳转等</p>
+<p>W3C                                    BOM是浏览器厂商各自定义的，兼容性差</p>
+<h3 id="BOM的构成"><a href="#BOM的构成" class="headerlink" title="BOM的构成"></a>BOM的构成</h3><p>window对象是浏览器的顶级对象，具有双重角色</p>
+<ul>
+<li>是JS访问浏览器窗口的一个接口</li>
+<li>是一个全局对象，定义在全局作用域中的变量、函数都会变成window对象的方法和属性</li>
+<li>在调用的时候可以省略window，前面学习的对话框alert()、prompt()等</li>
+<li>window下不要直接定义变量为name，因为有个特殊属性window.name</li>
+</ul>
+<h2 id="window对象常见事件"><a href="#window对象常见事件" class="headerlink" title="window对象常见事件"></a>window对象常见事件</h2><p>###窗口加载事件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">window.onload&#x3D;function()&#123;&#125;</span><br><span class="line">window.addEventListener&#x3D;(&quot;load&quot;,function()&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>window.onload是窗口加载事件，当文档enrich完全加载完成会触发该事件（包括图像、脚本文件、CSS文件等），就调用的处理函数</p>
+<ol>
+<li>有了window.onload就可以把JS代码写到页面元素的上方，但是写了多个后只处理最后一个</li>
+<li>如果用addEventListener则没有限制</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.addEventListener(&#39;DOMContentLoaded&#39;,function()&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>仅当DOM加载完成时才会触发，不包含样式表、图片、flash等，ie9以上才支持</p>
+<p>在页面图片很多加载很慢的时候，可以提前获取交互，保证用户体验</p>
+<h3 id="调整窗口大小事件"><a href="#调整窗口大小事件" class="headerlink" title="调整窗口大小事件"></a>调整窗口大小事件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">window.onresize&#x3D;function()&#123;&#125;</span><br><span class="line">window.addEventListener&#x3D;(&quot;resize&quot;,function()&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>调整窗口大小事件</p>
+<ol>
+<li>只要窗口带下发生像素变化时，就会触发</li>
+<li>用于响应式布局；window.innerWidth可以获得屏幕宽度</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var div &#x3D; document.querySelector(&#39;div&#39;);</span><br><span class="line">window.addEventListener(&#39;resize&#39;, function () &#123;</span><br><span class="line">    if (window.innerWidth &lt;&#x3D; 800) &#123;</span><br><span class="line">        div.style.display &#x3D; &#39;none&#39;;</span><br><span class="line">    &#125;	else &#123;</span><br><span class="line">        div.style.display &#x3D; &#39;block&#39;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h2><h3 id="两种定时器"><a href="#两种定时器" class="headerlink" title="两种定时器"></a>两种定时器</h3><p><strong>setTimeOut()</strong></p>
+<p>window.setTimeout(调用函数，[延迟的毫秒数]);</p>
+<ul>
+<li>延迟时间可以省略</li>
+<li>调用函数可以直接写函数，还可以写函数名</li>
+<li>还有一个写法’函数名()’,不提倡</li>
+<li>页面中可能有很多定时器，我们经常给定时器加标识符</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function callback() &#123;</span><br><span class="line">          console.log(&#39;111&#39;);</span><br><span class="line">      &#125;</span><br><span class="line">      var time1 &#x3D; setTimeout(callback, 3000);</span><br><span class="line">      var time2 &#x3D; setTimeout(callback, 1000);</span><br></pre></td></tr></table></figure>
+
+<p>回调函数callback：需要等待时间，时间到了才去调用这个函数以前的.onclick=function()里面的函数也是回调函数</p>
+<p>案例：5s后自动隐藏广告</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var ad &#x3D; document.querySelector(&#39;.ad&#39;);</span><br><span class="line">setTimeout(function () &#123;</span><br><span class="line">    ad.style.display &#x3D; &#39;none&#39;;</span><br><span class="line">&#125;, 5000)</span><br></pre></td></tr></table></figure>
+
+<p><strong>计时器停止：</strong></p>
+<p>window.clearTimeout(timeoutID)</p>
+<p>setInterval()定时器</p>
+<p>window.setInterval(回调函数，[间隔的毫秒数])</p>
+<p>执行过程不同，本函数是每间隔一定时间就执行一次，会不断执行，setTimeout只执行一次</p>
+<p>案例：秒杀倒计时</p>
+<ul>
+<li>这个倒计时是不断变化的  ，因此需要定时器来自动变化（setInterval）</li>
+<li>三个盒子分别存放时分秒</li>
+<li>三个黑色盒子利用innerHTML放入计算的小时分钟秒数</li>
+<li>最好先调用一次函数，防止刚刷新页面时出现空白</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var hour &#x3D; document.querySelector(&#39;.hour&#39;);</span><br><span class="line">var minute &#x3D; document.querySelector(&#39;.minute&#39;);</span><br><span class="line">var second &#x3D; document.querySelector(&#39;.second&#39;);</span><br><span class="line">var inputTime &#x3D; +new Date(&#39;2021-3-13 18:00:00&#39;);&#x2F;&#x2F;用户想输入的时间</span><br><span class="line">countDown();&#x2F;&#x2F;最好先调用一次函数，防止刚刷新页面时出现空白</span><br><span class="line">&#x2F;&#x2F;开启定时器 每秒都调用该函数</span><br><span class="line">setInterval(countDown, 1000);</span><br><span class="line">function countDown(time) &#123;</span><br><span class="line">    var nowTime &#x3D; +new Date();&#x2F;&#x2F;当前时间总的毫秒数</span><br><span class="line">    var times &#x3D; (inputTime - nowTime) &#x2F; 1000;&#x2F;&#x2F;秒数</span><br><span class="line">    var h &#x3D; parseInt(times &#x2F; 60 &#x2F; 60 % 24);</span><br><span class="line">    h &#x3D; h &lt; 10 ? &#39;0&#39; + h : h;</span><br><span class="line">    hour.innerHTML &#x3D; h;</span><br><span class="line">    var m &#x3D; parseInt(times &#x2F; 60 % 60);</span><br><span class="line">    m &#x3D; m &lt; 10 ? &#39;0&#39; + m : m;</span><br><span class="line">    minute.innerHTML &#x3D; m;</span><br><span class="line">    var s &#x3D; parseInt(times % 60);</span><br><span class="line">    s &#x3D; s &lt; 10 ? &#39;0&#39; + s : s;</span><br><span class="line">    second.innerHTML &#x3D; s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>window.clearInterval();停止定时器</p>
+<ul>
+<li>有时外界需要内部的变量，需要在函数外定义对象，可以定义为null</li>
+</ul>
+<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><p>指向<strong>调用</strong>它的对象</p>
+<ol>
+<li><p>全局作用域下或者普通函数下this指向window；（定时器里面的this指向window）</p>
+</li>
+<li><p>方法调用中this指向的是调用它的对象</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">btn.addEventListener(&#39;click&#39;,function()&#123;&#125;)</span><br><span class="line">btn.onclick&#x3D;function()&#123;&#125;;</span><br><span class="line">&#x2F;&#x2F;都指向btn</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>构造函数中this指向构造函数的实例</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var fun&#x3D;new Fun();&#x2F;&#x2F;this指向fun</span><br></pre></td></tr></table></figure>
+
+<h2 id="JS执行队列"><a href="#JS执行队列" class="headerlink" title="JS执行队列"></a>JS执行队列</h2><h3 id="JS单线程"><a href="#JS单线程" class="headerlink" title="JS单线程"></a>JS单线程</h3><p>JS是单线程语言，同一时间只能做一件事。</p>
+<p>单线程意味着所有任务需要排队，如果JS执行事件过长，会造成其他代码等待时间过长</p>
+<p>为了解决这个问题，HTM5提出了Web Worker标准，允许JS创建多个线程，因此出现了同步和异步</p>
+<p>###同步和异步</p>
+<p><strong>同步</strong>：</p>
+<p>前一个任务结束后再执行后一个任务，程序的执行顺序和任务的排列顺序是一致的、同步的</p>
+<p><strong>异步：</strong></p>
+<p>做一件事情的时候同时还可以做其他事情</p>
+<p>本质区别：这条流水线上各个流程执行顺序不同</p>
+<p><strong>同步任务</strong>：同步任务都在主线程上进行，行程一个执行栈</p>
+<p><strong>异步任务</strong>：JS的异步是通过回调函数实现的，</p>
+<ol>
+<li>普通事件：如click、resize等</li>
+<li>资源加载，如load、error等</li>
+<li>定时器，如setinterval、setTimeout等</li>
+</ol>
+<p>异步任务相关回调函数添加到任务队列（消息队列）中。</p>
+<h3 id="JS执行机制"><a href="#JS执行机制" class="headerlink" title="JS执行机制"></a>JS执行机制</h3><ol>
+<li>先执行执行栈中同步任务</li>
+<li>异步任务放入任务队列中</li>
+<li>一旦执行栈中所有同步任务执行完毕，系统就会按次序读取任务队列中的异步任务，于是被读取的异步任务结束等待状态，进入执行栈，开始执行</li>
+</ol>
+<p>由于主线程不断的获取任务、执行任务、再获取任务、再执行任务，这种机制被称为<strong>事件循环</strong></p>
+<h2 id="Location对象"><a href="#Location对象" class="headerlink" title="Location对象"></a>Location对象</h2><p>window对象给我们提供了一个location属性用于获取或设置窗体的URL，并且可以用于解析URL。该属性返回的是一个对象，因此也称为Location对象</p>
+<p>URL</p>
+<p>统一资源定位符(Uniform Resource Locator)，是互联网标准资源的地址，互联网每个文件都有位移的URL，包含的信息之处文件的位置以及浏览器该如何处理它</p>
+<p>URL一般格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">protocol:&#x2F;&#x2F;host[:port]&#x2F;path&#x2F;[?query]#fragment</span><br><span class="line">http:&#x2F;&#x2F;www.itcast.cn&#x2F;index.html?name&#x3D;andy&amp;age&#x3D;18#link</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>protocol  通信协议 常用的http、ftp、maito等</li>
+<li>host  主机（域名）</li>
+<li>port  端口号 可选，省略时使用方案的默认端口，如http的默认端口为80</li>
+<li>path路径 由零或多个’/‘符号隔开的字符串，一般用来表示主机上的一个目录或文件地址</li>
+<li>query 参数 以键值对的形式，用&amp;号分割开</li>
+<li>fragment 片段 #后面内容，常见于连接锚点</li>
+</ul>
+<h3 id="Location对象的属性"><a href="#Location对象的属性" class="headerlink" title="Location对象的属性"></a>Location对象的属性</h3><p><strong>location.href</strong>  获取或设置整个URL  可以实现点击某位置跳转其他页面</p>
+<p>location.host  返回主机（域名）</p>
+<p>location.port 返回端口号</p>
+<p>location.pathname返回路径</p>
+<p><strong>location.search</strong>  返回参数(query)</p>
+<p>location.hash 返回片段 #后面内容常见于链接 锚点</p>
+<p>案例：5s后自动跳转页面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var timer&#x3D;5;</span><br><span class="line">setInterval(function()&#123;</span><br><span class="line">if(timer&#x3D;&#x3D;0)&#123;</span><br><span class="line">    location.href&#x3D;&#39;http:&#x2F;&#x2F;www.itcast.cn&#39;;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">    div.innerHTML&#x3D;&#39;将在&#39;+timeer+&#39;s 后跳转首页&#39;; </span><br><span class="line">    timer--;&#125;</span><br><span class="line">&#125;,1000)</span><br></pre></td></tr></table></figure>
+
+<p>案例：提交表单后跳转到另一个页面并显示</p>
+<ol>
+<li>第一个登陆页面，里有提交表单，利用action=’index.html’提交到第二个页面，input表单必须有name属性，作为提交的属性</li>
+<li>第二个页面，可以使用第一个页面的参数，利用了参数的传递，从location.search可以得到</li>
+<li>location.search得到的是形如 ?name=Andy 的样式，需要去掉问号（substr(开始的位置，位数)</li>
+<li>还需要利用split(‘=’)分开参数和值</li>
+</ol>
+<h3 id="Location常用方法"><a href="#Location常用方法" class="headerlink" title="Location常用方法"></a>Location常用方法</h3><p>location.assign 跳转页面，记录浏览器历史，可以使用后退功能</p>
+<p>location.replace  跳转页面，但是不记录历史，无法后退</p>
+<p>location.reload 重新加载，相当于刷新页面，如果参数为true表示强制刷新（不读取缓存中图片，机载较慢），不填表示类似于F5直接刷新</p>
+<h2 id="navigator对象"><a href="#navigator对象" class="headerlink" title="navigator对象"></a>navigator对象</h2><p>navigator.userAgent显示浏览器信息、系统信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if((navigator.userAgent.match(&#x2F;(iPhone|iPod|Android|ios|iPad|hpwOS|SysbianOS|Windows Phone|UCWEB|BlackBerry|Nokia|RIM|IEMobile|Mobile)&#x2F;i)&#123;</span><br><span class="line">location.href&#x3D;&quot;http:&#x2F;&#x2F;www.cnblogs.com&#x2F;dying&quot;&#125;</span><br><span class="line">else&#123;</span><br><span class="line">    location.href&#x3D;&quot;&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>##history对象</p>
+<p>history.forward()  前进功能</p>
+<p>history.back()后退</p>
+<p>go()  参数是2表示前进2个页面，-2表示后退2个页面</p>
+<p>一些OA办公系统有可能会用到</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/11/JS-3-%E9%AB%98%E7%BA%A7%E4%BA%8B%E4%BB%B6/" rel="prev" title="JS-3-高级事件">
+                  <i class="fa fa-chevron-left"></i> JS-3-高级事件
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/12/JS-5-PC%E7%AB%AF%E7%BD%91%E9%A1%B5%E7%89%B9%E6%95%88/" rel="next" title="JS-5-PC端网页特效">
+                  JS-5-PC端网页特效 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Li Jing</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

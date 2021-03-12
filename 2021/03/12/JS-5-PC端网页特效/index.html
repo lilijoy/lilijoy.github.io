@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="常见offset系列属性作用 常见client系列属性作用 常见scroll系列属性作用 封装简单动画函数 写出网页轮播图案例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS-5-PC端网页特效">
+<meta property="og:url" content="http://example.com/2021/03/12/JS-5-PC%E7%AB%AF%E7%BD%91%E9%A1%B5%E7%89%B9%E6%95%88/index.html">
+<meta property="og:site_name" content="lilijoy">
+<meta property="og:description" content="常见offset系列属性作用 常见client系列属性作用 常见scroll系列属性作用 封装简单动画函数 写出网页轮播图案例">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-12T07:51:30.000Z">
+<meta property="article:modified_time" content="2021-03-12T16:05:07.627Z">
+<meta property="article:author" content="Li Jing">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2021/03/12/JS-5-PC%E7%AB%AF%E7%BD%91%E9%A1%B5%E7%89%B9%E6%95%88/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>JS-5-PC端网页特效 | lilijoy</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">lilijoy</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#offset"><span class="nav-number">1.</span> <span class="nav-text">offset</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#offset%E4%B8%8Estyle%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.</span> <span class="nav-text">offset与style区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.</span> <span class="nav-text">立即执行函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%83%E7%B4%A0%E6%BB%9A%E5%8A%A8scroll%E7%B3%BB%E5%88%97"><span class="nav-number">2.</span> <span class="nav-text">元素滚动scroll系列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%A4%A7%E7%B3%BB%E5%88%97%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">三大系列总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mouseenter%E5%92%8Cmouseover"><span class="nav-number">4.</span> <span class="nav-text">mouseenter和mouseover</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E7%94%BB%E5%87%BD%E6%95%B0%E5%B0%81%E8%A3%85"><span class="nav-number">5.</span> <span class="nav-text">动画函数封装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">5.1.</span> <span class="nav-text">动画实现原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E7%94%BB%E5%87%BD%E6%95%B0%E7%AE%80%E5%8D%95%E5%B0%81%E8%A3%85"><span class="nav-number">5.2.</span> <span class="nav-text">动画函数简单封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%8A%A8%E5%8A%A8%E7%94%BB"><span class="nav-number">5.3.</span> <span class="nav-text">缓动动画</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">6.</span> <span class="nav-text"></span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Li Jing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/12/JS-5-PC%E7%AB%AF%E7%BD%91%E9%A1%B5%E7%89%B9%E6%95%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Li Jing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lilijoy">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JS-5-PC端网页特效
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-12 15:51:30" itemprop="dateCreated datePublished" datetime="2021-03-12T15:51:30+08:00">2021-03-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-13 00:05:07" itemprop="dateModified" datetime="2021-03-13T00:05:07+08:00">2021-03-13</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>常见offset系列属性作用</p>
+<p>常见client系列属性作用</p>
+<p>常见scroll系列属性作用</p>
+<p>封装简单动画函数</p>
+<p>写出网页轮播图案例</p>
+<span id="more"></span>
+
+<h2 id="offset"><a href="#offset" class="headerlink" title="offset"></a>offset</h2><p>偏移量，使用offset相关属性可以动态的得到该元素的位置、大小等</p>
+<ul>
+<li>获得元素距离带有定位父元素的位置</li>
+<li>获得元素自身的大小</li>
+<li>注意：返回的数值不带单位</li>
+</ul>
+<p>offsetParent: 返回作为该元素带有定位的父级元素，如果父级都没有定位则返回body</p>
+<p>offsetWidth：获取元素的宽，包括内边距、边框、内容</p>
+<p>offsetHeight：获取元素的高，包括内边距、边框、内容</p>
+<p>offsetLeft:获取元素距离左边位置的值，以带有定位的父亲为准，如果没有父亲或者父亲没有定位则相对body</p>
+<p>offsetTop;获取元素距离上面位置的值，以带有定位的父亲为准，如果没有父亲或者父亲没有定位则相对body</p>
+<h3 id="offset与style区别"><a href="#offset与style区别" class="headerlink" title="offset与style区别"></a>offset与style区别</h3><ul>
+<li>offset可以得到任意样式表的样式值  style只能得到内嵌样式的样式值</li>
+<li>offset得到的是数字型，不带单位  style是字符串带单位</li>
+<li>offset包含整个盒子，style得到的只是width，不包括padding和border</li>
+<li>offset只能读不能写，而width可以赋值</li>
+<li>因此，读属性值一般用offset，写属性一般用width</li>
+</ul>
+<p>案例：获取鼠标在盒子里的坐标</p>
+<ol>
+<li>获取鼠标在页面内的坐标</li>
+<li>获取盒子在页面内的坐标</li>
+<li>相减</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var box&#x3D;document.querySelector(&#39;.box&#39;);</span><br><span class="line">box.addEventListener(&#39;mousemove&#39;,function()&#123;&#x2F;&#x2F;鼠标移动事件</span><br><span class="line">    var x&#x3D;e.pageX-this.offsetLeft;</span><br><span class="line">    var y&#x3D;e.pageY-this.offsetTop;</span><br><span class="line">    this.innerHTML&#x3D;&#39;X坐标是&#39;+x+&#39;y坐标是&#39;+y;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>##元素可视区client系列</p>
+<p>client是客户端，可动态得到元素边框大小，元素大小等，与offset最大的区别就是不包含边框</p>
+<p>clientTop  上边框</p>
+<p>clientLeft  左边框</p>
+<p>clientWidth</p>
+<p>clientHeight  包括padding、内容，不包括边框，返回数值不带单位</p>
+<h3 id="立即执行函数"><a href="#立即执行函数" class="headerlink" title="立即执行函数"></a>立即执行函数</h3><p>不需要调用立马能够自己执行的函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(function()&#123;&#125;)()    或者  (function()&#123;&#125;())</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第二个小括号可以看做是调用函数，可以传递参数，外面括号是实参，里面小括号是形参</li>
+<li>两种方法使用方法一致</li>
+<li>最大的作用就是独立创建了一个作用域，所有变量都是局部变量，不会有命名冲突</li>
+</ul>
+<p>###淘宝源码分析</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">flexible</span>(<span class="params"><span class="built_in">window</span>, <span class="built_in">document</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> docEl = <span class="built_in">document</span>.documentElement</span><br><span class="line">    <span class="keyword">var</span> dpr = <span class="built_in">window</span>.devicePixelRatio || <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// adjust body font size</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">setBodyFontSize</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">document</span>.body) &#123;</span><br><span class="line">            <span class="built_in">document</span>.body.style.fontSize = (<span class="number">12</span> * dpr) + <span class="string">&#x27;px&#x27;</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">document</span>.addEventListener(<span class="string">&#x27;DOMContentLoaded&#x27;</span>, setBodyFontSize)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    setBodyFontSize();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// set 1rem = viewWidth / 10</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">setRemUnit</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> rem = docEl.clientWidth / <span class="number">10</span></span><br><span class="line">        docEl.style.fontSize = rem + <span class="string">&#x27;px&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    setRemUnit()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// reset rem unit on page resize</span></span><br><span class="line">    <span class="built_in">window</span>.addEventListener(<span class="string">&#x27;resize&#x27;</span>, setRemUnit)</span><br><span class="line">    <span class="built_in">window</span>.addEventListener(<span class="string">&#x27;pageshow&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (e.persisted) &#123;</span><br><span class="line">            setRemUnit()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// detect 0.5px supports</span></span><br><span class="line">    <span class="keyword">if</span> (dpr &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> fakeBody = <span class="built_in">document</span>.createElement(<span class="string">&#x27;body&#x27;</span>)</span><br><span class="line">        <span class="keyword">var</span> testElement = <span class="built_in">document</span>.createElement(<span class="string">&#x27;div&#x27;</span>)</span><br><span class="line">        testElement.style.border = <span class="string">&#x27;.5px solid transparent&#x27;</span></span><br><span class="line">        fakeBody.appendChild(testElement)</span><br><span class="line">        docEl.appendChild(fakeBody)</span><br><span class="line">        <span class="keyword">if</span> (testElement.offsetHeight === <span class="number">1</span>) &#123;</span><br><span class="line">            docEl.classList.add(<span class="string">&#x27;hairlines&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        docEl.removeChild(fakeBody)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;(<span class="built_in">window</span>, <span class="built_in">document</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>前进后退、a标签、刷新都会触发load，但是火狐浏览器使用load事件时存在往返缓存，后退按钮不能刷新页面，可以使用pageshow事件触发，这个事件在页面显示时触发，无论页面是否来自缓存，可以根据事件对象的persisted判断是否缓存中页面触发的pageshow事件，这个事件要给window添加</li>
+</ul>
+<h2 id="元素滚动scroll系列"><a href="#元素滚动scroll系列" class="headerlink" title="元素滚动scroll系列"></a>元素滚动scroll系列</h2><p>scrollTop:  返回被卷去的上侧距离，返回数值不带单位（隐藏的高度）</p>
+<p>scrollLeft:  左侧距离，同上</p>
+<p>scrollWidth: 返回自身实际宽度，不含边框，返回数值不带单位，包含内容超出盒子的部分</p>
+<p>scrollHeight：高度 同上</p>
+<p><strong>scroll事件：</strong></p>
+<p>‘scroll’  滚动触发的事件</p>
+<p><strong>window.pageXOffset:页面被卷曲的头部</strong></p>
+<p>兼容性问题：</p>
+<ol>
+<li>声明了DTD，使用document.documentElement.scrollTop</li>
+<li>未声明DTD，使用document.body.scrollTop</li>
+<li>新方法window.pageYOffset和window.pageXOffset,IE9开始支持</li>
+</ol>
+<p>兼容性方案（了解）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function getScroll() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        left: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0,</span><br><span class="line">        top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三大系列总结"><a href="#三大系列总结" class="headerlink" title="三大系列总结"></a>三大系列总结</h2><ul>
+<li><p>offset包含边框，scroll包括文字超出部分</p>
+</li>
+<li><p>offset一般用于获取元素位置，client常用与获取元素大小，获取滚动距离一般用scroll</p>
+</li>
+</ul>
+<h2 id="mouseenter和mouseover"><a href="#mouseenter和mouseover" class="headerlink" title="mouseenter和mouseover"></a>mouseenter和mouseover</h2><p>mouseover：经过自身盒子会触发，经过子盒子还会触发一次</p>
+<p>mouseenter只有经过自身盒子才会触发，因为mouseenter不会冒泡</p>
+<h2 id="动画函数封装"><a href="#动画函数封装" class="headerlink" title="动画函数封装"></a>动画函数封装</h2><h3 id="动画实现原理"><a href="#动画实现原理" class="headerlink" title="动画实现原理"></a>动画实现原理</h3><p>通过定时器setInterval()不断移动盒子位置</p>
+<ol>
+<li>获取盒子当前位置</li>
+<li>在盒子当前位置上加移动距离</li>
+<li>利用定时器不断重复操作</li>
+<li>加一个结束定时器的条件</li>
+<li>此元素一定要加定位，因为要使用element.left实现移动</li>
+</ol>
+<h3 id="动画函数简单封装"><a href="#动画函数简单封装" class="headerlink" title="动画函数简单封装"></a>动画函数简单封装</h3><p>需要传递两个参数，动画对象和移动的距离</p>
+<p>可以实现某个对象右移移动到某个位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function animate(obj,target)&#123;</span><br><span class="line">	clearInterval(obj.timer)&#x2F;&#x2F;</span><br><span class="line">    obj.timer&#x3D;setInterval(function()&#123;</span><br><span class="line">        if(obj.offsetLeft&gt;&#x3D;target)&#123;</span><br><span class="line">            clearInterval(obj.timer);</span><br><span class="line">        &#125;</span><br><span class="line">        obj.style.left&#x3D;obj.offsetLeft+1+&#39;px&#39;;</span><br><span class="line">    &#125;,30);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>var timer=每次开辟空间浪费资源，且使用obj.timer避免不同调用使用相同的变量timer，因此通过添加属性实现给不同元素添加不同定时器</li>
+<li>注意要先清除原来的定时器，只保留当前定时器，避免多次触发动画时创建很多定时器造成不正常现象</li>
+</ul>
+<h3 id="缓动动画"><a href="#缓动动画" class="headerlink" title="缓动动画"></a>缓动动画</h3><p>让元素的运动速度有所变化，最常见的是让速度慢慢减下来</p>
+<p>思路：</p>
+<ol>
+<li>让盒子每次移动的距离慢慢变小</li>
+<li>（目标值-现在的位置）/10   作为每次移动的距离步长即可</li>
+<li>停止的条件：让当前盒子位置等于目标位置时停止定时器</li>
+</ol>
+<p>把每次+1的步长改为慢慢变小的值 即</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function animate(obj,target)&#123;</span><br><span class="line">	clearInterval(obj.timer)&#x2F;&#x2F;</span><br><span class="line">    obj.timer&#x3D;setInterval(function()&#123;</span><br><span class="line">    	var step&#x3D;target-obj.offsetLeft)&#x2F;10;&#x2F;&#x2F;计算步长，要注意不要出现小号,还要考虑负值</span><br><span class="line">    	step&gt;0?Math.ceil(step):Math.floor(step)</span><br><span class="line">        if(obj.offsetLeft&#x3D;&#x3D;target)&#123;&#x2F;&#x2F;修改为等于号</span><br><span class="line">            clearInterval(obj.timer);</span><br><span class="line">        &#125;</span><br><span class="line">        obj.style.left&#x3D;obj.offsetLeft+step+&#39;px&#39;;</span><br><span class="line">    &#125;,30);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了实现在多个目标间移动，需要考虑步长正负</p>
+<p>###动画函数添加回调函数（重要）</p>
+<p>回调函数原理：函数可以作为一个参数，将这个参数传到另一个函数里，当那个函数执行完之后再执行传进去的这个函数，这个过程称为回调</p>
+<p>操作方法：输入添加一个函数作为参数，函数执行写在计时器停止的内容里，即可实现执行完动画后执行回调函数</p>
+<p>if(callback){</p>
+<p>callback()}</p>
+<p>如下代码即可实现运动完毕后盒子变颜色</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">animate</span>(<span class="params">obj, target, callback</span>) </span>&#123;</span><br><span class="line">            <span class="comment">// console.log(callback);  callback = function() &#123;&#125;  调用的时候 callback()</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 先清除以前的定时器，只保留当前的一个定时器执行</span></span><br><span class="line">            <span class="built_in">clearInterval</span>(obj.timer);</span><br><span class="line">            obj.timer = <span class="built_in">setInterval</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="comment">// 步长值写到定时器的里面</span></span><br><span class="line">                <span class="comment">// 把我们步长值改为整数 不要出现小数的问题</span></span><br><span class="line">                <span class="comment">// var step = Math.ceil((target - obj.offsetLeft) / 10);</span></span><br><span class="line">                <span class="keyword">var</span> step = (target - obj.offsetLeft) / <span class="number">10</span>;</span><br><span class="line">                step = step &gt; <span class="number">0</span> ? <span class="built_in">Math</span>.ceil(step) : <span class="built_in">Math</span>.floor(step);</span><br><span class="line">                <span class="keyword">if</span> (obj.offsetLeft == target) &#123;</span><br><span class="line">                    <span class="comment">// 停止动画 本质是停止定时器</span></span><br><span class="line">                    <span class="built_in">clearInterval</span>(obj.timer);</span><br><span class="line">                    <span class="comment">// 回调函数写到定时器结束里面</span></span><br><span class="line">                    <span class="keyword">if</span> (callback) &#123;</span><br><span class="line">                        <span class="comment">// 调用函数</span></span><br><span class="line">                        callback();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 把每次加1 这个步长值改为一个慢慢变小的值  步长公式：(目标值 - 现在的位置) / 10</span></span><br><span class="line">                obj.style.left = obj.offsetLeft + step + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line"></span><br><span class="line">            &#125;, <span class="number">15</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">var</span> span = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;span&#x27;</span>);</span><br><span class="line">        <span class="keyword">var</span> btn500 = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.btn500&#x27;</span>);</span><br><span class="line">        <span class="keyword">var</span> btn800 = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.btn800&#x27;</span>);</span><br><span class="line"></span><br><span class="line">        btn500.addEventListener(<span class="string">&#x27;click&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">// 调用函数</span></span><br><span class="line">            animate(span, <span class="number">500</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">        btn800.addEventListener(<span class="string">&#x27;click&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="comment">// 调用函数</span></span><br><span class="line">                animate(span, <span class="number">800</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                    <span class="comment">// alert(&#x27;你好吗&#x27;);</span></span><br><span class="line">                    span.style.backgroundColor = <span class="string">&#x27;red&#x27;</span>;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/11/JS-4-BOM%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B/" rel="prev" title="JS-4-BOM浏览器对象模型">
+                  <i class="fa fa-chevron-left"></i> JS-4-BOM浏览器对象模型
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/12/JS%E6%A1%88%E4%BE%8B-%E4%BB%BF%E4%BA%AC%E4%B8%9C%E6%94%BE%E5%A4%A7%E9%95%9C%E6%95%88%E6%9E%9C/" rel="next" title="JS案例-仿京东放大镜效果">
+                  JS案例-仿京东放大镜效果 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Li Jing</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

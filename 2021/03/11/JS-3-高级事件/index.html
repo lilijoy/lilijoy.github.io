@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="获取事件和处理事件的第二种方式：事件监听 如何获取和处理鼠标与键盘的基本事件？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS-3-高级事件">
+<meta property="og:url" content="http://example.com/2021/03/11/JS-3-%E9%AB%98%E7%BA%A7%E4%BA%8B%E4%BB%B6/index.html">
+<meta property="og:site_name" content="lilijoy">
+<meta property="og:description" content="获取事件和处理事件的第二种方式：事件监听 如何获取和处理鼠标与键盘的基本事件？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Users/LiJing/AppData/Local/Temp/1615474218343.png">
+<meta property="article:published_time" content="2021-03-11T15:02:58.000Z">
+<meta property="article:modified_time" content="2021-03-11T15:08:46.993Z">
+<meta property="article:author" content="Li Jing">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:/Users/LiJing/AppData/Local/Temp/1615474218343.png">
+
+
+<link rel="canonical" href="http://example.com/2021/03/11/JS-3-%E9%AB%98%E7%BA%A7%E4%BA%8B%E4%BB%B6/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>JS-3-高级事件 | lilijoy</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">lilijoy</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E6%96%B9%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">事件监听方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E4%BA%8B%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">删除事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM%E4%BA%8B%E4%BB%B6%E6%B5%81"><span class="nav-number">3.</span> <span class="nav-text">DOM事件流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1"><span class="nav-number">4.</span> <span class="nav-text">事件对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1%E5%B8%B8%E8%A7%81%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95"><span class="nav-number">4.1.</span> <span class="nav-text">事件对象常见属性和方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98"><span class="nav-number">4.2.</span> <span class="nav-text">事件委托</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">常用的鼠标事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6"><span class="nav-number">5.1.</span> <span class="nav-text">鼠标事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1"><span class="nav-number">5.2.</span> <span class="nav-text">鼠标事件对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6"><span class="nav-number">6.</span> <span class="nav-text">常用键盘事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6"><span class="nav-number">6.1.</span> <span class="nav-text">键盘事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1"><span class="nav-number">6.2.</span> <span class="nav-text">键盘事件对象</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Li Jing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/11/JS-3-%E9%AB%98%E7%BA%A7%E4%BA%8B%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Li Jing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lilijoy">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JS-3-高级事件
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-03-11 23:02:58 / 修改时间：23:08:46" itemprop="dateCreated datePublished" datetime="2021-03-11T23:02:58+08:00">2021-03-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>获取事件和处理事件的第二种方式：事件监听</p>
+<p>如何获取和处理鼠标与键盘的基本事件？</p>
+<span id="more"></span>
+
+<h2 id="事件监听方式"><a href="#事件监听方式" class="headerlink" title="事件监听方式"></a>事件监听方式</h2><p>eventTarget.addEventListener(type,listener[,useCapture])</p>
+<ul>
+<li>type：事件类型 如click</li>
+<li>listener：事件处理函数</li>
+<li>useCapture：布尔值</li>
+</ul>
+<p>ie9以前的版本支持</p>
+<p>eventTarget.attachEvent()将制定的监听器注册到eventTarget上，当对象触发指定事件时，指定的回调函数就会执行</p>
+<p>该方法接收两个参数：</p>
+<ul>
+<li>eventNameWithOn:事件类型字符串 如onclick</li>
+<li>callback：事件处理函数，</li>
+</ul>
+<h2 id="删除事件"><a href="#删除事件" class="headerlink" title="删除事件"></a>删除事件</h2><ol>
+<li>传统方式</li>
+</ol>
+<p>eventTarget.onclick=null;</p>
+<ol>
+<li>方法监听注册方式</li>
+</ol>
+<p>eventTarget.removeEventListener(type,listener[,useCapture]);</p>
+<h2 id="DOM事件流"><a href="#DOM事件流" class="headerlink" title="DOM事件流"></a>DOM事件流</h2><p>事件流描述的是从页面中接收事件 的顺序</p>
+<p>事件发生时会在元素节点之间按照特定的顺序传播，这个传播过程即DOM事件流</p>
+<p>DOM事件流分为3个阶段：</p>
+<ol>
+<li>捕获阶段  自顶向下</li>
+<li>当前目标阶段</li>
+<li>冒泡阶段  从下往上</li>
+</ol>
+<p>JS代码只能执行捕获或者冒泡其中一个阶段</p>
+<p>onclick和attachment只能得到冒泡阶段</p>
+<p>addEventListener第三个参数如果是true，表示在事件捕获阶段调用事件处理程序，如果是false表示在事件冒泡阶段调用</p>
+<h2 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h2><p>div.onclick=function(event) {}</p>
+<ol>
+<li>event就是一个事件对象，写到我们的侦听函数里的小括号里面，当形参来看</li>
+<li>事件对象只有有了事件才会存在，它是系统给我们自动创建的，不需要我们传递参数</li>
+<li>事件对象使我们事件的一系列相关数据的集合  跟事件相关的  比如鼠标点击里面就包含了鼠标的相关信息如鼠标坐标等</li>
+<li>事件对象可以自己命名 如evt、e、</li>
+<li>有兼容性问题 ie678通过window.event获取事件对象</li>
+</ol>
+<h3 id="事件对象常见属性和方法"><a href="#事件对象常见属性和方法" class="headerlink" title="事件对象常见属性和方法"></a>事件对象常见属性和方法</h3><p>a.target  返回触发事件的对象（点了谁返回谁） 标准  this返回的是绑定事件的对象</p>
+<p>a.currentTarget和this一样，但是只适用于ie9以上（了解即可）</p>
+<p>e.srcElement  返回触发事件的对象 非标准 ie6-8常用</p>
+<p>e.type  返回事件的类型</p>
+<ul>
+<li>阻止默认事件 有时候需要阻止链接跳转</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a.returnValue;  &#x2F;&#x2F;ie678阻止默认事件的方法  也可以直接用</span><br><span class="line">a.preventDefault(); &#x2F;&#x2F;阻止默认事件 可以让链接不跳转</span><br><span class="line">return false;  &#x2F;&#x2F;阻止事件跳转（无兼容性问题）</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>冒泡会导致当多个盒子重叠并同时监听时，由于冒泡原理会一层一层执行，因此有时需要考虑阻止冒泡</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a.cancelBubble&#x3D;true;  &#x2F;&#x2F;非标准</span><br><span class="line">a.stopPropagation();  &#x2F;&#x2F;重点，标准写法，有兼容性问题</span><br></pre></td></tr></table></figure>
+
+<h3 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h3><p>事件冒泡本身的特性，会带来坏处，也会带来好处，需要我们灵活掌握。</p>
+<p>事件委托也称为事件代理，在jQuery里称为事件委派</p>
+<p><strong>不要给每个子节点单独设置事件监听器，而是事件监听器设置在其父节点上，然后利用冒泡原理影响设置每个子节点</strong></p>
+<p>例如ul里有很多个li都需要监听事件，可以给ul设定监听器，因为点击li，事件会冒泡到ul上，就会触发事件监听器，可以利用对象的target找到当前点击的li</p>
+<p>可以实现找到这个li后改变它的背景颜色，大大简化了代码</p>
+<p>作用：</p>
+<p>只操作了一次DOM，提高了程序的性能</p>
+<h2 id="常用的鼠标事件"><a href="#常用的鼠标事件" class="headerlink" title="常用的鼠标事件"></a>常用的鼠标事件</h2><h3 id="鼠标事件"><a href="#鼠标事件" class="headerlink" title="鼠标事件"></a>鼠标事件</h3><p>click：单击事件<br>dblclick：双击事件<br>mousedown：按下鼠标键时触发<br>mouseup：释放按下的鼠标键时触发<br>mousemove：鼠标移动事件<br>mouseover：移入事件<br>mouseout：移出事件<br>mouseenter：移入事件<br>mouseleave：移出事件<br>contextmenu：右键事件, 可以使用preventDefault禁用右键菜单</p>
+<p>selectstart: 选中事件，可以使用selectstart禁用选中文字（不准复制~）</p>
+<h3 id="鼠标事件对象"><a href="#鼠标事件对象" class="headerlink" title="鼠标事件对象"></a>鼠标事件对象</h3><p>现阶段主要使用鼠标事件对象和键盘事件对象</p>
+<p>clientX,clientY永远是相对于可视窗口的坐标，不会随着滚轮拖动而改变</p>
+<p>e.pageX、e.pageY是相对于文档页面的X、Y坐标，IE9+支持</p>
+<p>e.screenX、e.screenY相对于电脑屏幕的X、Y坐标</p>
+<h2 id="常用键盘事件"><a href="#常用键盘事件" class="headerlink" title="常用键盘事件"></a>常用键盘事件</h2><h3 id="键盘事件"><a href="#键盘事件" class="headerlink" title="键盘事件"></a>键盘事件</h3><p>onkeyup  某个按键松开</p>
+<p>onkeydown 按下时</p>
+<p>onkeypress  按下时触发，但是它不识别功能键，比如ctrl、shift、箭头</p>
+<p>三个都写时有执行顺序区别，先执行down再执行press然后是up</p>
+<h3 id="键盘事件对象"><a href="#键盘事件对象" class="headerlink" title="键盘事件对象"></a>键盘事件对象</h3><p>key：‘1’  直接告诉是哪个键，但是兼容性问题较大</p>
+<p>keyCode：可以得到用户按键的ASCii码值</p>
+<p>keyup和keydowm事件不区分字母大小写，大写和小写的ASCii码都是小写的码，而keypress区分字母大小写</p>
+<p>案例：可以实现按键搜索框自动获取焦点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">使用keyCode判断用户是否按下了s键，利用search.focus()实现搜索框获取焦点</span><br><span class="line">最好用keydown判断，防止&#39;s&#39;进入了输入框</span><br></pre></td></tr></table></figure>
+
+<p>案例：京东快递单号输入时上面自动放大</p>
+<p><img src="C:\Users\LiJing\AppData\Local\Temp\1615474218343.png" alt="1615474218343"></p>
+<ol>
+<li><p>快递单号输入内容时，上面的大盒子显示</p>
+</li>
+<li><p>表单检测用户输入：给表单添加键盘事件</p>
+</li>
+<li><p>同时把快递单号表单里的值获取过来赋值给盒子</p>
+</li>
+<li><p>如果快递单号里面内容为空，则隐藏盒子 con.style.display=’none’</p>
+</li>
+<li><p>当文本框失去焦点，隐藏盒子  </p>
+<p>blur  diplay=none </p>
+<p> focus  {if this.value!=’’ display=block}//获得焦点时还需要检测输入是否为空</p>
+</li>
+<li><p><strong>注意：</strong>此处应该使用keyup，弹起时文字已经在文本框出现了       keydown和keypress触发的时候，文本框的字还没有出现，并不能实现同时放大的效果</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/11/JS%E6%A1%88%E4%BE%8B-%E8%B7%9F%E9%9A%8F%E9%BC%A0%E6%A0%87%E7%9A%84%E5%A4%A9%E4%BD%BF/" rel="prev" title="‘JS案例-跟随鼠标的天使’">
+                  <i class="fa fa-chevron-left"></i> ‘JS案例-跟随鼠标的天使’
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/11/JS-4-BOM%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B/" rel="next" title="JS-4-BOM浏览器对象模型">
+                  JS-4-BOM浏览器对象模型 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Li Jing</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

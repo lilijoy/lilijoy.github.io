@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="本案例可以实现：当鼠标放在图片上时，图片上出现跟随鼠标移动的遮挡层，同时右边会出现一个放大的图片，展现出放大镜效果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS案例-仿京东放大镜效果">
+<meta property="og:url" content="http://example.com/2021/03/12/JS%E6%A1%88%E4%BE%8B-%E4%BB%BF%E4%BA%AC%E4%B8%9C%E6%94%BE%E5%A4%A7%E9%95%9C%E6%95%88%E6%9E%9C/index.html">
+<meta property="og:site_name" content="lilijoy">
+<meta property="og:description" content="本案例可以实现：当鼠标放在图片上时，图片上出现跟随鼠标移动的遮挡层，同时右边会出现一个放大的图片，展现出放大镜效果">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-12T09:04:07.000Z">
+<meta property="article:modified_time" content="2021-03-12T11:18:51.655Z">
+<meta property="article:author" content="Li Jing">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2021/03/12/JS%E6%A1%88%E4%BE%8B-%E4%BB%BF%E4%BA%AC%E4%B8%9C%E6%94%BE%E5%A4%A7%E9%95%9C%E6%95%88%E6%9E%9C/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>JS案例-仿京东放大镜效果 | lilijoy</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">lilijoy</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Li Jing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/12/JS%E6%A1%88%E4%BE%8B-%E4%BB%BF%E4%BA%AC%E4%B8%9C%E6%94%BE%E5%A4%A7%E9%95%9C%E6%95%88%E6%9E%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Li Jing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lilijoy">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JS案例-仿京东放大镜效果
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-03-12 17:04:07 / 修改时间：19:18:51" itemprop="dateCreated datePublished" datetime="2021-03-12T17:04:07+08:00">2021-03-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>本案例可以实现：当鼠标放在图片上时，图片上出现跟随鼠标移动的遮挡层，同时右边会出现一个放大的图片，展现出放大镜效果</p>
+<span id="more"></span>
+
+<ol>
+<li>鼠标经过小盒子，黄色的遮挡层和大图片盒子显示，离开隐藏</li>
+<li>遮挡层跟随鼠标</li>
+<li>移动黄色遮挡层，大盒子跟着移动</li>
+</ol>
+<p>*如果js分开一个文件写，必须加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.addEventListener(&#39;load&#39;,function()&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>先加载完再执行js</p>
+<ul>
+<li>比例关系：大图片移动距离=遮挡层移动距离*大图片移动距离/遮挡层最大移动距离</li>
+<li>注意大盒子中图片移动应该与小盒子中遮罩反向移动</li>
+</ul>
+<p>完整代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;IE&#x3D;edge&quot;&gt;</span><br><span class="line">    &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;&#x2F;title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        .box &#123;</span><br><span class="line">            position: relative;</span><br><span class="line">            width: 400px;</span><br><span class="line">            height: 400px;</span><br><span class="line">            background-color: yellowgreen;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .box&gt;img &#123;</span><br><span class="line">            max-width: 100%;</span><br><span class="line">            max-height: 100%;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .mask &#123;</span><br><span class="line">            display: none;</span><br><span class="line">            position: absolute;</span><br><span class="line">            width: 100px;</span><br><span class="line">            height: 100px;</span><br><span class="line">            background-color: wheat;</span><br><span class="line">            opacity: .8;</span><br><span class="line">            top: 0;</span><br><span class="line">            left: 0;</span><br><span class="line">            border: 1px solid #ccc;</span><br><span class="line">            cursor: move;</span><br><span class="line">            &#x2F;* 鼠标样式变化 *&#x2F;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .big &#123;</span><br><span class="line">            &#x2F;* display: none; *&#x2F;</span><br><span class="line">            overflow: hidden;</span><br><span class="line">            position: absolute;</span><br><span class="line">            width: 500px;</span><br><span class="line">            height: 500px;</span><br><span class="line">            top: 0px;</span><br><span class="line">            left: 410px;</span><br><span class="line">            z-index: 10;</span><br><span class="line">            border: 1px solid #ccc;</span><br><span class="line">            &#x2F;* 保证优先级 *&#x2F;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .big img &#123;</span><br><span class="line">            position: absolute;</span><br><span class="line">            top: 0;</span><br><span class="line">            left: 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;&#x2F;style&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;box&quot;&gt;</span><br><span class="line">        &lt;img src&#x3D;&quot;images&#x2F;s3.png&quot; alt&#x3D;&quot;&quot;&gt;</span><br><span class="line">        &lt;div class&#x3D;&quot;mask&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div class&#x3D;&quot;big&quot;&gt;&lt;img src&#x3D;&quot;images&#x2F;big.jpg&quot; alt&#x3D;&quot;&quot; class&#x3D;&quot;bigImg&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">	&#x2F;&#x2F;js部分见下个代码框</span><br><span class="line">    &lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">box = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.box&#x27;</span>);</span><br><span class="line">mask = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.mask&#x27;</span>);</span><br><span class="line">big = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.big&#x27;</span>);</span><br><span class="line">box.addEventListener(<span class="string">&#x27;mouseover&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="comment">//鼠标放在盒子里时让mask和big出现</span></span><br><span class="line">    mask.style.display = <span class="string">&#x27;block&#x27;</span>;</span><br><span class="line">    big.style.display = <span class="string">&#x27;block&#x27;</span>;</span><br><span class="line">&#125;);</span><br><span class="line">box.addEventListener(<span class="string">&#x27;mousemove&#x27;</span>, move);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//获取鼠标在盒子内坐标</span></span><br><span class="line">    <span class="keyword">var</span> x = e.pageX - <span class="built_in">this</span>.offsetLeft;</span><br><span class="line">    <span class="keyword">var</span> y = e.pageY - <span class="built_in">this</span>.offsetTop;</span><br><span class="line">    <span class="keyword">var</span> maskX = x - mask.offsetWidth / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">var</span> maskY = y - mask.offsetHeight / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">var</span> maskMax = box.offsetWidth - mask.offsetWidth;<span class="comment">//遮挡层的最大移动距离</span></span><br><span class="line">    <span class="keyword">if</span> (maskX &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        maskX = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (maskX &gt; maskMax) &#123;</span><br><span class="line">        maskX = maskMax;<span class="comment">//x的上限距离左侧的位置</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (maskY &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        maskY = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (maskY &gt; maskMax) &#123;</span><br><span class="line">        maskY = maskMax;<span class="comment">//y的上限距离左侧的位置</span></span><br><span class="line">    &#125;</span><br><span class="line">    mask.style.left = maskX + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">    mask.style.top = maskY + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">    <span class="comment">//大图片移动距离=遮挡层移动距离*大图片移动距离/遮挡层最大移动距离</span></span><br><span class="line">    <span class="keyword">var</span> bigImg = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.bigImg&#x27;</span>);</span><br><span class="line">    <span class="keyword">var</span> bigMax = bigImg.offsetWidth - big.offsetWidth;<span class="comment">//大图片最大移动距离</span></span><br><span class="line">    <span class="keyword">var</span> bigX = maskX * bigMax / maskMax;</span><br><span class="line">    <span class="keyword">var</span> bigY = maskY * bigMax / maskMax;</span><br><span class="line">    bigImg.style.left = -bigX + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">    bigImg.style.top = -bigY + <span class="string">&#x27;px&#x27;</span>;<span class="comment">//应该相反,鼠标左移时图片右移</span></span><br><span class="line">&#125;</span><br><span class="line">box.addEventListener(<span class="string">&#x27;mouseout&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="comment">//鼠标放在盒子外时让mask和big隐藏</span></span><br><span class="line">    mask.style.display = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">    big.style.display = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/12/JS-5-PC%E7%AB%AF%E7%BD%91%E9%A1%B5%E7%89%B9%E6%95%88/" rel="prev" title="JS-5-PC端网页特效">
+                  <i class="fa fa-chevron-left"></i> JS-5-PC端网页特效
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/13/JS%E6%A1%88%E4%BE%8B-%E7%BD%91%E9%A1%B5%E8%BD%AE%E6%92%AD%E5%9B%BE/" rel="next" title="JS案例-网页轮播图">
+                  JS案例-网页轮播图 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Li Jing</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

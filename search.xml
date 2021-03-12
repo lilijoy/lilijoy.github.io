@@ -758,211 +758,37 @@
       </tags>
   </entry>
   <entry>
-    <title>JS之DOM</title>
-    <url>/2021/03/11/JS%E4%B9%8BDOM/</url>
-    <content><![CDATA[<h2 id="API和Web-API"><a href="#API和Web-API" class="headerlink" title="API和Web API"></a>API和Web API</h2><h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><p>应用程序编程接口，目的是提供应用程序与开发人员基于某软件或硬件得以访问一组例程的能力，且又无需访问源码，或理解内部工作机制的细节</p>
-<p>API是给程序员提供的一种工具，以便能更轻松的实现想要的功能</p>
+    <title>第一次创建博客</title>
+    <url>/2021/03/11/%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<p>第一次创建博客，踩坑很多</p>
+<p>最大的问题是分支命名问题，按照往常的教程在HEXO的配置文件的branch中写的是master，但是现在的github创建的默认分支名字应该是main了，以至于一直可以更新仓库但是博客内容不更新</p>
+<p>参考文章：<a href="https://blog.csdn.net/Lu_xiuyuan/article/details/112056997">https://blog.csdn.net/Lu_xiuyuan/article/details/112056997</a></p>
+]]></content>
+      <tags>
+        <tag>blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>‘JS案例-跟随鼠标的天使’</title>
+    <url>/2021/03/11/JS%E6%A1%88%E4%BE%8B-%E8%B7%9F%E9%9A%8F%E9%BC%A0%E6%A0%87%E7%9A%84%E5%A4%A9%E4%BD%BF/</url>
+    <content><![CDATA[<ol>
+<li>鼠标不断的移动，使用鼠标移动事件：mousemove</li>
+<li>在页面中移动，所以要给document注册事件</li>
+<li>图片要移动距离，而且不占位置，使用绝对定位</li>
+<li>核心原理：每次鼠标移动，都会得到最新的鼠标坐标，把这个xy作为图片的top和left值</li>
+</ol>
 <span id="more"></span>
 
-<h3 id="Web-API"><a href="#Web-API" class="headerlink" title="Web API"></a>Web API</h3><p>是浏览器提供的一套操作浏览器功能和页面元素的API（BOM和DOM）</p>
-<h2 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h2><p>DOM是(Document Object Model)文档对象模型，是W3C组织推荐的处理可扩展标记语言的标准编程接口</p>
-<p>可以通过DOM接口改变网页的结构、内容和样式</p>
-<h3 id="DOM树"><a href="#DOM树" class="headerlink" title="DOM树"></a>DOM树</h3><ul>
-<li>文档：一个页面就是一个文档，DOM中使用document表示</li>
-<li>元素：页面中所有标签就是元素，DOM中使用element表示</li>
-<li>节点：网页中所有内容都是节点（标签、属性、文本、注释）等，DOM中使用node表示</li>
-</ul>
-<p>DOM把以上内容都看作对象</p>
-<h2 id="获取元素"><a href="#获取元素" class="headerlink" title="获取元素"></a>获取元素</h2><h4 id="根据ID获取"><a href="#根据ID获取" class="headerlink" title="根据ID获取"></a>根据ID获取</h4><p>getElementById</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;time&quot;&gt;2010&lt;&#x2F;div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    &#x2F;&#x2F; 参数id是大小写敏感的字符串,返回的是一个元素对象</span><br><span class="line">    var timer &#x3D; document.getElementById(&#39;time&#39;);</span><br><span class="line">    console.log(timer);</span><br><span class="line">    console.log(typeof timer);&#x2F;&#x2F;返回object</span><br><span class="line">    &#x2F;&#x2F;打印返回的元素对象，更好的查看里面的属性和方法</span><br><span class="line">    console.dir(timer);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    &lt;style&gt;</span><br><span class="line">        img &#123;</span><br><span class="line">            position: absolute;</span><br><span class="line">            top: 2px;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;&#x2F;style&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;img src&#x3D;&quot;images&#x2F;angel.gif&quot; alt&#x3D;&quot;&quot;&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var pic &#x3D; document.querySelector(&#39;img&#39;);</span><br><span class="line">        document.addEventListener(&#39;mousemove&#39;, function (e) &#123;</span><br><span class="line">            console.log(1);</span><br><span class="line">            &#x2F;&#x2F;mousemove鼠标每移动1px就会触发这个事件</span><br><span class="line">            var x &#x3D; e.pageX;</span><br><span class="line">            var y &#x3D; e.pageY;</span><br><span class="line">            pic.style.left &#x3D; x - 40 + &#39;px&#39;;&#x2F;&#x2F;减图片大小的一半，使鼠标居中</span><br><span class="line">            pic.style.top &#x3D; y - 50 + &#39;px&#39;;&#x2F;&#x2F;必须加单位</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br></pre></td></tr></table></figure>
 
-<h4 id="根据标签名获取"><a href="#根据标签名获取" class="headerlink" title="根据标签名获取"></a>根据标签名获取</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;返回的是获取过来元素对象的集合 以伪数组的形式存储的 </span><br><span class="line">var lis &#x3D; document.getElementsByTagName(&#39;li&#39;);</span><br><span class="line">console.log(lis);</span><br><span class="line">&#x2F;&#x2F;如果页面中只有一个li，返回的还是伪数组，没有则是空的伪数组[]</span><br></pre></td></tr></table></figure>
-
-<p>可以指定父元素内部所有指定标签名的子元素</p>
-<p>父元素必须是单个对象（必须指明是哪一个元素对象），获取的时候不包括父元素自己</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var mm &#x3D; document.getElementsByTagName(&#39;div&#39;);</span><br><span class="line">console.log(mm[0].getElementsByTagName(&#39;li&#39;));</span><br></pre></td></tr></table></figure>
-
-<h4 id="通过类名获取"><a href="#通过类名获取" class="headerlink" title="通过类名获取"></a>通过类名获取</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">document.getElementsByClassName(&#39;box&#39;);&#x2F;&#x2F;选择类名为box的对象</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;指定选择器的第一个对象</span><br><span class="line">document.querySelector(&#39;.box&#39;);</span><br><span class="line">document.querySelector(&#39;#nav&#39;);&#x2F;&#x2F;选择器必须加符号</span><br><span class="line">&#x2F;&#x2F;指定选择器的所有对象</span><br><span class="line">document.querySelectorAll(&#39;.box&#39;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="获取body3元素"><a href="#获取body3元素" class="headerlink" title="获取body3元素"></a>获取body3元素</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">document.body;</span><br></pre></td></tr></table></figure>
-
-<h4 id="获取html元素"><a href="#获取html元素" class="headerlink" title="获取html元素"></a>获取html元素</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">document.documentElement;&#x2F;&#x2F;得到整个html标签的内容</span><br></pre></td></tr></table></figure>
-
-<h2 id="事件基础"><a href="#事件基础" class="headerlink" title="事件基础"></a>事件基础</h2><p>执行事件的步骤：</p>
-<ol>
-<li>获取事件源</li>
-<li>注册事件（绑定事件）</li>
-<li>添加事件处理程序</li>
-</ol>
-<h3 id="常见的鼠标事件"><a href="#常见的鼠标事件" class="headerlink" title="常见的鼠标事件"></a>常见的鼠标事件</h3><ul>
-<li>onclick  鼠标左键按下</li>
-<li>onmouseover  鼠标经过</li>
-<li>onmouseout  鼠标离开</li>
-<li>onfouse  获得鼠标焦点触发</li>
-<li>onblur  失去鼠标焦点触发</li>
-<li>onmousemove  鼠标移动触发</li>
-<li>onmouseup 鼠标弹起触发</li>
-<li>onmousedown鼠标按下触发</li>
-</ul>
-<h2 id="操作元素"><a href="#操作元素" class="headerlink" title="操作元素"></a>操作元素</h2><h4 id="改变元素内容"><a href="#改变元素内容" class="headerlink" title="改变元素内容"></a>改变元素内容</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">element.innerText&#x3D;</span><br><span class="line">element.innerHTML&#x3D;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>innerText不识别HTML标签，innerHTML识别,是W3C标准</li>
-<li>这两个属性是可读写的</li>
-<li>读的时候，innerText会去除标签空格和换行，innerHTML显示是完整的</li>
-</ul>
-<h4 id="修改常见元素属性"><a href="#修改常见元素属性" class="headerlink" title="修改常见元素属性"></a>修改常见元素属性</h4><p>img.src换图</p>
-<h4 id="表单元素的属性操作"><a href="#表单元素的属性操作" class="headerlink" title="表单元素的属性操作"></a>表单元素的属性操作</h4><p>type、value、checked、selected、disabled</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    var btn &#x3D; document.querySelector(&#39;button&#39;);</span><br><span class="line">    var input &#x3D; document.querySelector(&#39;input&#39;);</span><br><span class="line">    btn.onclick &#x3D; function () &#123;</span><br><span class="line">        input.value &#x3D; &#39;被点击了&#39;;</span><br><span class="line">        &#x2F;&#x2F; 禁用某个表单不能再点击用disabled</span><br><span class="line">        btn.disabled &#x3D; true;</span><br><span class="line">        this.disabled&#x3D;true;&#x2F;&#x2F;this指向的是调用者</span><br><span class="line">    &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="C:\Users\LiJing\AppData\Local\Temp\1615301396516.png" alt="1615301396516"></p>
-<h4 id="修改元素样式属性"><a href="#修改元素样式属性" class="headerlink" title="修改元素样式属性"></a>修改元素样式属性</h4><ol>
-<li>使用element.style获得修改元素形式</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">this.style.backgroundColor&#x3D;&#39;purple&#39;;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>JS里的样式采取驼峰命名法</li>
-<li>JS修改style样式操作，产生的是行内样式，css权重比较高</li>
-<li>一般样式少，功能简单时使用</li>
-</ul>
-<ol>
-<li>使用this.className=’’,然后在css里定义该类的样式属性</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">this.className&#x3D;&#39;change&#39;;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>className是保留字，操作元素类名属性</li>
-<li>会直接更改类名，覆盖原来的类名</li>
-<li>如果想要保留原来的类名，可以使用多类名选择器</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">this.className&#x3D;&#39;first change&#39;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="排他思想"><a href="#排他思想" class="headerlink" title="排他思想"></a>排他思想</h3><p>给所有元素全部清除样式后，给当前元素设置样式，顺序不可以颠倒</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var btns &#x3D; document.getElementsByTagName(&#39;button&#39;);</span><br><span class="line">for (var i &#x3D; 0; i &lt; btns.length; i++) &#123;</span><br><span class="line">    btns[i].onclick &#x3D; function () &#123;</span><br><span class="line">        console.log(&#39;1&#39;);</span><br><span class="line">        for (var i &#x3D; 0; i &lt; btns.length; i++) &#123;</span><br><span class="line">            btns[i].style.backgroundColor &#x3D; &#39;&#39;;</span><br><span class="line">        &#125;</span><br><span class="line">        this.style.backgroundColor &#x3D; &#39;pink&#39;;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="自定义属性操作"><a href="#自定义属性操作" class="headerlink" title="自定义属性操作"></a>自定义属性操作</h3><h4 id="获取属性值"><a href="#获取属性值" class="headerlink" title="获取属性值"></a>获取属性值</h4><ol>
-<li>element.属性  只能获取内置属性值（元素自带）</li>
-<li>element.getAttribute(‘属性’)  可以获取自定义属性（程序员自己添加）</li>
-<li>H5新增</li>
-</ol>
-<p>element.dataset.index或者element.dataset[‘index’]  ie11才开始支持</p>
-<p>dataset是一个集合，存放了所有以data开头的自定义属性</p>
-<h4 id="更改属性值"><a href="#更改属性值" class="headerlink" title="更改属性值"></a>更改属性值</h4><p>element.属性=’值’</p>
-<p>element.setAttribute=(‘属性’，’值’);</p>
-<h4 id="移除属性值"><a href="#移除属性值" class="headerlink" title="移除属性值"></a>移除属性值</h4><p>element.removeAttribute(‘属性’);</p>
-<h4 id="H5自定义属性"><a href="#H5自定义属性" class="headerlink" title="H5自定义属性"></a>H5自定义属性</h4><p>自定义属性目的：为了保存并使用数据，有些数据可以保存到页面中而不用保存到数据库中</p>
-<p>自定义属性容易引起歧义，不容易判断是元素的内置属性还是自定义属性</p>
-<p>一般规定data-开头作为属性名如：data-index</p>
-<p>如果自定义属性里面有多个-连接的单词，获取的时候采取驼峰命名法</p>
-<h2 id="节点操作"><a href="#节点操作" class="headerlink" title="节点操作"></a>节点操作</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>获取元素通常有两种方法</p>
-<ol>
-<li>利用DOM提供的方法获取元素  逻辑性不强</li>
-<li>利用节点层级关系获取元素  利用父子兄节点关系获取元素，逻辑性强但是兼容性较差</li>
-</ol>
-<p>网页中所有内容都是节点，在DOM中，节点使用node表示，节点至少拥有nodeType节点类型、nodeName节点名称、nodeValue节点值三个基本属性</p>
-<ul>
-<li>元素节点nodetype为1</li>
-<li>属性节点2</li>
-<li>文本节点3（包括文字、空格、换行等）</li>
-</ul>
-<p>实际开发中，节点操作主要操作的是元素节点</p>
-<h3 id="通过节点层级获取节点"><a href="#通过节点层级获取节点" class="headerlink" title="通过节点层级获取节点"></a>通过节点层级获取节点</h3><p>利用DOM树把节点划分为不同的层级关系，最常见的是父子兄层级</p>
-<p><strong>父亲节点</strong>：</p>
-<ul>
-<li>node.parentNode</li>
-</ul>
-<p>返回的是最近的父节点，如果找不到就返回空</p>
-<p><strong>子节点</strong>：</p>
-<ul>
-<li>parentNode.childNodes</li>
-</ul>
-<p>得到的所有的子节点，包括文本节点（换行也会被计算进去）</p>
-<p>如果想获取元素节点，需要专门处理（检测nodeType），一般不提倡使用</p>
-<ul>
-<li>parentNode.children(<strong>非标准</strong>)，开发中常用</li>
-</ul>
-<p><strong>第一个子节点</strong>：</p>
-<ul>
-<li>parentNode.firstChild  返回第一个子节点，会返回文本</li>
-<li>parentNode.firstElementChild   返回第一个子元素节点</li>
-<li>parentNode.lastElementChild   返回最后一个子元素节点</li>
-</ul>
-<p>有兼容性问题，IE9以上支持</p>
-<p><strong>实际开发</strong>的写法 既 没有兼容性问题又返回第一个元素</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">node.children[0]</span><br><span class="line">node.children[node.children.length-1]</span><br></pre></td></tr></table></figure>
-
-<p><strong>兄弟节点</strong>：</p>
-<ul>
-<li>node.nextSibling</li>
-</ul>
-<p>得到的是下一个兄弟节点，包含元素节点和文本节点等等</p>
-<ul>
-<li>node.previousSibling</li>
-</ul>
-<p>返回上一个兄弟节点，找不到返回null</p>
-<ul>
-<li>node.nextElementSibling  下一个元素节点</li>
-<li>node.previousElementSibling  上一个元素节点</li>
-</ul>
-<p>有兼容性问题，只能自己封装一个兼容性的函数</p>
-<h3 id="创建节点"><a href="#创建节点" class="headerlink" title="创建节点"></a>创建节点</h3><ul>
-<li>document.createElement(‘tagment’)  动态创建节点</li>
-<li>node.appendChild(child)  添加一个节点到指定父节点的子节点列表<strong>末尾</strong>，类似数组中的push</li>
-<li>node.insertBefore(child,指定元素)   将一个节点插入指定元素前面</li>
-<li>想要页面添加新元素 ；创建；添加</li>
-</ul>
-<h3 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h3><p>parentNode.removeChild(子节点);</p>
-<h3 id="复制节点"><a href="#复制节点" class="headerlink" title="复制节点"></a>复制节点</h3><p>node.cloneNode()</p>
-<p>把node节点复制一份，如果括号参数为空或者false，默认是浅拷贝，只复制标签，不复制内容</p>
-<h3 id="三种方式动态创建元素区别"><a href="#三种方式动态创建元素区别" class="headerlink" title="三种方式动态创建元素区别"></a>三种方式动态创建元素区别</h3><ul>
-<li>document.write()直接将内容写入页面的内容流，但是如果文档流已经执行完毕，则它会导致页面全部重绘</li>
-<li>innerHTML如果采取拼接字符串的方式，需要大量拼接字符串，效率较低，如果采用数组格式拼接，效率高，结构稍微复杂</li>
-<li>creatElement创建多个元素效率稍低一点点，但是结果更清晰</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>创建</p>
-<p>document.write</p>
-<p>innerHTML</p>
-<p>createElement</p>
-<p>增</p>
-<p>appendchild</p>
-<p>insertBefore</p>
-<p>删</p>
-<p>removeChild</p>
-<p>改</p>
-<ol>
-<li>修改元素属性：src、href、title</li>
-<li>修改普通元素内容：innerHTML、innerText</li>
-<li>修改表单元素: value、type、disabled</li>
-<li>修改元素样式：style、className</li>
-</ol>
-<p>查</p>
-<ol>
-<li>DOM提供的API:getElementById、getElementByTagName</li>
-<li>H5提供的新方法 querySelector querySelectAll</li>
-<li>利用节点操作：parentNode、children、previousElementSibling、nextElementSibling</li>
-</ol>
-<p>属性操作</p>
-<ol>
-<li>setAttribute:</li>
-<li>getAttribute:</li>
-<li>removeAttribute:</li>
-</ol>
-<p>事件操作</p>
-<p>鼠标事件–</p>
 ]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
-    <title>JavaScript基本语法</title>
-    <url>/2021/03/11/JavaScript%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</url>
+    <title>JS-1-基本语法</title>
+    <url>/2021/03/11/JS-1-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h2 id="初识JavaScript"><a href="#初识JavaScript" class="headerlink" title="初识JavaScript"></a>初识JavaScript</h2><ul>
 <li>JavaScript是一种运行在客户端的脚本语言</li>
 <li>脚本语言：不需要编译，运行过程中由js解释器（js引擎）逐行来进行解释并执行</li>
@@ -1263,30 +1089,660 @@
       </tags>
   </entry>
   <entry>
-    <title>第一次创建博客</title>
-    <url>/2021/03/11/%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<p>第一次创建博客，踩坑很多</p>
-<p>最大的问题是分支命名问题，按照往常的教程在HEXO的配置文件的branch中写的是master，但是现在的github创建的默认分支名字应该是main了，以至于一直可以更新仓库但是博客内容不更新</p>
-<p>参考文章：<a href="https://blog.csdn.net/Lu_xiuyuan/article/details/112056997">https://blog.csdn.net/Lu_xiuyuan/article/details/112056997</a></p>
+    <title>JS-3-高级事件</title>
+    <url>/2021/03/11/JS-3-%E9%AB%98%E7%BA%A7%E4%BA%8B%E4%BB%B6/</url>
+    <content><![CDATA[<p>获取事件和处理事件的第二种方式：事件监听</p>
+<p>如何获取和处理鼠标与键盘的基本事件？</p>
+<span id="more"></span>
+
+<h2 id="事件监听方式"><a href="#事件监听方式" class="headerlink" title="事件监听方式"></a>事件监听方式</h2><p>eventTarget.addEventListener(type,listener[,useCapture])</p>
+<ul>
+<li>type：事件类型 如click</li>
+<li>listener：事件处理函数</li>
+<li>useCapture：布尔值</li>
+</ul>
+<p>ie9以前的版本支持</p>
+<p>eventTarget.attachEvent()将制定的监听器注册到eventTarget上，当对象触发指定事件时，指定的回调函数就会执行</p>
+<p>该方法接收两个参数：</p>
+<ul>
+<li>eventNameWithOn:事件类型字符串 如onclick</li>
+<li>callback：事件处理函数，</li>
+</ul>
+<h2 id="删除事件"><a href="#删除事件" class="headerlink" title="删除事件"></a>删除事件</h2><ol>
+<li>传统方式</li>
+</ol>
+<p>eventTarget.onclick=null;</p>
+<ol>
+<li>方法监听注册方式</li>
+</ol>
+<p>eventTarget.removeEventListener(type,listener[,useCapture]);</p>
+<h2 id="DOM事件流"><a href="#DOM事件流" class="headerlink" title="DOM事件流"></a>DOM事件流</h2><p>事件流描述的是从页面中接收事件 的顺序</p>
+<p>事件发生时会在元素节点之间按照特定的顺序传播，这个传播过程即DOM事件流</p>
+<p>DOM事件流分为3个阶段：</p>
+<ol>
+<li>捕获阶段  自顶向下</li>
+<li>当前目标阶段</li>
+<li>冒泡阶段  从下往上</li>
+</ol>
+<p>JS代码只能执行捕获或者冒泡其中一个阶段</p>
+<p>onclick和attachment只能得到冒泡阶段</p>
+<p>addEventListener第三个参数如果是true，表示在事件捕获阶段调用事件处理程序，如果是false表示在事件冒泡阶段调用</p>
+<h2 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h2><p>div.onclick=function(event) {}</p>
+<ol>
+<li>event就是一个事件对象，写到我们的侦听函数里的小括号里面，当形参来看</li>
+<li>事件对象只有有了事件才会存在，它是系统给我们自动创建的，不需要我们传递参数</li>
+<li>事件对象使我们事件的一系列相关数据的集合  跟事件相关的  比如鼠标点击里面就包含了鼠标的相关信息如鼠标坐标等</li>
+<li>事件对象可以自己命名 如evt、e、</li>
+<li>有兼容性问题 ie678通过window.event获取事件对象</li>
+</ol>
+<h3 id="事件对象常见属性和方法"><a href="#事件对象常见属性和方法" class="headerlink" title="事件对象常见属性和方法"></a>事件对象常见属性和方法</h3><p>a.target  返回触发事件的对象（点了谁返回谁） 标准  this返回的是绑定事件的对象</p>
+<p>a.currentTarget和this一样，但是只适用于ie9以上（了解即可）</p>
+<p>e.srcElement  返回触发事件的对象 非标准 ie6-8常用</p>
+<p>e.type  返回事件的类型</p>
+<ul>
+<li>阻止默认事件 有时候需要阻止链接跳转</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">a.returnValue;  &#x2F;&#x2F;ie678阻止默认事件的方法  也可以直接用</span><br><span class="line">a.preventDefault(); &#x2F;&#x2F;阻止默认事件 可以让链接不跳转</span><br><span class="line">return false;  &#x2F;&#x2F;阻止事件跳转（无兼容性问题）</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>冒泡会导致当多个盒子重叠并同时监听时，由于冒泡原理会一层一层执行，因此有时需要考虑阻止冒泡</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">a.cancelBubble&#x3D;true;  &#x2F;&#x2F;非标准</span><br><span class="line">a.stopPropagation();  &#x2F;&#x2F;重点，标准写法，有兼容性问题</span><br></pre></td></tr></table></figure>
+
+<h3 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h3><p>事件冒泡本身的特性，会带来坏处，也会带来好处，需要我们灵活掌握。</p>
+<p>事件委托也称为事件代理，在jQuery里称为事件委派</p>
+<p><strong>不要给每个子节点单独设置事件监听器，而是事件监听器设置在其父节点上，然后利用冒泡原理影响设置每个子节点</strong></p>
+<p>例如ul里有很多个li都需要监听事件，可以给ul设定监听器，因为点击li，事件会冒泡到ul上，就会触发事件监听器，可以利用对象的target找到当前点击的li</p>
+<p>可以实现找到这个li后改变它的背景颜色，大大简化了代码</p>
+<p>作用：</p>
+<p>只操作了一次DOM，提高了程序的性能</p>
+<h2 id="常用的鼠标事件"><a href="#常用的鼠标事件" class="headerlink" title="常用的鼠标事件"></a>常用的鼠标事件</h2><h3 id="鼠标事件"><a href="#鼠标事件" class="headerlink" title="鼠标事件"></a>鼠标事件</h3><p>click：单击事件<br>dblclick：双击事件<br>mousedown：按下鼠标键时触发<br>mouseup：释放按下的鼠标键时触发<br>mousemove：鼠标移动事件<br>mouseover：移入事件<br>mouseout：移出事件<br>mouseenter：移入事件<br>mouseleave：移出事件<br>contextmenu：右键事件, 可以使用preventDefault禁用右键菜单</p>
+<p>selectstart: 选中事件，可以使用selectstart禁用选中文字（不准复制~）</p>
+<h3 id="鼠标事件对象"><a href="#鼠标事件对象" class="headerlink" title="鼠标事件对象"></a>鼠标事件对象</h3><p>现阶段主要使用鼠标事件对象和键盘事件对象</p>
+<p>clientX,clientY永远是相对于可视窗口的坐标，不会随着滚轮拖动而改变</p>
+<p>e.pageX、e.pageY是相对于文档页面的X、Y坐标，IE9+支持</p>
+<p>e.screenX、e.screenY相对于电脑屏幕的X、Y坐标</p>
+<h2 id="常用键盘事件"><a href="#常用键盘事件" class="headerlink" title="常用键盘事件"></a>常用键盘事件</h2><h3 id="键盘事件"><a href="#键盘事件" class="headerlink" title="键盘事件"></a>键盘事件</h3><p>onkeyup  某个按键松开</p>
+<p>onkeydown 按下时</p>
+<p>onkeypress  按下时触发，但是它不识别功能键，比如ctrl、shift、箭头</p>
+<p>三个都写时有执行顺序区别，先执行down再执行press然后是up</p>
+<h3 id="键盘事件对象"><a href="#键盘事件对象" class="headerlink" title="键盘事件对象"></a>键盘事件对象</h3><p>key：‘1’  直接告诉是哪个键，但是兼容性问题较大</p>
+<p>keyCode：可以得到用户按键的ASCii码值</p>
+<p>keyup和keydowm事件不区分字母大小写，大写和小写的ASCii码都是小写的码，而keypress区分字母大小写</p>
+<p>案例：可以实现按键搜索框自动获取焦点</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">使用keyCode判断用户是否按下了s键，利用search.focus()实现搜索框获取焦点</span><br><span class="line">最好用keydown判断，防止&#39;s&#39;进入了输入框</span><br></pre></td></tr></table></figure>
+
+<p>案例：京东快递单号输入时上面自动放大</p>
+<p><img src="C:\Users\LiJing\AppData\Local\Temp\1615474218343.png" alt="1615474218343"></p>
+<ol>
+<li><p>快递单号输入内容时，上面的大盒子显示</p>
+</li>
+<li><p>表单检测用户输入：给表单添加键盘事件</p>
+</li>
+<li><p>同时把快递单号表单里的值获取过来赋值给盒子</p>
+</li>
+<li><p>如果快递单号里面内容为空，则隐藏盒子 con.style.display=’none’</p>
+</li>
+<li><p>当文本框失去焦点，隐藏盒子  </p>
+<p>blur  diplay=none </p>
+<p> focus  {if this.value!=’’ display=block}//获得焦点时还需要检测输入是否为空</p>
+</li>
+<li><p><strong>注意：</strong>此处应该使用keyup，弹起时文字已经在文本框出现了       keydown和keypress触发的时候，文本框的字还没有出现，并不能实现同时放大的效果</p>
+</li>
+</ol>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
       <tags>
-        <tag>blog</tag>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
-    <title>‘JS案例-跟随鼠标的天使’</title>
-    <url>/2021/03/11/JS%E6%A1%88%E4%BE%8B-%E8%B7%9F%E9%9A%8F%E9%BC%A0%E6%A0%87%E7%9A%84%E5%A4%A9%E4%BD%BF/</url>
+    <title>JS-4-BOM浏览器对象模型</title>
+    <url>/2021/03/11/JS-4-BOM%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<p>什么是BOM</p>
+<p>浏览器的顶级对象</p>
+<p>页面加载事件以及注意事项</p>
+<p>定时器函数</p>
+<p>JS执行机制</p>
+<p>页面跳转、刷新</p>
+<p>history、navigator对象</p>
+<span id="more"></span>
+
+<h2 id="什么是BOM"><a href="#什么是BOM" class="headerlink" title="什么是BOM"></a>什么是BOM</h2><p>浏览器对象模型(Browser Object Model)，主要作用是提供独立于内容而与浏览器窗口进行交互的对象，核心是window，BOM缺乏标准</p>
+<p>###对比</p>
+<p>DOM                                    BOM</p>
+<p>文档对象模型                                浏览器对象模型</p>
+<p>顶级对象的document                        顶级对象是window</p>
+<p>主要学习操作元素                            主要和浏览器窗口交互，刷新跳转等</p>
+<p>W3C                                    BOM是浏览器厂商各自定义的，兼容性差</p>
+<h3 id="BOM的构成"><a href="#BOM的构成" class="headerlink" title="BOM的构成"></a>BOM的构成</h3><p>window对象是浏览器的顶级对象，具有双重角色</p>
+<ul>
+<li>是JS访问浏览器窗口的一个接口</li>
+<li>是一个全局对象，定义在全局作用域中的变量、函数都会变成window对象的方法和属性</li>
+<li>在调用的时候可以省略window，前面学习的对话框alert()、prompt()等</li>
+<li>window下不要直接定义变量为name，因为有个特殊属性window.name</li>
+</ul>
+<h2 id="window对象常见事件"><a href="#window对象常见事件" class="headerlink" title="window对象常见事件"></a>window对象常见事件</h2><p>###窗口加载事件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">window.onload&#x3D;function()&#123;&#125;</span><br><span class="line">window.addEventListener&#x3D;(&quot;load&quot;,function()&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>window.onload是窗口加载事件，当文档enrich完全加载完成会触发该事件（包括图像、脚本文件、CSS文件等），就调用的处理函数</p>
+<ol>
+<li>有了window.onload就可以把JS代码写到页面元素的上方，但是写了多个后只处理最后一个</li>
+<li>如果用addEventListener则没有限制</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">document.addEventListener(&#39;DOMContentLoaded&#39;,function()&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>仅当DOM加载完成时才会触发，不包含样式表、图片、flash等，ie9以上才支持</p>
+<p>在页面图片很多加载很慢的时候，可以提前获取交互，保证用户体验</p>
+<h3 id="调整窗口大小事件"><a href="#调整窗口大小事件" class="headerlink" title="调整窗口大小事件"></a>调整窗口大小事件</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">window.onresize&#x3D;function()&#123;&#125;</span><br><span class="line">window.addEventListener&#x3D;(&quot;resize&quot;,function()&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>调整窗口大小事件</p>
+<ol>
+<li>只要窗口带下发生像素变化时，就会触发</li>
+<li>用于响应式布局；window.innerWidth可以获得屏幕宽度</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var div &#x3D; document.querySelector(&#39;div&#39;);</span><br><span class="line">window.addEventListener(&#39;resize&#39;, function () &#123;</span><br><span class="line">    if (window.innerWidth &lt;&#x3D; 800) &#123;</span><br><span class="line">        div.style.display &#x3D; &#39;none&#39;;</span><br><span class="line">    &#125;	else &#123;</span><br><span class="line">        div.style.display &#x3D; &#39;block&#39;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h2><h3 id="两种定时器"><a href="#两种定时器" class="headerlink" title="两种定时器"></a>两种定时器</h3><p><strong>setTimeOut()</strong></p>
+<p>window.setTimeout(调用函数，[延迟的毫秒数]);</p>
+<ul>
+<li>延迟时间可以省略</li>
+<li>调用函数可以直接写函数，还可以写函数名</li>
+<li>还有一个写法’函数名()’,不提倡</li>
+<li>页面中可能有很多定时器，我们经常给定时器加标识符</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function callback() &#123;</span><br><span class="line">          console.log(&#39;111&#39;);</span><br><span class="line">      &#125;</span><br><span class="line">      var time1 &#x3D; setTimeout(callback, 3000);</span><br><span class="line">      var time2 &#x3D; setTimeout(callback, 1000);</span><br></pre></td></tr></table></figure>
+
+<p>回调函数callback：需要等待时间，时间到了才去调用这个函数以前的.onclick=function()里面的函数也是回调函数</p>
+<p>案例：5s后自动隐藏广告</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var ad &#x3D; document.querySelector(&#39;.ad&#39;);</span><br><span class="line">setTimeout(function () &#123;</span><br><span class="line">    ad.style.display &#x3D; &#39;none&#39;;</span><br><span class="line">&#125;, 5000)</span><br></pre></td></tr></table></figure>
+
+<p><strong>计时器停止：</strong></p>
+<p>window.clearTimeout(timeoutID)</p>
+<p>setInterval()定时器</p>
+<p>window.setInterval(回调函数，[间隔的毫秒数])</p>
+<p>执行过程不同，本函数是每间隔一定时间就执行一次，会不断执行，setTimeout只执行一次</p>
+<p>案例：秒杀倒计时</p>
+<ul>
+<li>这个倒计时是不断变化的  ，因此需要定时器来自动变化（setInterval）</li>
+<li>三个盒子分别存放时分秒</li>
+<li>三个黑色盒子利用innerHTML放入计算的小时分钟秒数</li>
+<li>最好先调用一次函数，防止刚刷新页面时出现空白</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var hour &#x3D; document.querySelector(&#39;.hour&#39;);</span><br><span class="line">var minute &#x3D; document.querySelector(&#39;.minute&#39;);</span><br><span class="line">var second &#x3D; document.querySelector(&#39;.second&#39;);</span><br><span class="line">var inputTime &#x3D; +new Date(&#39;2021-3-13 18:00:00&#39;);&#x2F;&#x2F;用户想输入的时间</span><br><span class="line">countDown();&#x2F;&#x2F;最好先调用一次函数，防止刚刷新页面时出现空白</span><br><span class="line">&#x2F;&#x2F;开启定时器 每秒都调用该函数</span><br><span class="line">setInterval(countDown, 1000);</span><br><span class="line">function countDown(time) &#123;</span><br><span class="line">    var nowTime &#x3D; +new Date();&#x2F;&#x2F;当前时间总的毫秒数</span><br><span class="line">    var times &#x3D; (inputTime - nowTime) &#x2F; 1000;&#x2F;&#x2F;秒数</span><br><span class="line">    var h &#x3D; parseInt(times &#x2F; 60 &#x2F; 60 % 24);</span><br><span class="line">    h &#x3D; h &lt; 10 ? &#39;0&#39; + h : h;</span><br><span class="line">    hour.innerHTML &#x3D; h;</span><br><span class="line">    var m &#x3D; parseInt(times &#x2F; 60 % 60);</span><br><span class="line">    m &#x3D; m &lt; 10 ? &#39;0&#39; + m : m;</span><br><span class="line">    minute.innerHTML &#x3D; m;</span><br><span class="line">    var s &#x3D; parseInt(times % 60);</span><br><span class="line">    s &#x3D; s &lt; 10 ? &#39;0&#39; + s : s;</span><br><span class="line">    second.innerHTML &#x3D; s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>window.clearInterval();停止定时器</p>
+<ul>
+<li>有时外界需要内部的变量，需要在函数外定义对象，可以定义为null</li>
+</ul>
+<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><p>指向<strong>调用</strong>它的对象</p>
+<ol>
+<li><p>全局作用域下或者普通函数下this指向window；（定时器里面的this指向window）</p>
+</li>
+<li><p>方法调用中this指向的是调用它的对象</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">btn.addEventListener(&#39;click&#39;,function()&#123;&#125;)</span><br><span class="line">btn.onclick&#x3D;function()&#123;&#125;;</span><br><span class="line">&#x2F;&#x2F;都指向btn</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>构造函数中this指向构造函数的实例</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var fun&#x3D;new Fun();&#x2F;&#x2F;this指向fun</span><br></pre></td></tr></table></figure>
+
+<h2 id="JS执行队列"><a href="#JS执行队列" class="headerlink" title="JS执行队列"></a>JS执行队列</h2><h3 id="JS单线程"><a href="#JS单线程" class="headerlink" title="JS单线程"></a>JS单线程</h3><p>JS是单线程语言，同一时间只能做一件事。</p>
+<p>单线程意味着所有任务需要排队，如果JS执行事件过长，会造成其他代码等待时间过长</p>
+<p>为了解决这个问题，HTM5提出了Web Worker标准，允许JS创建多个线程，因此出现了同步和异步</p>
+<p>###同步和异步</p>
+<p><strong>同步</strong>：</p>
+<p>前一个任务结束后再执行后一个任务，程序的执行顺序和任务的排列顺序是一致的、同步的</p>
+<p><strong>异步：</strong></p>
+<p>做一件事情的时候同时还可以做其他事情</p>
+<p>本质区别：这条流水线上各个流程执行顺序不同</p>
+<p><strong>同步任务</strong>：同步任务都在主线程上进行，行程一个执行栈</p>
+<p><strong>异步任务</strong>：JS的异步是通过回调函数实现的，</p>
+<ol>
+<li>普通事件：如click、resize等</li>
+<li>资源加载，如load、error等</li>
+<li>定时器，如setinterval、setTimeout等</li>
+</ol>
+<p>异步任务相关回调函数添加到任务队列（消息队列）中。</p>
+<h3 id="JS执行机制"><a href="#JS执行机制" class="headerlink" title="JS执行机制"></a>JS执行机制</h3><ol>
+<li>先执行执行栈中同步任务</li>
+<li>异步任务放入任务队列中</li>
+<li>一旦执行栈中所有同步任务执行完毕，系统就会按次序读取任务队列中的异步任务，于是被读取的异步任务结束等待状态，进入执行栈，开始执行</li>
+</ol>
+<p>由于主线程不断的获取任务、执行任务、再获取任务、再执行任务，这种机制被称为<strong>事件循环</strong></p>
+<h2 id="Location对象"><a href="#Location对象" class="headerlink" title="Location对象"></a>Location对象</h2><p>window对象给我们提供了一个location属性用于获取或设置窗体的URL，并且可以用于解析URL。该属性返回的是一个对象，因此也称为Location对象</p>
+<p>URL</p>
+<p>统一资源定位符(Uniform Resource Locator)，是互联网标准资源的地址，互联网每个文件都有位移的URL，包含的信息之处文件的位置以及浏览器该如何处理它</p>
+<p>URL一般格式</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">protocol:&#x2F;&#x2F;host[:port]&#x2F;path&#x2F;[?query]#fragment</span><br><span class="line">http:&#x2F;&#x2F;www.itcast.cn&#x2F;index.html?name&#x3D;andy&amp;age&#x3D;18#link</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>protocol  通信协议 常用的http、ftp、maito等</li>
+<li>host  主机（域名）</li>
+<li>port  端口号 可选，省略时使用方案的默认端口，如http的默认端口为80</li>
+<li>path路径 由零或多个’/‘符号隔开的字符串，一般用来表示主机上的一个目录或文件地址</li>
+<li>query 参数 以键值对的形式，用&amp;号分割开</li>
+<li>fragment 片段 #后面内容，常见于连接锚点</li>
+</ul>
+<h3 id="Location对象的属性"><a href="#Location对象的属性" class="headerlink" title="Location对象的属性"></a>Location对象的属性</h3><p><strong>location.href</strong>  获取或设置整个URL  可以实现点击某位置跳转其他页面</p>
+<p>location.host  返回主机（域名）</p>
+<p>location.port 返回端口号</p>
+<p>location.pathname返回路径</p>
+<p><strong>location.search</strong>  返回参数(query)</p>
+<p>location.hash 返回片段 #后面内容常见于链接 锚点</p>
+<p>案例：5s后自动跳转页面</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var timer&#x3D;5;</span><br><span class="line">setInterval(function()&#123;</span><br><span class="line">if(timer&#x3D;&#x3D;0)&#123;</span><br><span class="line">    location.href&#x3D;&#39;http:&#x2F;&#x2F;www.itcast.cn&#39;;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">    div.innerHTML&#x3D;&#39;将在&#39;+timeer+&#39;s 后跳转首页&#39;; </span><br><span class="line">    timer--;&#125;</span><br><span class="line">&#125;,1000)</span><br></pre></td></tr></table></figure>
+
+<p>案例：提交表单后跳转到另一个页面并显示</p>
+<ol>
+<li>第一个登陆页面，里有提交表单，利用action=’index.html’提交到第二个页面，input表单必须有name属性，作为提交的属性</li>
+<li>第二个页面，可以使用第一个页面的参数，利用了参数的传递，从location.search可以得到</li>
+<li>location.search得到的是形如 ?name=Andy 的样式，需要去掉问号（substr(开始的位置，位数)</li>
+<li>还需要利用split(‘=’)分开参数和值</li>
+</ol>
+<h3 id="Location常用方法"><a href="#Location常用方法" class="headerlink" title="Location常用方法"></a>Location常用方法</h3><p>location.assign 跳转页面，记录浏览器历史，可以使用后退功能</p>
+<p>location.replace  跳转页面，但是不记录历史，无法后退</p>
+<p>location.reload 重新加载，相当于刷新页面，如果参数为true表示强制刷新（不读取缓存中图片，机载较慢），不填表示类似于F5直接刷新</p>
+<h2 id="navigator对象"><a href="#navigator对象" class="headerlink" title="navigator对象"></a>navigator对象</h2><p>navigator.userAgent显示浏览器信息、系统信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if((navigator.userAgent.match(&#x2F;(iPhone|iPod|Android|ios|iPad|hpwOS|SysbianOS|Windows Phone|UCWEB|BlackBerry|Nokia|RIM|IEMobile|Mobile)&#x2F;i)&#123;</span><br><span class="line">location.href&#x3D;&quot;http:&#x2F;&#x2F;www.cnblogs.com&#x2F;dying&quot;&#125;</span><br><span class="line">else&#123;</span><br><span class="line">    location.href&#x3D;&quot;&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>##history对象</p>
+<p>history.forward()  前进功能</p>
+<p>history.back()后退</p>
+<p>go()  参数是2表示前进2个页面，-2表示后退2个页面</p>
+<p>一些OA办公系统有可能会用到</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS-2-DOM</title>
+    <url>/2021/03/11/JS-2-DOM/</url>
+    <content><![CDATA[<h2 id="API和Web-API"><a href="#API和Web-API" class="headerlink" title="API和Web API"></a>API和Web API</h2><h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><p>应用程序编程接口，目的是提供应用程序与开发人员基于某软件或硬件得以访问一组例程的能力，且又无需访问源码，或理解内部工作机制的细节</p>
+<p>API是给程序员提供的一种工具，以便能更轻松的实现想要的功能</p>
+<span id="more"></span>
+
+<h3 id="Web-API"><a href="#Web-API" class="headerlink" title="Web API"></a>Web API</h3><p>是浏览器提供的一套操作浏览器功能和页面元素的API（BOM和DOM）</p>
+<h2 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h2><p>DOM是(Document Object Model)文档对象模型，是W3C组织推荐的处理可扩展标记语言的标准编程接口</p>
+<p>可以通过DOM接口改变网页的结构、内容和样式</p>
+<h3 id="DOM树"><a href="#DOM树" class="headerlink" title="DOM树"></a>DOM树</h3><ul>
+<li>文档：一个页面就是一个文档，DOM中使用document表示</li>
+<li>元素：页面中所有标签就是元素，DOM中使用element表示</li>
+<li>节点：网页中所有内容都是节点（标签、属性、文本、注释）等，DOM中使用node表示</li>
+</ul>
+<p>DOM把以上内容都看作对象</p>
+<h2 id="获取元素"><a href="#获取元素" class="headerlink" title="获取元素"></a>获取元素</h2><h4 id="根据ID获取"><a href="#根据ID获取" class="headerlink" title="根据ID获取"></a>根据ID获取</h4><p>getElementById</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;time&quot;&gt;2010&lt;&#x2F;div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    &#x2F;&#x2F; 参数id是大小写敏感的字符串,返回的是一个元素对象</span><br><span class="line">    var timer &#x3D; document.getElementById(&#39;time&#39;);</span><br><span class="line">    console.log(timer);</span><br><span class="line">    console.log(typeof timer);&#x2F;&#x2F;返回object</span><br><span class="line">    &#x2F;&#x2F;打印返回的元素对象，更好的查看里面的属性和方法</span><br><span class="line">    console.dir(timer);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="根据标签名获取"><a href="#根据标签名获取" class="headerlink" title="根据标签名获取"></a>根据标签名获取</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;返回的是获取过来元素对象的集合 以伪数组的形式存储的 </span><br><span class="line">var lis &#x3D; document.getElementsByTagName(&#39;li&#39;);</span><br><span class="line">console.log(lis);</span><br><span class="line">&#x2F;&#x2F;如果页面中只有一个li，返回的还是伪数组，没有则是空的伪数组[]</span><br></pre></td></tr></table></figure>
+
+<p>可以指定父元素内部所有指定标签名的子元素</p>
+<p>父元素必须是单个对象（必须指明是哪一个元素对象），获取的时候不包括父元素自己</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var mm &#x3D; document.getElementsByTagName(&#39;div&#39;);</span><br><span class="line">console.log(mm[0].getElementsByTagName(&#39;li&#39;));</span><br></pre></td></tr></table></figure>
+
+<h4 id="通过类名获取"><a href="#通过类名获取" class="headerlink" title="通过类名获取"></a>通过类名获取</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">document.getElementsByClassName(&#39;box&#39;);&#x2F;&#x2F;选择类名为box的对象</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;指定选择器的第一个对象</span><br><span class="line">document.querySelector(&#39;.box&#39;);</span><br><span class="line">document.querySelector(&#39;#nav&#39;);&#x2F;&#x2F;选择器必须加符号</span><br><span class="line">&#x2F;&#x2F;指定选择器的所有对象</span><br><span class="line">document.querySelectorAll(&#39;.box&#39;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取body3元素"><a href="#获取body3元素" class="headerlink" title="获取body3元素"></a>获取body3元素</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">document.body;</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取html元素"><a href="#获取html元素" class="headerlink" title="获取html元素"></a>获取html元素</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">document.documentElement;&#x2F;&#x2F;得到整个html标签的内容</span><br></pre></td></tr></table></figure>
+
+<h2 id="事件基础"><a href="#事件基础" class="headerlink" title="事件基础"></a>事件基础</h2><p>执行事件的步骤：</p>
+<ol>
+<li>获取事件源</li>
+<li>注册事件（绑定事件）</li>
+<li>添加事件处理程序</li>
+</ol>
+<h3 id="常见的鼠标事件"><a href="#常见的鼠标事件" class="headerlink" title="常见的鼠标事件"></a>常见的鼠标事件</h3><ul>
+<li>onclick  鼠标左键按下</li>
+<li>onmouseover  鼠标经过</li>
+<li>onmouseout  鼠标离开</li>
+<li>onfouse  获得鼠标焦点触发</li>
+<li>onblur  失去鼠标焦点触发</li>
+<li>onmousemove  鼠标移动触发</li>
+<li>onmouseup 鼠标弹起触发</li>
+<li>onmousedown鼠标按下触发</li>
+</ul>
+<h2 id="操作元素"><a href="#操作元素" class="headerlink" title="操作元素"></a>操作元素</h2><h4 id="改变元素内容"><a href="#改变元素内容" class="headerlink" title="改变元素内容"></a>改变元素内容</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">element.innerText&#x3D;</span><br><span class="line">element.innerHTML&#x3D;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>innerText不识别HTML标签，innerHTML识别,是W3C标准</li>
+<li>这两个属性是可读写的</li>
+<li>读的时候，innerText会去除标签空格和换行，innerHTML显示是完整的</li>
+</ul>
+<h4 id="修改常见元素属性"><a href="#修改常见元素属性" class="headerlink" title="修改常见元素属性"></a>修改常见元素属性</h4><p>img.src换图</p>
+<h4 id="表单元素的属性操作"><a href="#表单元素的属性操作" class="headerlink" title="表单元素的属性操作"></a>表单元素的属性操作</h4><p>type、value、checked、selected、disabled</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    var btn &#x3D; document.querySelector(&#39;button&#39;);</span><br><span class="line">    var input &#x3D; document.querySelector(&#39;input&#39;);</span><br><span class="line">    btn.onclick &#x3D; function () &#123;</span><br><span class="line">        input.value &#x3D; &#39;被点击了&#39;;</span><br><span class="line">        &#x2F;&#x2F; 禁用某个表单不能再点击用disabled</span><br><span class="line">        btn.disabled &#x3D; true;</span><br><span class="line">        this.disabled&#x3D;true;&#x2F;&#x2F;this指向的是调用者</span><br><span class="line">    &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="C:\Users\LiJing\AppData\Local\Temp\1615301396516.png" alt="1615301396516"></p>
+<h4 id="修改元素样式属性"><a href="#修改元素样式属性" class="headerlink" title="修改元素样式属性"></a>修改元素样式属性</h4><ol>
+<li>使用element.style获得修改元素形式</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">this.style.backgroundColor&#x3D;&#39;purple&#39;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>JS里的样式采取驼峰命名法</li>
+<li>JS修改style样式操作，产生的是行内样式，css权重比较高</li>
+<li>一般样式少，功能简单时使用</li>
+</ul>
+<ol>
+<li>使用this.className=’’,然后在css里定义该类的样式属性</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">this.className&#x3D;&#39;change&#39;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>className是保留字，操作元素类名属性</li>
+<li>会直接更改类名，覆盖原来的类名</li>
+<li>如果想要保留原来的类名，可以使用多类名选择器</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">this.className&#x3D;&#39;first change&#39;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="排他思想"><a href="#排他思想" class="headerlink" title="排他思想"></a>排他思想</h3><p>给所有元素全部清除样式后，给当前元素设置样式，顺序不可以颠倒</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var btns &#x3D; document.getElementsByTagName(&#39;button&#39;);</span><br><span class="line">for (var i &#x3D; 0; i &lt; btns.length; i++) &#123;</span><br><span class="line">    btns[i].onclick &#x3D; function () &#123;</span><br><span class="line">        console.log(&#39;1&#39;);</span><br><span class="line">        for (var i &#x3D; 0; i &lt; btns.length; i++) &#123;</span><br><span class="line">            btns[i].style.backgroundColor &#x3D; &#39;&#39;;</span><br><span class="line">        &#125;</span><br><span class="line">        this.style.backgroundColor &#x3D; &#39;pink&#39;;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义属性操作"><a href="#自定义属性操作" class="headerlink" title="自定义属性操作"></a>自定义属性操作</h3><h4 id="获取属性值"><a href="#获取属性值" class="headerlink" title="获取属性值"></a>获取属性值</h4><ol>
+<li>element.属性  只能获取内置属性值（元素自带）</li>
+<li>element.getAttribute(‘属性’)  可以获取自定义属性（程序员自己添加）</li>
+<li>H5新增</li>
+</ol>
+<p>element.dataset.index或者element.dataset[‘index’]  ie11才开始支持</p>
+<p>dataset是一个集合，存放了所有以data开头的自定义属性</p>
+<h4 id="更改属性值"><a href="#更改属性值" class="headerlink" title="更改属性值"></a>更改属性值</h4><p>element.属性=’值’</p>
+<p>element.setAttribute=(‘属性’，’值’);</p>
+<h4 id="移除属性值"><a href="#移除属性值" class="headerlink" title="移除属性值"></a>移除属性值</h4><p>element.removeAttribute(‘属性’);</p>
+<h4 id="H5自定义属性"><a href="#H5自定义属性" class="headerlink" title="H5自定义属性"></a>H5自定义属性</h4><p>自定义属性目的：为了保存并使用数据，有些数据可以保存到页面中而不用保存到数据库中</p>
+<p>自定义属性容易引起歧义，不容易判断是元素的内置属性还是自定义属性</p>
+<p>一般规定data-开头作为属性名如：data-index</p>
+<p>如果自定义属性里面有多个-连接的单词，获取的时候采取驼峰命名法</p>
+<h2 id="节点操作"><a href="#节点操作" class="headerlink" title="节点操作"></a>节点操作</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>获取元素通常有两种方法</p>
+<ol>
+<li>利用DOM提供的方法获取元素  逻辑性不强</li>
+<li>利用节点层级关系获取元素  利用父子兄节点关系获取元素，逻辑性强但是兼容性较差</li>
+</ol>
+<p>网页中所有内容都是节点，在DOM中，节点使用node表示，节点至少拥有nodeType节点类型、nodeName节点名称、nodeValue节点值三个基本属性</p>
+<ul>
+<li>元素节点nodetype为1</li>
+<li>属性节点2</li>
+<li>文本节点3（包括文字、空格、换行等）</li>
+</ul>
+<p>实际开发中，节点操作主要操作的是元素节点</p>
+<h3 id="通过节点层级获取节点"><a href="#通过节点层级获取节点" class="headerlink" title="通过节点层级获取节点"></a>通过节点层级获取节点</h3><p>利用DOM树把节点划分为不同的层级关系，最常见的是父子兄层级</p>
+<p><strong>父亲节点</strong>：</p>
+<ul>
+<li>node.parentNode</li>
+</ul>
+<p>返回的是最近的父节点，如果找不到就返回空</p>
+<p><strong>子节点</strong>：</p>
+<ul>
+<li>parentNode.childNodes</li>
+</ul>
+<p>得到的所有的子节点，包括文本节点（换行也会被计算进去）</p>
+<p>如果想获取元素节点，需要专门处理（检测nodeType），一般不提倡使用</p>
+<ul>
+<li>parentNode.children(<strong>非标准</strong>)，开发中常用</li>
+</ul>
+<p><strong>第一个子节点</strong>：</p>
+<ul>
+<li>parentNode.firstChild  返回第一个子节点，会返回文本</li>
+<li>parentNode.firstElementChild   返回第一个子元素节点</li>
+<li>parentNode.lastElementChild   返回最后一个子元素节点</li>
+</ul>
+<p>有兼容性问题，IE9以上支持</p>
+<p><strong>实际开发</strong>的写法 既 没有兼容性问题又返回第一个元素</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">node.children[0]</span><br><span class="line">node.children[node.children.length-1]</span><br></pre></td></tr></table></figure>
+
+<p><strong>兄弟节点</strong>：</p>
+<ul>
+<li>node.nextSibling</li>
+</ul>
+<p>得到的是下一个兄弟节点，包含元素节点和文本节点等等</p>
+<ul>
+<li>node.previousSibling</li>
+</ul>
+<p>返回上一个兄弟节点，找不到返回null</p>
+<ul>
+<li>node.nextElementSibling  下一个元素节点</li>
+<li>node.previousElementSibling  上一个元素节点</li>
+</ul>
+<p>有兼容性问题，只能自己封装一个兼容性的函数</p>
+<h3 id="创建节点"><a href="#创建节点" class="headerlink" title="创建节点"></a>创建节点</h3><ul>
+<li>document.createElement(‘tagment’)  动态创建节点</li>
+<li>node.appendChild(child)  添加一个节点到指定父节点的子节点列表<strong>末尾</strong>，类似数组中的push</li>
+<li>node.insertBefore(child,指定元素)   将一个节点插入指定元素前面</li>
+<li>想要页面添加新元素 ；创建；添加</li>
+</ul>
+<h3 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h3><p>parentNode.removeChild(子节点);</p>
+<h3 id="复制节点"><a href="#复制节点" class="headerlink" title="复制节点"></a>复制节点</h3><p>node.cloneNode()</p>
+<p>把node节点复制一份，如果括号参数为空或者false，默认是浅拷贝，只复制标签，不复制内容</p>
+<h3 id="三种方式动态创建元素区别"><a href="#三种方式动态创建元素区别" class="headerlink" title="三种方式动态创建元素区别"></a>三种方式动态创建元素区别</h3><ul>
+<li>document.write()直接将内容写入页面的内容流，但是如果文档流已经执行完毕，则它会导致页面全部重绘</li>
+<li>innerHTML如果采取拼接字符串的方式，需要大量拼接字符串，效率较低，如果采用数组格式拼接，效率高，结构稍微复杂</li>
+<li>creatElement创建多个元素效率稍低一点点，但是结果更清晰</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>创建</p>
+<p>document.write</p>
+<p>innerHTML</p>
+<p>createElement</p>
+<p>增</p>
+<p>appendchild</p>
+<p>insertBefore</p>
+<p>删</p>
+<p>removeChild</p>
+<p>改</p>
+<ol>
+<li>修改元素属性：src、href、title</li>
+<li>修改普通元素内容：innerHTML、innerText</li>
+<li>修改表单元素: value、type、disabled</li>
+<li>修改元素样式：style、className</li>
+</ol>
+<p>查</p>
+<ol>
+<li>DOM提供的API:getElementById、getElementByTagName</li>
+<li>H5提供的新方法 querySelector querySelectAll</li>
+<li>利用节点操作：parentNode、children、previousElementSibling、nextElementSibling</li>
+</ol>
+<p>属性操作</p>
+<ol>
+<li>setAttribute:</li>
+<li>getAttribute:</li>
+<li>removeAttribute:</li>
+</ol>
+<p>事件操作</p>
+<p>鼠标事件–</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS案例-仿京东放大镜效果</title>
+    <url>/2021/03/12/JS%E6%A1%88%E4%BE%8B-%E4%BB%BF%E4%BA%AC%E4%B8%9C%E6%94%BE%E5%A4%A7%E9%95%9C%E6%95%88%E6%9E%9C/</url>
+    <content><![CDATA[<p>本案例可以实现：当鼠标放在图片上时，图片上出现跟随鼠标移动的遮挡层，同时右边会出现一个放大的图片，展现出放大镜效果</p>
+<span id="more"></span>
+
+<ol>
+<li>鼠标经过小盒子，黄色的遮挡层和大图片盒子显示，离开隐藏</li>
+<li>遮挡层跟随鼠标</li>
+<li>移动黄色遮挡层，大盒子跟着移动</li>
+</ol>
+<p>*如果js分开一个文件写，必须加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">window.addEventListener(&#39;load&#39;,function()&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>先加载完再执行js</p>
+<ul>
+<li>比例关系：大图片移动距离=遮挡层移动距离*大图片移动距离/遮挡层最大移动距离</li>
+<li>注意大盒子中图片移动应该与小盒子中遮罩反向移动</li>
+</ul>
+<p>完整代码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;IE&#x3D;edge&quot;&gt;</span><br><span class="line">    &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;&#x2F;title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        .box &#123;</span><br><span class="line">            position: relative;</span><br><span class="line">            width: 400px;</span><br><span class="line">            height: 400px;</span><br><span class="line">            background-color: yellowgreen;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .box&gt;img &#123;</span><br><span class="line">            max-width: 100%;</span><br><span class="line">            max-height: 100%;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .mask &#123;</span><br><span class="line">            display: none;</span><br><span class="line">            position: absolute;</span><br><span class="line">            width: 100px;</span><br><span class="line">            height: 100px;</span><br><span class="line">            background-color: wheat;</span><br><span class="line">            opacity: .8;</span><br><span class="line">            top: 0;</span><br><span class="line">            left: 0;</span><br><span class="line">            border: 1px solid #ccc;</span><br><span class="line">            cursor: move;</span><br><span class="line">            &#x2F;* 鼠标样式变化 *&#x2F;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .big &#123;</span><br><span class="line">            &#x2F;* display: none; *&#x2F;</span><br><span class="line">            overflow: hidden;</span><br><span class="line">            position: absolute;</span><br><span class="line">            width: 500px;</span><br><span class="line">            height: 500px;</span><br><span class="line">            top: 0px;</span><br><span class="line">            left: 410px;</span><br><span class="line">            z-index: 10;</span><br><span class="line">            border: 1px solid #ccc;</span><br><span class="line">            &#x2F;* 保证优先级 *&#x2F;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .big img &#123;</span><br><span class="line">            position: absolute;</span><br><span class="line">            top: 0;</span><br><span class="line">            left: 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;&#x2F;style&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;box&quot;&gt;</span><br><span class="line">        &lt;img src&#x3D;&quot;images&#x2F;s3.png&quot; alt&#x3D;&quot;&quot;&gt;</span><br><span class="line">        &lt;div class&#x3D;&quot;mask&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div class&#x3D;&quot;big&quot;&gt;&lt;img src&#x3D;&quot;images&#x2F;big.jpg&quot; alt&#x3D;&quot;&quot; class&#x3D;&quot;bigImg&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">	&#x2F;&#x2F;js部分见下个代码框</span><br><span class="line">    &lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">box = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.box&#x27;</span>);</span><br><span class="line">mask = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.mask&#x27;</span>);</span><br><span class="line">big = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.big&#x27;</span>);</span><br><span class="line">box.addEventListener(<span class="string">&#x27;mouseover&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="comment">//鼠标放在盒子里时让mask和big出现</span></span><br><span class="line">    mask.style.display = <span class="string">&#x27;block&#x27;</span>;</span><br><span class="line">    big.style.display = <span class="string">&#x27;block&#x27;</span>;</span><br><span class="line">&#125;);</span><br><span class="line">box.addEventListener(<span class="string">&#x27;mousemove&#x27;</span>, move);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//获取鼠标在盒子内坐标</span></span><br><span class="line">    <span class="keyword">var</span> x = e.pageX - <span class="built_in">this</span>.offsetLeft;</span><br><span class="line">    <span class="keyword">var</span> y = e.pageY - <span class="built_in">this</span>.offsetTop;</span><br><span class="line">    <span class="keyword">var</span> maskX = x - mask.offsetWidth / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">var</span> maskY = y - mask.offsetHeight / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">var</span> maskMax = box.offsetWidth - mask.offsetWidth;<span class="comment">//遮挡层的最大移动距离</span></span><br><span class="line">    <span class="keyword">if</span> (maskX &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        maskX = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (maskX &gt; maskMax) &#123;</span><br><span class="line">        maskX = maskMax;<span class="comment">//x的上限距离左侧的位置</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (maskY &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        maskY = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (maskY &gt; maskMax) &#123;</span><br><span class="line">        maskY = maskMax;<span class="comment">//y的上限距离左侧的位置</span></span><br><span class="line">    &#125;</span><br><span class="line">    mask.style.left = maskX + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">    mask.style.top = maskY + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">    <span class="comment">//大图片移动距离=遮挡层移动距离*大图片移动距离/遮挡层最大移动距离</span></span><br><span class="line">    <span class="keyword">var</span> bigImg = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.bigImg&#x27;</span>);</span><br><span class="line">    <span class="keyword">var</span> bigMax = bigImg.offsetWidth - big.offsetWidth;<span class="comment">//大图片最大移动距离</span></span><br><span class="line">    <span class="keyword">var</span> bigX = maskX * bigMax / maskMax;</span><br><span class="line">    <span class="keyword">var</span> bigY = maskY * bigMax / maskMax;</span><br><span class="line">    bigImg.style.left = -bigX + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">    bigImg.style.top = -bigY + <span class="string">&#x27;px&#x27;</span>;<span class="comment">//应该相反,鼠标左移时图片右移</span></span><br><span class="line">&#125;</span><br><span class="line">box.addEventListener(<span class="string">&#x27;mouseout&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="comment">//鼠标放在盒子外时让mask和big隐藏</span></span><br><span class="line">    mask.style.display = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">    big.style.display = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS-5-PC端网页特效</title>
+    <url>/2021/03/12/JS-5-PC%E7%AB%AF%E7%BD%91%E9%A1%B5%E7%89%B9%E6%95%88/</url>
+    <content><![CDATA[<p>常见offset系列属性作用</p>
+<p>常见client系列属性作用</p>
+<p>常见scroll系列属性作用</p>
+<p>封装简单动画函数</p>
+<p>写出网页轮播图案例</p>
+<span id="more"></span>
+
+<h2 id="offset"><a href="#offset" class="headerlink" title="offset"></a>offset</h2><p>偏移量，使用offset相关属性可以动态的得到该元素的位置、大小等</p>
+<ul>
+<li>获得元素距离带有定位父元素的位置</li>
+<li>获得元素自身的大小</li>
+<li>注意：返回的数值不带单位</li>
+</ul>
+<p>offsetParent: 返回作为该元素带有定位的父级元素，如果父级都没有定位则返回body</p>
+<p>offsetWidth：获取元素的宽，包括内边距、边框、内容</p>
+<p>offsetHeight：获取元素的高，包括内边距、边框、内容</p>
+<p>offsetLeft:获取元素距离左边位置的值，以带有定位的父亲为准，如果没有父亲或者父亲没有定位则相对body</p>
+<p>offsetTop;获取元素距离上面位置的值，以带有定位的父亲为准，如果没有父亲或者父亲没有定位则相对body</p>
+<h3 id="offset与style区别"><a href="#offset与style区别" class="headerlink" title="offset与style区别"></a>offset与style区别</h3><ul>
+<li>offset可以得到任意样式表的样式值  style只能得到内嵌样式的样式值</li>
+<li>offset得到的是数字型，不带单位  style是字符串带单位</li>
+<li>offset包含整个盒子，style得到的只是width，不包括padding和border</li>
+<li>offset只能读不能写，而width可以赋值</li>
+<li>因此，读属性值一般用offset，写属性一般用width</li>
+</ul>
+<p>案例：获取鼠标在盒子里的坐标</p>
+<ol>
+<li>获取鼠标在页面内的坐标</li>
+<li>获取盒子在页面内的坐标</li>
+<li>相减</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var box&#x3D;document.querySelector(&#39;.box&#39;);</span><br><span class="line">box.addEventListener(&#39;mousemove&#39;,function()&#123;&#x2F;&#x2F;鼠标移动事件</span><br><span class="line">    var x&#x3D;e.pageX-this.offsetLeft;</span><br><span class="line">    var y&#x3D;e.pageY-this.offsetTop;</span><br><span class="line">    this.innerHTML&#x3D;&#39;X坐标是&#39;+x+&#39;y坐标是&#39;+y;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>##元素可视区client系列</p>
+<p>client是客户端，可动态得到元素边框大小，元素大小等，与offset最大的区别就是不包含边框</p>
+<p>clientTop  上边框</p>
+<p>clientLeft  左边框</p>
+<p>clientWidth</p>
+<p>clientHeight  包括padding、内容，不包括边框，返回数值不带单位</p>
+<h3 id="立即执行函数"><a href="#立即执行函数" class="headerlink" title="立即执行函数"></a>立即执行函数</h3><p>不需要调用立马能够自己执行的函数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(function()&#123;&#125;)()    或者  (function()&#123;&#125;())</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第二个小括号可以看做是调用函数，可以传递参数，外面括号是实参，里面小括号是形参</li>
+<li>两种方法使用方法一致</li>
+<li>最大的作用就是独立创建了一个作用域，所有变量都是局部变量，不会有命名冲突</li>
+</ul>
+<p>###淘宝源码分析</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">flexible</span>(<span class="params"><span class="built_in">window</span>, <span class="built_in">document</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> docEl = <span class="built_in">document</span>.documentElement</span><br><span class="line">    <span class="keyword">var</span> dpr = <span class="built_in">window</span>.devicePixelRatio || <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// adjust body font size</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">setBodyFontSize</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">document</span>.body) &#123;</span><br><span class="line">            <span class="built_in">document</span>.body.style.fontSize = (<span class="number">12</span> * dpr) + <span class="string">&#x27;px&#x27;</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">document</span>.addEventListener(<span class="string">&#x27;DOMContentLoaded&#x27;</span>, setBodyFontSize)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    setBodyFontSize();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// set 1rem = viewWidth / 10</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">setRemUnit</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> rem = docEl.clientWidth / <span class="number">10</span></span><br><span class="line">        docEl.style.fontSize = rem + <span class="string">&#x27;px&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    setRemUnit()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// reset rem unit on page resize</span></span><br><span class="line">    <span class="built_in">window</span>.addEventListener(<span class="string">&#x27;resize&#x27;</span>, setRemUnit)</span><br><span class="line">    <span class="built_in">window</span>.addEventListener(<span class="string">&#x27;pageshow&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (e.persisted) &#123;</span><br><span class="line">            setRemUnit()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// detect 0.5px supports</span></span><br><span class="line">    <span class="keyword">if</span> (dpr &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> fakeBody = <span class="built_in">document</span>.createElement(<span class="string">&#x27;body&#x27;</span>)</span><br><span class="line">        <span class="keyword">var</span> testElement = <span class="built_in">document</span>.createElement(<span class="string">&#x27;div&#x27;</span>)</span><br><span class="line">        testElement.style.border = <span class="string">&#x27;.5px solid transparent&#x27;</span></span><br><span class="line">        fakeBody.appendChild(testElement)</span><br><span class="line">        docEl.appendChild(fakeBody)</span><br><span class="line">        <span class="keyword">if</span> (testElement.offsetHeight === <span class="number">1</span>) &#123;</span><br><span class="line">            docEl.classList.add(<span class="string">&#x27;hairlines&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        docEl.removeChild(fakeBody)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;(<span class="built_in">window</span>, <span class="built_in">document</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>前进后退、a标签、刷新都会触发load，但是火狐浏览器使用load事件时存在往返缓存，后退按钮不能刷新页面，可以使用pageshow事件触发，这个事件在页面显示时触发，无论页面是否来自缓存，可以根据事件对象的persisted判断是否缓存中页面触发的pageshow事件，这个事件要给window添加</li>
+</ul>
+<h2 id="元素滚动scroll系列"><a href="#元素滚动scroll系列" class="headerlink" title="元素滚动scroll系列"></a>元素滚动scroll系列</h2><p>scrollTop:  返回被卷去的上侧距离，返回数值不带单位（隐藏的高度）</p>
+<p>scrollLeft:  左侧距离，同上</p>
+<p>scrollWidth: 返回自身实际宽度，不含边框，返回数值不带单位，包含内容超出盒子的部分</p>
+<p>scrollHeight：高度 同上</p>
+<p><strong>scroll事件：</strong></p>
+<p>‘scroll’  滚动触发的事件</p>
+<p><strong>window.pageXOffset:页面被卷曲的头部</strong></p>
+<p>兼容性问题：</p>
+<ol>
+<li>声明了DTD，使用document.documentElement.scrollTop</li>
+<li>未声明DTD，使用document.body.scrollTop</li>
+<li>新方法window.pageYOffset和window.pageXOffset,IE9开始支持</li>
+</ol>
+<p>兼容性方案（了解）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function getScroll() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        left: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0,</span><br><span class="line">        top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三大系列总结"><a href="#三大系列总结" class="headerlink" title="三大系列总结"></a>三大系列总结</h2><ul>
+<li><p>offset包含边框，scroll包括文字超出部分</p>
+</li>
+<li><p>offset一般用于获取元素位置，client常用与获取元素大小，获取滚动距离一般用scroll</p>
+</li>
+</ul>
+<h2 id="mouseenter和mouseover"><a href="#mouseenter和mouseover" class="headerlink" title="mouseenter和mouseover"></a>mouseenter和mouseover</h2><p>mouseover：经过自身盒子会触发，经过子盒子还会触发一次</p>
+<p>mouseenter只有经过自身盒子才会触发，因为mouseenter不会冒泡</p>
+<h2 id="动画函数封装"><a href="#动画函数封装" class="headerlink" title="动画函数封装"></a>动画函数封装</h2><h3 id="动画实现原理"><a href="#动画实现原理" class="headerlink" title="动画实现原理"></a>动画实现原理</h3><p>通过定时器setInterval()不断移动盒子位置</p>
+<ol>
+<li>获取盒子当前位置</li>
+<li>在盒子当前位置上加移动距离</li>
+<li>利用定时器不断重复操作</li>
+<li>加一个结束定时器的条件</li>
+<li>此元素一定要加定位，因为要使用element.left实现移动</li>
+</ol>
+<h3 id="动画函数简单封装"><a href="#动画函数简单封装" class="headerlink" title="动画函数简单封装"></a>动画函数简单封装</h3><p>需要传递两个参数，动画对象和移动的距离</p>
+<p>可以实现某个对象右移移动到某个位置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function animate(obj,target)&#123;</span><br><span class="line">	clearInterval(obj.timer)&#x2F;&#x2F;</span><br><span class="line">    obj.timer&#x3D;setInterval(function()&#123;</span><br><span class="line">        if(obj.offsetLeft&gt;&#x3D;target)&#123;</span><br><span class="line">            clearInterval(obj.timer);</span><br><span class="line">        &#125;</span><br><span class="line">        obj.style.left&#x3D;obj.offsetLeft+1+&#39;px&#39;;</span><br><span class="line">    &#125;,30);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>var timer=每次开辟空间浪费资源，且使用obj.timer避免不同调用使用相同的变量timer，因此通过添加属性实现给不同元素添加不同定时器</li>
+<li>注意要先清除原来的定时器，只保留当前定时器，避免多次触发动画时创建很多定时器造成不正常现象</li>
+</ul>
+<h3 id="缓动动画"><a href="#缓动动画" class="headerlink" title="缓动动画"></a>缓动动画</h3><p>让元素的运动速度有所变化，最常见的是让速度慢慢减下来</p>
+<p>思路：</p>
+<ol>
+<li>让盒子每次移动的距离慢慢变小</li>
+<li>（目标值-现在的位置）/10   作为每次移动的距离步长即可</li>
+<li>停止的条件：让当前盒子位置等于目标位置时停止定时器</li>
+</ol>
+<p>把每次+1的步长改为慢慢变小的值 即</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function animate(obj,target)&#123;</span><br><span class="line">	clearInterval(obj.timer)&#x2F;&#x2F;</span><br><span class="line">    obj.timer&#x3D;setInterval(function()&#123;</span><br><span class="line">    	var step&#x3D;target-obj.offsetLeft)&#x2F;10;&#x2F;&#x2F;计算步长，要注意不要出现小号,还要考虑负值</span><br><span class="line">    	step&gt;0?Math.ceil(step):Math.floor(step)</span><br><span class="line">        if(obj.offsetLeft&#x3D;&#x3D;target)&#123;&#x2F;&#x2F;修改为等于号</span><br><span class="line">            clearInterval(obj.timer);</span><br><span class="line">        &#125;</span><br><span class="line">        obj.style.left&#x3D;obj.offsetLeft+step+&#39;px&#39;;</span><br><span class="line">    &#125;,30);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了实现在多个目标间移动，需要考虑步长正负</p>
+<p>###动画函数添加回调函数（重要）</p>
+<p>回调函数原理：函数可以作为一个参数，将这个参数传到另一个函数里，当那个函数执行完之后再执行传进去的这个函数，这个过程称为回调</p>
+<p>操作方法：输入添加一个函数作为参数，函数执行写在计时器停止的内容里，即可实现执行完动画后执行回调函数</p>
+<p>if(callback){</p>
+<p>callback()}</p>
+<p>如下代码即可实现运动完毕后盒子变颜色</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">animate</span>(<span class="params">obj, target, callback</span>) </span>&#123;</span><br><span class="line">            <span class="comment">// console.log(callback);  callback = function() &#123;&#125;  调用的时候 callback()</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 先清除以前的定时器，只保留当前的一个定时器执行</span></span><br><span class="line">            <span class="built_in">clearInterval</span>(obj.timer);</span><br><span class="line">            obj.timer = <span class="built_in">setInterval</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="comment">// 步长值写到定时器的里面</span></span><br><span class="line">                <span class="comment">// 把我们步长值改为整数 不要出现小数的问题</span></span><br><span class="line">                <span class="comment">// var step = Math.ceil((target - obj.offsetLeft) / 10);</span></span><br><span class="line">                <span class="keyword">var</span> step = (target - obj.offsetLeft) / <span class="number">10</span>;</span><br><span class="line">                step = step &gt; <span class="number">0</span> ? <span class="built_in">Math</span>.ceil(step) : <span class="built_in">Math</span>.floor(step);</span><br><span class="line">                <span class="keyword">if</span> (obj.offsetLeft == target) &#123;</span><br><span class="line">                    <span class="comment">// 停止动画 本质是停止定时器</span></span><br><span class="line">                    <span class="built_in">clearInterval</span>(obj.timer);</span><br><span class="line">                    <span class="comment">// 回调函数写到定时器结束里面</span></span><br><span class="line">                    <span class="keyword">if</span> (callback) &#123;</span><br><span class="line">                        <span class="comment">// 调用函数</span></span><br><span class="line">                        callback();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 把每次加1 这个步长值改为一个慢慢变小的值  步长公式：(目标值 - 现在的位置) / 10</span></span><br><span class="line">                obj.style.left = obj.offsetLeft + step + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line"></span><br><span class="line">            &#125;, <span class="number">15</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">var</span> span = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;span&#x27;</span>);</span><br><span class="line">        <span class="keyword">var</span> btn500 = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.btn500&#x27;</span>);</span><br><span class="line">        <span class="keyword">var</span> btn800 = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.btn800&#x27;</span>);</span><br><span class="line"></span><br><span class="line">        btn500.addEventListener(<span class="string">&#x27;click&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">// 调用函数</span></span><br><span class="line">            animate(span, <span class="number">500</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">        btn800.addEventListener(<span class="string">&#x27;click&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="comment">// 调用函数</span></span><br><span class="line">                animate(span, <span class="number">800</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                    <span class="comment">// alert(&#x27;你好吗&#x27;);</span></span><br><span class="line">                    span.style.backgroundColor = <span class="string">&#x27;red&#x27;</span>;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS案例-网页轮播图</title>
+    <url>/2021/03/13/JS%E6%A1%88%E4%BE%8B-%E7%BD%91%E9%A1%B5%E8%BD%AE%E6%92%AD%E5%9B%BE/</url>
     <content><![CDATA[<ol>
-<li>鼠标不断的移动，使用鼠标移动事件：mousemove</li>
-<li>在页面中移动，所以要给document注册事件</li>
-<li>图片要移动距离，而且不占位置，使用绝对定位</li>
-<li>核心原理：每次鼠标移动，都会得到最新的鼠标坐标，把这个xy作为图片的top和left值</li>
+<li>鼠标经过轮播图模块，左右按钮提示，离开隐藏左右按钮</li>
+<li>点击右侧按钮一次，图片往左播放一张，以此类推，左侧按钮同理</li>
+<li>图片播放的同事，下面小圆圈模块跟随一起变化</li>
+<li>点击小圆圈，可以播放相应图片</li>
+<li>鼠标不经过轮播图，轮播图也会自动播放图片</li>
+<li>鼠标经过，轮播图模块自动播放停止</li>
 </ol>
 <span id="more"></span>
 
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    &lt;style&gt;</span><br><span class="line">        img &#123;</span><br><span class="line">            position: absolute;</span><br><span class="line">            top: 2px;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;&#x2F;style&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;img src&#x3D;&quot;images&#x2F;angel.gif&quot; alt&#x3D;&quot;&quot;&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var pic &#x3D; document.querySelector(&#39;img&#39;);</span><br><span class="line">        document.addEventListener(&#39;mousemove&#39;, function (e) &#123;</span><br><span class="line">            console.log(1);</span><br><span class="line">            &#x2F;&#x2F;mousemove鼠标每移动1px就会触发这个事件</span><br><span class="line">            var x &#x3D; e.pageX;</span><br><span class="line">            var y &#x3D; e.pageY;</span><br><span class="line">            pic.style.left &#x3D; x - 40 + &#39;px&#39;;&#x2F;&#x2F;减图片大小的一半，使鼠标居中</span><br><span class="line">            pic.style.top &#x3D; y - 50 + &#39;px&#39;;&#x2F;&#x2F;必须加单位</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br></pre></td></tr></table></figure>
+<p>第一步</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//获取元素</span></span><br><span class="line"><span class="keyword">var</span> arrow_l = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.arrow-l&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> arrow_r = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.arrow-r&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> focus = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.focus&#x27;</span>);</span><br><span class="line"><span class="comment">//鼠标经过显示按钮</span></span><br><span class="line">focus.addEventListener(<span class="string">&#x27;mouseenter&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    arrow_l.style.display = <span class="string">&#x27;block&#x27;</span>;</span><br><span class="line">    arrow_r.style.display = <span class="string">&#x27;block&#x27;</span>;</span><br><span class="line">&#125;)</span><br><span class="line">focus.addEventListener(<span class="string">&#x27;mouseleave&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    arrow_l.style.display = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">    arrow_r.style.display = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
