@@ -791,8 +791,9 @@
 </ul>
 <p>基于next主题的操作，其他主题可能有所不同</p>
 <p><strong>设置标签目录：</strong></p>
-<p><img src="https://www.hualigs.cn/image/6056ff6169106.jpg"></p>
+<p><img src="https://www.hualigs.cn/image/60571e3a30079.jpg"></p>
 <p>样式如图</p>
+<p>tags和categories内容是可以自己定义的，支持中文</p>
 <p><strong>显示隐藏内容</strong>：</p>
 <p>在需要显示的内容后加以下语句：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!--more--&gt;</span><br></pre></td></tr></table></figure>
@@ -822,6 +823,9 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    &lt;style&gt;</span><br><span class="line">        img &#123;</span><br><span class="line">            position: absolute;</span><br><span class="line">            top: 2px;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;&#x2F;style&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;img src&#x3D;&quot;images&#x2F;angel.gif&quot; alt&#x3D;&quot;&quot;&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var pic &#x3D; document.querySelector(&#39;img&#39;);</span><br><span class="line">        document.addEventListener(&#39;mousemove&#39;, function (e) &#123;</span><br><span class="line">            console.log(1);</span><br><span class="line">            &#x2F;&#x2F;mousemove鼠标每移动1px就会触发这个事件</span><br><span class="line">            var x &#x3D; e.pageX;</span><br><span class="line">            var y &#x3D; e.pageY;</span><br><span class="line">            pic.style.left &#x3D; x - 40 + &#39;px&#39;;&#x2F;&#x2F;减图片大小的一半，使鼠标居中</span><br><span class="line">            pic.style.top &#x3D; y - 50 + &#39;px&#39;;&#x2F;&#x2F;必须加单位</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -2213,6 +2217,7 @@
 <li>每个结点内部关键字从小到大排序，指针所指的结点中关键字全都大于指针头左侧的关键字，大于右侧的关键字</li>
 <li>所有叶结点都出现在同一层次上，并且不带信息（实际上这些结点不存在，指向他们的指针为空）</li>
 </ol>
+<p><img src="https://www.hualigs.cn/image/605713af67fe2.jpg"></p>
 <p><strong>B树的高度</strong></p>
 <p>B树的高度不包括最后叶节点那层</p>
 <p>h≥log<del>m</del>(n+1)   n为关键字数</p>
@@ -2242,6 +2247,7 @@
 <li>叶结点包含信息，所有非叶结点仅起索引作用，非叶结点中每个索引项只含有对应子树的最大关键字和指向该子树的指针</li>
 <li>每次查找都是一条从根结点到叶结点的路径</li>
 </ol>
+<p><img src="https://www.hualigs.cn/image/6057136a28298.jpg"></p>
 ]]></content>
       <tags>
         <tag>数据结构</tag>
@@ -2311,6 +2317,9 @@
 <li>如果两个数都有单位，且两个单位不一样，则以第一个单位为准</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
       <tags>
         <tag>CSS</tag>
       </tags>
@@ -2606,6 +2615,9 @@
 <h2 id="事件处理on-绑定事件"><a href="#事件处理on-绑定事件" class="headerlink" title="事件处理on()绑定事件"></a>事件处理on()绑定事件</h2><p>element.on(events,[selector],fn)</p>
 <p>selector是选择器，用于实现事件委托</p>
 ]]></content>
+      <categories>
+        <category>jQuery</category>
+      </categories>
       <tags>
         <tag>jQuery</tag>
       </tags>
@@ -2666,6 +2678,9 @@
 <figure class="highlight less"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.nav</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: (<span class="number">750rem</span>/<span class="variable">@basefont</span>);</span><br><span class="line">    <span class="selector-tag">a</span> &#123;</span><br><span class="line">        <span class="attribute">float</span>: left;</span><br><span class="line">        <span class="attribute">width</span>: (<span class="number">150rem</span>/<span class="variable">@basefont</span>);</span><br><span class="line">        <span class="attribute">height</span>: (<span class="number">140rem</span>/<span class="variable">@basefont</span>);</span><br><span class="line">        <span class="attribute">text-align</span>: center;</span><br><span class="line">        <span class="selector-tag">img</span> &#123;</span><br><span class="line">            <span class="attribute">display</span>: block;</span><br><span class="line">            <span class="attribute">width</span>: (<span class="number">82rem</span>/<span class="variable">@basefont</span>);</span><br><span class="line">            <span class="attribute">height</span>: (<span class="number">82rem</span>/<span class="variable">@basefont</span>);</span><br><span class="line">            <span class="attribute">margin</span>: <span class="number">10px</span> auto <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="selector-tag">span</span> &#123;</span><br><span class="line">            <span class="attribute">font-size</span>: (<span class="number">25rem</span>/<span class="variable">@basefont</span>);</span><br><span class="line">            <span class="attribute">color</span>: <span class="number">#333</span>;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
       <tags>
         <tag>CSS</tag>
       </tags>
@@ -2775,6 +2790,9 @@
 <p>最后： 如果提交网站，你不愿意用git 提交， 可以直接找到仓库，里面有文件，选择上传本地文件即可。</p>
 <p>但是，1个小时内，只能上传 20个以内的文件， 前端人员，git必备技能</p>
 ]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
       <tags>
         <tag>CSS</tag>
       </tags>
@@ -2805,6 +2823,9 @@
 <p>参考文章：</p>
 <p>作者：Time-Limit<br>链接：<a href="https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/solution/yi-wen-gao-ding-chang-jian-de-lian-biao-wen-ti-h-3/">https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/solution/yi-wen-gao-ding-chang-jian-de-lian-biao-wen-ti-h-3/</a><br>来源：力扣（LeetCode）<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
 ]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
       <tags>
         <tag>算法</tag>
       </tags>
@@ -2826,6 +2847,9 @@
 
 
 ]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
       <tags>
         <tag>算法</tag>
       </tags>
