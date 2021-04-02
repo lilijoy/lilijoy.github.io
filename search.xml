@@ -86,6 +86,130 @@
       </tags>
   </entry>
   <entry>
+    <title>CSS3之变换与动画</title>
+    <url>/2021/03/11/CSS3%E4%B9%8B%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%8A%A8%E7%94%BB/</url>
+    <content><![CDATA[<h2 id="2D转换"><a href="#2D转换" class="headerlink" title="2D转换"></a>2D转换</h2><p>转换是CSS3中具有颠覆性的特征之一，可以实现元素的位移、旋转、缩放等效果</p>
+<p>转换可以简单理解为变形</p>
+<span id="more"></span>
+
+<ul>
+<li>移动: translate</li>
+<li>旋转：retate</li>
+<li>缩放：scale</li>
+</ul>
+<blockquote>
+<p>过渡效果是transition: all 0.3s;</p>
+</blockquote>
+<h3 id="translate"><a href="#translate" class="headerlink" title="translate"></a>translate</h3><p>二维坐标系：向右向下为正</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">transform: translate(x,y)</span><br><span class="line">transform: translateX(x)</span><br><span class="line">transform: translateY(y)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>x是x轴上移动位置，y是y轴移动位置</li>
+<li>translate不会影响其他元素位置</li>
+<li>百分比单位是相对自身元素的</li>
+<li>对<strong>行内标签无效</strong></li>
+<li>在子盒子想要定位到父盒子中间时，可以定位top%50,left50%,然后translate(50%,50%)</li>
+</ul>
+<h3 id="rotate"><a href="#rotate" class="headerlink" title="rotate"></a>rotate</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">transform: rotate(360deg)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可以用来实现小三角&gt;&lt;朝上朝下(小正方形只要两个边框，旋转)</li>
+<li>度数逆时针为正</li>
+</ul>
+<h3 id="转换中心点-transform-origin"><a href="#转换中心点-transform-origin" class="headerlink" title="转换中心点 transform-origin"></a>转换中心点 transform-origin</h3><p>默认为50 % 50%</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">transform-origin: x y;</span><br></pre></td></tr></table></figure>
+
+<p>x y可以是像素、百分比、方位名词</p>
+<h3 id="缩放scale"><a href="#缩放scale" class="headerlink" title="缩放scale"></a>缩放scale</h3><p>可以实现放大缩小</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">transform:scale(x,y);</span><br><span class="line">transform:scale(x);</span><br></pre></td></tr></table></figure>
+
+<p>x,y表示倍数，1表示一倍,只写一个表示同时x倍</p>
+<ul>
+<li>不会影响其他盒子，而且可以设置缩放中心点</li>
+<li>缩放是向四周缩放的，比直接改宽高更适合做动画</li>
+</ul>
+<h3 id="综合写法"><a href="#综合写法" class="headerlink" title="综合写法"></a>综合写法</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">transform: translate() rotate() scale()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>先旋转会改变坐标轴方向</li>
+<li>先同时有位移和其他效果时，位移放在最前面</li>
+</ul>
+<h2 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h2><p>可以通过设置多个节点来精确控制一个或者一组动画，实现复杂的动画效果</p>
+<ul>
+<li>先定义动画</li>
+<li>再调用动画</li>
+</ul>
+<h3 id="用keyframes定义动画"><a href="#用keyframes定义动画" class="headerlink" title="用keyframes定义动画"></a>用keyframes定义动画</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@keyframes move &#123;</span><br><span class="line">    0% &#123;</span><br><span class="line">        transform: translateX(0px);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    100% &#123;</span><br><span class="line">        transform: translateX(1000px);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">使用的元素 &#123;</span><br><span class="line">    animation-name: move;</span><br><span class="line">    animation-duration: 2s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>from to等同于0%,100%</li>
+<li>可以做多个状态的变化，百分比要是正数，100%的时候是总时间</li>
+</ul>
+<h4 id="动画属性"><a href="#动画属性" class="headerlink" title="动画属性"></a>动画属性</h4><ul>
+<li>animation: 动画属性的简写属性</li>
+<li>animation-name: 动画名字</li>
+<li>animation-duration: 持续时间</li>
+<li>animation-timing-function: 规定动画的速度曲线，默认是’ease’</li>
+<li>animation-delay: 规定动画何时开始，单位是秒</li>
+<li>animation-iteration-count: 规定动画被播放的次数infinite表示无限循环</li>
+<li>animation-direction: 规定动画</li>
+<li>animation-direction: 默认是normal反方向是alternate</li>
+<li>animation-play-state: 规定动画是否正在运行或者暂停，默认是running,pause</li>
+<li>animation-fill-mode: 规定动画结束后状态，保持forwards回到起始backwards</li>
+</ul>
+<p>简写</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">annimation: 动画名称 持续时间 运动曲线 何时开始 播放次数 是否反方向 动画起始或者结束的状态</span><br><span class="line">annimation: myfirst 5s linear 2s infinite alternate;</span><br></pre></td></tr></table></figure>
+
+<p>前两个不能省略</p>
+<h4 id="速度曲线细节"><a href="#速度曲线细节" class="headerlink" title="速度曲线细节"></a>速度曲线细节</h4><p>animation-timing-function:</p>
+<ul>
+<li>linear 匀速</li>
+<li>ease 低–&gt;高–&gt;低</li>
+<li>ease-in 低速开始</li>
+<li>ease-out 低速结束</li>
+<li>ease-in-out 低速开始和结束</li>
+<li>steps()指定了时间函数中的间隔数量(步长)，相当于一步一步走，离散化</li>
+</ul>
+<p>–可以通过设定一个盒子，装n个字，宽度为n个字的宽度，并且分n步，设定一行显示和溢出隐藏，即可实现打字机效果</p>
+<h3 id="动画实例"><a href="#动画实例" class="headerlink" title="动画实例"></a>动画实例</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">body &#123;</span><br><span class="line">    background-color: rgb(163, 151, 229);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">div &#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    width: 200px;</span><br><span class="line">    height: 100px;</span><br><span class="line">    margin: 0 auto;</span><br><span class="line">    background: url(bear.png) no-repeat;</span><br><span class="line"></span><br><span class="line">    animation: run 1s steps(8) infinite, move 3s forwards;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@keyframes run &#123;</span><br><span class="line">    0% &#123;</span><br><span class="line">        background-position: 0 0;</span><br><span class="line">        &#x2F;* transform: translate(0, 0); *&#x2F;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    100% &#123;</span><br><span class="line">        background-position: -1600px 0;</span><br><span class="line">        &#x2F;* transform: translate(-1400px, 0); *&#x2F;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@keyframes move &#123;</span><br><span class="line">    0% &#123;</span><br><span class="line">        left: 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    100% &#123;</span><br><span class="line">        left: 50%;</span><br><span class="line">        transform: translate(-50%);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="D:\桌面\web\bear.png"></p>
+<h2 id="3D变换"><a href="#3D变换" class="headerlink" title="3D变换"></a>3D变换</h2><p>x水平向右y垂直向下z垂直屏幕（往外是正值，往内是负值）</p>
+<h3 id="3D位移"><a href="#3D位移" class="headerlink" title="3D位移"></a>3D位移</h3><p>translateZ沿着z轴运动，后面的单位一般跟px</p>
+<p>translate3d(100px,100px,100px) 不能省略x，y，z，如果没有就写0</p>
+<p>z轴值越大，我们看到的物体越大</p>
+<h3 id="透视perspective"><a href="#透视perspective" class="headerlink" title="透视perspective"></a>透视perspective</h3><p>网页中产生3D效果需要透视，透视也称为视距(人的眼睛到屏幕的距离)，透视的单位是像素</p>
+<p>透视要加在父亲上</p>
+<p>perspective: 500px;</p>
+<h3 id="3D旋转rotate"><a href="#3D旋转rotate" class="headerlink" title="3D旋转rotate"></a>3D旋转rotate</h3><p>transform: rotate3d(x,y,z,deg):沿着自定义轴旋转deg</p>
+<p>(x,y,z)可以表示轴的方向</p>
+<p>transformX:</p>
+<p>transformY：</p>
+<p>transformZ：</p>
+<p>左手准则，大拇指指向x正向，则四指指向翻转方向</p>
+<h3 id="3D呈现transform-style"><a href="#3D呈现transform-style" class="headerlink" title="3D呈现transform-style"></a>3D呈现transform-style</h3><ul>
+<li>控制子元素是否开启三维立体空间</li>
+<li>默认flat不开启3D</li>
+<li>transform-style: preserve-3D子元素开启3D立体空间</li>
+<li>代码写给父级，影响的是子盒子</li>
+</ul>
+<h3 id="实现双面盒子"><a href="#实现双面盒子" class="headerlink" title="实现双面盒子"></a>实现双面盒子</h3><ul>
+<li>两个盒子叠在一起放在一个父盒子里，先将背面盒子旋转180，再将父盒子旋转180，记得维持3D效果</li>
+<li>多个transform记得放在一起</li>
+<li>要让旋转轴在中间</li>
+</ul>
+<h3 id="实现旋转木马"><a href="#实现旋转木马" class="headerlink" title="实现旋转木马"></a>实现旋转木马</h3><ul>
+<li>先旋转后移动</li>
+</ul>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSS3与HTML5</title>
     <url>/2021/03/11/CSS3%E4%B8%8EHTML5/</url>
     <content><![CDATA[<h2 id="HTML5新特性"><a href="#HTML5新特性" class="headerlink" title="HTML5新特性"></a>HTML5新特性</h2><p>增加了一些新的标签、新的表单以及新的表单属性等</p>
@@ -609,196 +733,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CSS3之变换与动画</title>
-    <url>/2021/03/11/CSS3%E4%B9%8B%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%8A%A8%E7%94%BB/</url>
-    <content><![CDATA[<h2 id="2D转换"><a href="#2D转换" class="headerlink" title="2D转换"></a>2D转换</h2><p>转换是CSS3中具有颠覆性的特征之一，可以实现元素的位移、旋转、缩放等效果</p>
-<p>转换可以简单理解为变形</p>
-<span id="more"></span>
-
-<ul>
-<li>移动: translate</li>
-<li>旋转：retate</li>
-<li>缩放：scale</li>
-</ul>
-<blockquote>
-<p>过渡效果是transition: all 0.3s;</p>
-</blockquote>
-<h3 id="translate"><a href="#translate" class="headerlink" title="translate"></a>translate</h3><p>二维坐标系：向右向下为正</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">transform: translate(x,y)</span><br><span class="line">transform: translateX(x)</span><br><span class="line">transform: translateY(y)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>x是x轴上移动位置，y是y轴移动位置</li>
-<li>translate不会影响其他元素位置</li>
-<li>百分比单位是相对自身元素的</li>
-<li>对<strong>行内标签无效</strong></li>
-<li>在子盒子想要定位到父盒子中间时，可以定位top%50,left50%,然后translate(50%,50%)</li>
-</ul>
-<h3 id="rotate"><a href="#rotate" class="headerlink" title="rotate"></a>rotate</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">transform: rotate(360deg)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>可以用来实现小三角&gt;&lt;朝上朝下(小正方形只要两个边框，旋转)</li>
-<li>度数逆时针为正</li>
-</ul>
-<h3 id="转换中心点-transform-origin"><a href="#转换中心点-transform-origin" class="headerlink" title="转换中心点 transform-origin"></a>转换中心点 transform-origin</h3><p>默认为50 % 50%</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">transform-origin: x y;</span><br></pre></td></tr></table></figure>
-
-<p>x y可以是像素、百分比、方位名词</p>
-<h3 id="缩放scale"><a href="#缩放scale" class="headerlink" title="缩放scale"></a>缩放scale</h3><p>可以实现放大缩小</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">transform:scale(x,y);</span><br><span class="line">transform:scale(x);</span><br></pre></td></tr></table></figure>
-
-<p>x,y表示倍数，1表示一倍,只写一个表示同时x倍</p>
-<ul>
-<li>不会影响其他盒子，而且可以设置缩放中心点</li>
-<li>缩放是向四周缩放的，比直接改宽高更适合做动画</li>
-</ul>
-<h3 id="综合写法"><a href="#综合写法" class="headerlink" title="综合写法"></a>综合写法</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">transform: translate() rotate() scale()</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>先旋转会改变坐标轴方向</li>
-<li>先同时有位移和其他效果时，位移放在最前面</li>
-</ul>
-<h2 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h2><p>可以通过设置多个节点来精确控制一个或者一组动画，实现复杂的动画效果</p>
-<ul>
-<li>先定义动画</li>
-<li>再调用动画</li>
-</ul>
-<h3 id="用keyframes定义动画"><a href="#用keyframes定义动画" class="headerlink" title="用keyframes定义动画"></a>用keyframes定义动画</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@keyframes move &#123;</span><br><span class="line">    0% &#123;</span><br><span class="line">        transform: translateX(0px);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    100% &#123;</span><br><span class="line">        transform: translateX(1000px);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">使用的元素 &#123;</span><br><span class="line">    animation-name: move;</span><br><span class="line">    animation-duration: 2s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>from to等同于0%,100%</li>
-<li>可以做多个状态的变化，百分比要是正数，100%的时候是总时间</li>
-</ul>
-<h4 id="动画属性"><a href="#动画属性" class="headerlink" title="动画属性"></a>动画属性</h4><ul>
-<li>animation: 动画属性的简写属性</li>
-<li>animation-name: 动画名字</li>
-<li>animation-duration: 持续时间</li>
-<li>animation-timing-function: 规定动画的速度曲线，默认是’ease’</li>
-<li>animation-delay: 规定动画何时开始，单位是秒</li>
-<li>animation-iteration-count: 规定动画被播放的次数infinite表示无限循环</li>
-<li>animation-direction: 规定动画</li>
-<li>animation-direction: 默认是normal反方向是alternate</li>
-<li>animation-play-state: 规定动画是否正在运行或者暂停，默认是running,pause</li>
-<li>animation-fill-mode: 规定动画结束后状态，保持forwards回到起始backwards</li>
-</ul>
-<p>简写</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">annimation: 动画名称 持续时间 运动曲线 何时开始 播放次数 是否反方向 动画起始或者结束的状态</span><br><span class="line">annimation: myfirst 5s linear 2s infinite alternate;</span><br></pre></td></tr></table></figure>
-
-<p>前两个不能省略</p>
-<h4 id="速度曲线细节"><a href="#速度曲线细节" class="headerlink" title="速度曲线细节"></a>速度曲线细节</h4><p>animation-timing-function:</p>
-<ul>
-<li>linear 匀速</li>
-<li>ease 低–&gt;高–&gt;低</li>
-<li>ease-in 低速开始</li>
-<li>ease-out 低速结束</li>
-<li>ease-in-out 低速开始和结束</li>
-<li>steps()指定了时间函数中的间隔数量(步长)，相当于一步一步走，离散化</li>
-</ul>
-<p>–可以通过设定一个盒子，装n个字，宽度为n个字的宽度，并且分n步，设定一行显示和溢出隐藏，即可实现打字机效果</p>
-<h3 id="动画实例"><a href="#动画实例" class="headerlink" title="动画实例"></a>动画实例</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">body &#123;</span><br><span class="line">    background-color: rgb(163, 151, 229);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">div &#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    width: 200px;</span><br><span class="line">    height: 100px;</span><br><span class="line">    margin: 0 auto;</span><br><span class="line">    background: url(bear.png) no-repeat;</span><br><span class="line"></span><br><span class="line">    animation: run 1s steps(8) infinite, move 3s forwards;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@keyframes run &#123;</span><br><span class="line">    0% &#123;</span><br><span class="line">        background-position: 0 0;</span><br><span class="line">        &#x2F;* transform: translate(0, 0); *&#x2F;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    100% &#123;</span><br><span class="line">        background-position: -1600px 0;</span><br><span class="line">        &#x2F;* transform: translate(-1400px, 0); *&#x2F;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@keyframes move &#123;</span><br><span class="line">    0% &#123;</span><br><span class="line">        left: 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    100% &#123;</span><br><span class="line">        left: 50%;</span><br><span class="line">        transform: translate(-50%);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="D:\桌面\web\bear.png"></p>
-<h2 id="3D变换"><a href="#3D变换" class="headerlink" title="3D变换"></a>3D变换</h2><p>x水平向右y垂直向下z垂直屏幕（往外是正值，往内是负值）</p>
-<h3 id="3D位移"><a href="#3D位移" class="headerlink" title="3D位移"></a>3D位移</h3><p>translateZ沿着z轴运动，后面的单位一般跟px</p>
-<p>translate3d(100px,100px,100px) 不能省略x，y，z，如果没有就写0</p>
-<p>z轴值越大，我们看到的物体越大</p>
-<h3 id="透视perspective"><a href="#透视perspective" class="headerlink" title="透视perspective"></a>透视perspective</h3><p>网页中产生3D效果需要透视，透视也称为视距(人的眼睛到屏幕的距离)，透视的单位是像素</p>
-<p>透视要加在父亲上</p>
-<p>perspective: 500px;</p>
-<h3 id="3D旋转rotate"><a href="#3D旋转rotate" class="headerlink" title="3D旋转rotate"></a>3D旋转rotate</h3><p>transform: rotate3d(x,y,z,deg):沿着自定义轴旋转deg</p>
-<p>(x,y,z)可以表示轴的方向</p>
-<p>transformX:</p>
-<p>transformY：</p>
-<p>transformZ：</p>
-<p>左手准则，大拇指指向x正向，则四指指向翻转方向</p>
-<h3 id="3D呈现transform-style"><a href="#3D呈现transform-style" class="headerlink" title="3D呈现transform-style"></a>3D呈现transform-style</h3><ul>
-<li>控制子元素是否开启三维立体空间</li>
-<li>默认flat不开启3D</li>
-<li>transform-style: preserve-3D子元素开启3D立体空间</li>
-<li>代码写给父级，影响的是子盒子</li>
-</ul>
-<h3 id="实现双面盒子"><a href="#实现双面盒子" class="headerlink" title="实现双面盒子"></a>实现双面盒子</h3><ul>
-<li>两个盒子叠在一起放在一个父盒子里，先将背面盒子旋转180，再将父盒子旋转180，记得维持3D效果</li>
-<li>多个transform记得放在一起</li>
-<li>要让旋转轴在中间</li>
-</ul>
-<h3 id="实现旋转木马"><a href="#实现旋转木马" class="headerlink" title="实现旋转木马"></a>实现旋转木马</h3><ul>
-<li>先旋转后移动</li>
-</ul>
-]]></content>
-      <categories>
-        <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>CSS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSS移动端开发</title>
-    <url>/2021/03/13/CSS%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%BC%80%E5%8F%91/</url>
-    <content><![CDATA[<p>​    移动端浏览器主要对webkit内核兼容，现在的移动端主要针对手机端开发，移动端碎片化比较严重，分辨率和屏幕尺寸不一</p>
-<span id="more"></span>
-
-<h2 id="调试方法"><a href="#调试方法" class="headerlink" title="调试方法"></a>调试方法</h2><ol>
-<li>谷歌浏览器模拟手机调试</li>
-<li>搭建本地web服务器，手机和服务器在同一个局域网内，通过手机访问服务器</li>
-<li>使用外网服务器，直接IP或域名访问</li>
-</ol>
-<h2 id="视口"><a href="#视口" class="headerlink" title="视口"></a>视口</h2><p>视口就是浏览器显示页面内容的屏幕区域。视口可以分布为布局视口、视觉视口和理想视口</p>
-<h3 id="布局视口layout-viewport"><a href="#布局视口layout-viewport" class="headerlink" title="布局视口layout viewport"></a>布局视口layout viewport</h3><ul>
-<li>一般移动设备的浏览器都默认设置了一个布局视口，用于解决早期的PC端页面在手机上显示的问题</li>
-<li>IOS、Android都把视口分辨率设置为980px，所以pc端上的页面大多都能在手机上呈现，只不过元素看起来很小，一般只能手动缩放页面</li>
-</ul>
-<h3 id="视觉视口-visual-viewport"><a href="#视觉视口-visual-viewport" class="headerlink" title="视觉视口 visual viewport"></a>视觉视口 visual viewport</h3><p>用户正在看到的网站的区域，可以通过缩放操作视觉视口，但是不会影响布局视口，布局视口仍然保持原来的宽度</p>
-<h3 id="理想视口-ideal-viewport"><a href="#理想视口-ideal-viewport" class="headerlink" title="理想视口 ideal viewport"></a>理想视口 ideal viewport</h3><ul>
-<li>为了使网站在移动端有最理想的浏览和阅读宽度而设定</li>
-<li>理想视口，对设备来讲，是最理想的视口尺寸</li>
-<li>需要手写meta视口标签来通知浏览器操作</li>
-<li>meta视口标签的目的：布局视口的宽度和理想视口的宽度保持一致，就是设备有多宽，布局的视口就有多宽</li>
-</ul>
-<h3 id="meta视口标签"><a href="#meta视口标签" class="headerlink" title="meta视口标签"></a>meta视口标签</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, user-scalable&#x3D;no,initial-scale&#x3D;1.0,maximum-scale&#x3D;1.0,minimum-scale&#x3D;1.0&quot;&gt;</span><br></pre></td></tr></table></figure>
-
-<p>width viewport宽度，可以设置device-width特殊值</p>
-<p>initial-scale 初始缩放比，大于0的数字</p>
-<p>maximum-scale  最大缩放比，大于0的数字</p>
-<p>minimum-scale   最小缩放比，大于0的数字</p>
-<p>user-scalable  用户是否可以缩放，yes或no</p>
-<p>视口宽度和设备一致、默认缩放比1:0，不允许用户自行缩放、最大允许缩放比1.0，最小允许缩放比1.0</p>
-<h2 id="二倍图"><a href="#二倍图" class="headerlink" title="二倍图"></a>二倍图</h2><h3 id="物理像素-amp-物理像素比"><a href="#物理像素-amp-物理像素比" class="headerlink" title="物理像素&amp;物理像素比"></a>物理像素&amp;物理像素比</h3><p>物理像素点指屏幕显示的最小颗粒，1px在PC端等于1物理像素，但是移动端不一定，一个1px能显示多少物理像素点成为屏幕像素比</p>
-<ul>
-<li>视网膜屏幕是一种显示技术，把更多物理像素点压缩至一块屏幕内，从而达到更多分辨率</li>
-</ul>
-<h3 id="多倍图"><a href="#多倍图" class="headerlink" title="多倍图"></a>多倍图</h3><p>图片在手机中打开，会按照物理像素比放大，出现模糊现象，因此用倍图的方式（放二倍大小的图片再缩小到需要的大小）</p>
-<h3 id="背景缩放"><a href="#背景缩放" class="headerlink" title="背景缩放"></a>背景缩放</h3><ul>
-<li>background-size  </li>
-<li>规定背景图像尺寸，两个参数为高度，宽度，只写一个参数就是指宽度，等比例缩放</li>
-<li>单位可以是百分比，是相对父盒子的百分比</li>
-<li>cover：等比例缩放，要求完全覆盖盒子 ，可能有部分背景图片显示不全</li>
-<li>contain: 等比例缩放，尽量铺满不会超出，可能会有空白</li>
-</ul>
-<h2 id="移动端开发选择"><a href="#移动端开发选择" class="headerlink" title="移动端开发选择"></a>移动端开发选择</h2><p>单独制作移动端页面（主流）</p>
-<p>响应式页面兼容移动端</p>
-<h2 id="移动端技术解决方案"><a href="#移动端技术解决方案" class="headerlink" title="移动端技术解决方案"></a>移动端技术解决方案</h2><p>###移动端初始化nomalize.css</p>
-<p><a href="http://necolas.github.io/normalize.css/">http://necolas.github.io/normalize.css/</a></p>
-<h3 id="CSS3盒子模型box-sizing"><a href="#CSS3盒子模型box-sizing" class="headerlink" title="CSS3盒子模型box-sizing"></a>CSS3盒子模型box-sizing</h3><p>boxing-size:border-box;(传统是content-box)</p>
-<p>padding和border不会再撑大盒子</p>
-<p>移动端可以完全兼容CSS3</p>
-<h3 id="特殊样式"><a href="#特殊样式" class="headerlink" title="特殊样式"></a>特殊样式</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-webkit-tap-highlight-color: transparent;&#x2F;&#x2F;清除高亮</span><br><span class="line">-webkit-appearance: none;&#x2F;&#x2F;在ios上加上这个属性才可以给按钮和输入框自定义样式</span><br><span class="line">img,a&#123;-webkit-touch-callout:none&#125;&#x2F;&#x2F;禁止长按页面时弹出菜单</span><br></pre></td></tr></table></figure>
-
-<h3 id="二倍精灵图"><a href="#二倍精灵图" class="headerlink" title="二倍精灵图"></a>二倍精灵图</h3><p>background-size缩放的是整个精灵图</p>
-<ul>
-<li>在firework里把精灵图等比例缩放为原来的一半</li>
-<li>根据大小测量坐标</li>
-<li>代码里的bgcsize也要缩放</li>
-</ul>
-]]></content>
-      <categories>
-        <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>CSS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CSS高级技巧</title>
     <url>/2021/03/11/CSS%E9%AB%98%E7%BA%A7%E6%8A%80%E5%B7%A7/</url>
     <content><![CDATA[<h3 id="精灵图"><a href="#精灵图" class="headerlink" title="精灵图"></a>精灵图</h3><h4 id="为什么需要精灵图"><a href="#为什么需要精灵图" class="headerlink" title="为什么需要精灵图"></a>为什么需要精灵图</h4><p>有效减少服务器接收和发送请求的次数，提高页面的加载速度，出现了CSS精灵技术（也称）CSS Sprites、CSS雪碧）</p>
@@ -903,6 +837,72 @@
 <p>京东初始化代码：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;* 把我们所有标签的内外边距清零 *&#x2F;</span><br><span class="line">* &#123;</span><br><span class="line">    margin: 0;</span><br><span class="line">    padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;* em 和 i 斜体的文字不倾斜 *&#x2F;</span><br><span class="line">em,</span><br><span class="line">i &#123;</span><br><span class="line">    font-style: normal;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;* 去掉li 的小圆点 *&#x2F;</span><br><span class="line">li &#123;</span><br><span class="line">    list-style: none;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">img &#123;</span><br><span class="line">    &#x2F;* border 0 照顾低版本浏览器 如果 图片外面包含了链接会有边框的问题 *&#x2F;</span><br><span class="line">    border: 0;</span><br><span class="line">    &#x2F;* 取消图片底侧有空白缝隙的问题 *&#x2F;</span><br><span class="line">    vertical-align: middle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">button &#123;</span><br><span class="line">    &#x2F;* 当我们鼠标经过button 按钮的时候，鼠标变成小手 *&#x2F;</span><br><span class="line">    cursor: pointer</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">a &#123;</span><br><span class="line">    color: #666;</span><br><span class="line">    text-decoration: none</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">a:hover &#123;</span><br><span class="line">    color: #c81623;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">button,</span><br><span class="line">input &#123;</span><br><span class="line">    &#x2F;* &quot;\5B8B\4F53&quot; 就是宋体的意思 这样浏览器兼容性比较好 *&#x2F;</span><br><span class="line">    font-family: Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB, &quot;\5B8B\4F53&quot;, sans-serif;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">body &#123;</span><br><span class="line">    &#x2F;* CSS3 抗锯齿形 让文字显示的更加清晰 *&#x2F;</span><br><span class="line">    -webkit-font-smoothing: antialiased;</span><br><span class="line">    background-color: #fff;</span><br><span class="line">    font: 12px&#x2F;1.5 Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB, &quot;\5B8B\4F53&quot;, sans-serif;</span><br><span class="line">    color: #666;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.hide,</span><br><span class="line">.none &#123;</span><br><span class="line">    display: none;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;* 清除浮动 *&#x2F;</span><br><span class="line">.clearfix:after &#123;</span><br><span class="line">    visibility: hidden;</span><br><span class="line">    clear: both;</span><br><span class="line">    display: block;</span><br><span class="line">    content: &quot;.&quot;;</span><br><span class="line">    height: 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.clearfix &#123;</span><br><span class="line">    *zoom: 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS移动端开发</title>
+    <url>/2021/03/13/CSS%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%BC%80%E5%8F%91/</url>
+    <content><![CDATA[<p>​    移动端浏览器主要对webkit内核兼容，现在的移动端主要针对手机端开发，移动端碎片化比较严重，分辨率和屏幕尺寸不一</p>
+<span id="more"></span>
+
+<h2 id="调试方法"><a href="#调试方法" class="headerlink" title="调试方法"></a>调试方法</h2><ol>
+<li>谷歌浏览器模拟手机调试</li>
+<li>搭建本地web服务器，手机和服务器在同一个局域网内，通过手机访问服务器</li>
+<li>使用外网服务器，直接IP或域名访问</li>
+</ol>
+<h2 id="视口"><a href="#视口" class="headerlink" title="视口"></a>视口</h2><p>视口就是浏览器显示页面内容的屏幕区域。视口可以分布为布局视口、视觉视口和理想视口</p>
+<h3 id="布局视口layout-viewport"><a href="#布局视口layout-viewport" class="headerlink" title="布局视口layout viewport"></a>布局视口layout viewport</h3><ul>
+<li>一般移动设备的浏览器都默认设置了一个布局视口，用于解决早期的PC端页面在手机上显示的问题</li>
+<li>IOS、Android都把视口分辨率设置为980px，所以pc端上的页面大多都能在手机上呈现，只不过元素看起来很小，一般只能手动缩放页面</li>
+</ul>
+<h3 id="视觉视口-visual-viewport"><a href="#视觉视口-visual-viewport" class="headerlink" title="视觉视口 visual viewport"></a>视觉视口 visual viewport</h3><p>用户正在看到的网站的区域，可以通过缩放操作视觉视口，但是不会影响布局视口，布局视口仍然保持原来的宽度</p>
+<h3 id="理想视口-ideal-viewport"><a href="#理想视口-ideal-viewport" class="headerlink" title="理想视口 ideal viewport"></a>理想视口 ideal viewport</h3><ul>
+<li>为了使网站在移动端有最理想的浏览和阅读宽度而设定</li>
+<li>理想视口，对设备来讲，是最理想的视口尺寸</li>
+<li>需要手写meta视口标签来通知浏览器操作</li>
+<li>meta视口标签的目的：布局视口的宽度和理想视口的宽度保持一致，就是设备有多宽，布局的视口就有多宽</li>
+</ul>
+<h3 id="meta视口标签"><a href="#meta视口标签" class="headerlink" title="meta视口标签"></a>meta视口标签</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, user-scalable&#x3D;no,initial-scale&#x3D;1.0,maximum-scale&#x3D;1.0,minimum-scale&#x3D;1.0&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>width viewport宽度，可以设置device-width特殊值</p>
+<p>initial-scale 初始缩放比，大于0的数字</p>
+<p>maximum-scale  最大缩放比，大于0的数字</p>
+<p>minimum-scale   最小缩放比，大于0的数字</p>
+<p>user-scalable  用户是否可以缩放，yes或no</p>
+<p>视口宽度和设备一致、默认缩放比1:0，不允许用户自行缩放、最大允许缩放比1.0，最小允许缩放比1.0</p>
+<h2 id="二倍图"><a href="#二倍图" class="headerlink" title="二倍图"></a>二倍图</h2><h3 id="物理像素-amp-物理像素比"><a href="#物理像素-amp-物理像素比" class="headerlink" title="物理像素&amp;物理像素比"></a>物理像素&amp;物理像素比</h3><p>物理像素点指屏幕显示的最小颗粒，1px在PC端等于1物理像素，但是移动端不一定，一个1px能显示多少物理像素点成为屏幕像素比</p>
+<ul>
+<li>视网膜屏幕是一种显示技术，把更多物理像素点压缩至一块屏幕内，从而达到更多分辨率</li>
+</ul>
+<h3 id="多倍图"><a href="#多倍图" class="headerlink" title="多倍图"></a>多倍图</h3><p>图片在手机中打开，会按照物理像素比放大，出现模糊现象，因此用倍图的方式（放二倍大小的图片再缩小到需要的大小）</p>
+<h3 id="背景缩放"><a href="#背景缩放" class="headerlink" title="背景缩放"></a>背景缩放</h3><ul>
+<li>background-size  </li>
+<li>规定背景图像尺寸，两个参数为高度，宽度，只写一个参数就是指宽度，等比例缩放</li>
+<li>单位可以是百分比，是相对父盒子的百分比</li>
+<li>cover：等比例缩放，要求完全覆盖盒子 ，可能有部分背景图片显示不全</li>
+<li>contain: 等比例缩放，尽量铺满不会超出，可能会有空白</li>
+</ul>
+<h2 id="移动端开发选择"><a href="#移动端开发选择" class="headerlink" title="移动端开发选择"></a>移动端开发选择</h2><p>单独制作移动端页面（主流）</p>
+<p>响应式页面兼容移动端</p>
+<h2 id="移动端技术解决方案"><a href="#移动端技术解决方案" class="headerlink" title="移动端技术解决方案"></a>移动端技术解决方案</h2><p>###移动端初始化nomalize.css</p>
+<p><a href="http://necolas.github.io/normalize.css/">http://necolas.github.io/normalize.css/</a></p>
+<h3 id="CSS3盒子模型box-sizing"><a href="#CSS3盒子模型box-sizing" class="headerlink" title="CSS3盒子模型box-sizing"></a>CSS3盒子模型box-sizing</h3><p>boxing-size:border-box;(传统是content-box)</p>
+<p>padding和border不会再撑大盒子</p>
+<p>移动端可以完全兼容CSS3</p>
+<h3 id="特殊样式"><a href="#特殊样式" class="headerlink" title="特殊样式"></a>特殊样式</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-webkit-tap-highlight-color: transparent;&#x2F;&#x2F;清除高亮</span><br><span class="line">-webkit-appearance: none;&#x2F;&#x2F;在ios上加上这个属性才可以给按钮和输入框自定义样式</span><br><span class="line">img,a&#123;-webkit-touch-callout:none&#125;&#x2F;&#x2F;禁止长按页面时弹出菜单</span><br></pre></td></tr></table></figure>
+
+<h3 id="二倍精灵图"><a href="#二倍精灵图" class="headerlink" title="二倍精灵图"></a>二倍精灵图</h3><p>background-size缩放的是整个精灵图</p>
+<ul>
+<li>在firework里把精灵图等比例缩放为原来的一半</li>
+<li>根据大小测量坐标</li>
+<li>代码里的bgcsize也要缩放</li>
+</ul>
 ]]></content>
       <categories>
         <category>CSS</category>
@@ -1831,6 +1831,38 @@
       </tags>
   </entry>
   <entry>
+    <title>JS案例-仿京东放大镜效果</title>
+    <url>/2021/03/12/JS%E6%A1%88%E4%BE%8B-%E4%BB%BF%E4%BA%AC%E4%B8%9C%E6%94%BE%E5%A4%A7%E9%95%9C%E6%95%88%E6%9E%9C/</url>
+    <content><![CDATA[<p>本案例可以实现：当鼠标放在图片上时，图片上出现跟随鼠标移动的遮挡层，同时右边会出现一个放大的图片，展现出放大镜效果</p>
+<span id="more"></span>
+
+<ol>
+<li>鼠标经过小盒子，黄色的遮挡层和大图片盒子显示，离开隐藏</li>
+<li>遮挡层跟随鼠标</li>
+<li>移动黄色遮挡层，大盒子跟着移动</li>
+</ol>
+<p>*如果js分开一个文件写，必须加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">window.addEventListener(&#39;load&#39;,function()&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>先加载完再执行js</p>
+<ul>
+<li>比例关系：大图片移动距离=遮挡层移动距离*大图片移动距离/遮挡层最大移动距离</li>
+<li>注意大盒子中图片移动应该与小盒子中遮罩反向移动</li>
+</ul>
+<p>完整代码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;IE&#x3D;edge&quot;&gt;</span><br><span class="line">    &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;&#x2F;title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        .box &#123;</span><br><span class="line">            position: relative;</span><br><span class="line">            width: 400px;</span><br><span class="line">            height: 400px;</span><br><span class="line">            background-color: yellowgreen;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .box&gt;img &#123;</span><br><span class="line">            max-width: 100%;</span><br><span class="line">            max-height: 100%;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .mask &#123;</span><br><span class="line">            display: none;</span><br><span class="line">            position: absolute;</span><br><span class="line">            width: 100px;</span><br><span class="line">            height: 100px;</span><br><span class="line">            background-color: wheat;</span><br><span class="line">            opacity: .8;</span><br><span class="line">            top: 0;</span><br><span class="line">            left: 0;</span><br><span class="line">            border: 1px solid #ccc;</span><br><span class="line">            cursor: move;</span><br><span class="line">            &#x2F;* 鼠标样式变化 *&#x2F;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .big &#123;</span><br><span class="line">            &#x2F;* display: none; *&#x2F;</span><br><span class="line">            overflow: hidden;</span><br><span class="line">            position: absolute;</span><br><span class="line">            width: 500px;</span><br><span class="line">            height: 500px;</span><br><span class="line">            top: 0px;</span><br><span class="line">            left: 410px;</span><br><span class="line">            z-index: 10;</span><br><span class="line">            border: 1px solid #ccc;</span><br><span class="line">            &#x2F;* 保证优先级 *&#x2F;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .big img &#123;</span><br><span class="line">            position: absolute;</span><br><span class="line">            top: 0;</span><br><span class="line">            left: 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;&#x2F;style&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;box&quot;&gt;</span><br><span class="line">        &lt;img src&#x3D;&quot;images&#x2F;s3.png&quot; alt&#x3D;&quot;&quot;&gt;</span><br><span class="line">        &lt;div class&#x3D;&quot;mask&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div class&#x3D;&quot;big&quot;&gt;&lt;img src&#x3D;&quot;images&#x2F;big.jpg&quot; alt&#x3D;&quot;&quot; class&#x3D;&quot;bigImg&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">	&#x2F;&#x2F;js部分见下个代码框</span><br><span class="line">    &lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">box = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.box&#x27;</span>);</span><br><span class="line">mask = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.mask&#x27;</span>);</span><br><span class="line">big = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.big&#x27;</span>);</span><br><span class="line">box.addEventListener(<span class="string">&#x27;mouseover&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="comment">//鼠标放在盒子里时让mask和big出现</span></span><br><span class="line">    mask.style.display = <span class="string">&#x27;block&#x27;</span>;</span><br><span class="line">    big.style.display = <span class="string">&#x27;block&#x27;</span>;</span><br><span class="line">&#125;);</span><br><span class="line">box.addEventListener(<span class="string">&#x27;mousemove&#x27;</span>, move);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//获取鼠标在盒子内坐标</span></span><br><span class="line">    <span class="keyword">var</span> x = e.pageX - <span class="built_in">this</span>.offsetLeft;</span><br><span class="line">    <span class="keyword">var</span> y = e.pageY - <span class="built_in">this</span>.offsetTop;</span><br><span class="line">    <span class="keyword">var</span> maskX = x - mask.offsetWidth / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">var</span> maskY = y - mask.offsetHeight / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">var</span> maskMax = box.offsetWidth - mask.offsetWidth;<span class="comment">//遮挡层的最大移动距离</span></span><br><span class="line">    <span class="keyword">if</span> (maskX &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        maskX = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (maskX &gt; maskMax) &#123;</span><br><span class="line">        maskX = maskMax;<span class="comment">//x的上限距离左侧的位置</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (maskY &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        maskY = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (maskY &gt; maskMax) &#123;</span><br><span class="line">        maskY = maskMax;<span class="comment">//y的上限距离左侧的位置</span></span><br><span class="line">    &#125;</span><br><span class="line">    mask.style.left = maskX + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">    mask.style.top = maskY + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">    <span class="comment">//大图片移动距离=遮挡层移动距离*大图片移动距离/遮挡层最大移动距离</span></span><br><span class="line">    <span class="keyword">var</span> bigImg = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.bigImg&#x27;</span>);</span><br><span class="line">    <span class="keyword">var</span> bigMax = bigImg.offsetWidth - big.offsetWidth;<span class="comment">//大图片最大移动距离</span></span><br><span class="line">    <span class="keyword">var</span> bigX = maskX * bigMax / maskMax;</span><br><span class="line">    <span class="keyword">var</span> bigY = maskY * bigMax / maskMax;</span><br><span class="line">    bigImg.style.left = -bigX + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">    bigImg.style.top = -bigY + <span class="string">&#x27;px&#x27;</span>;<span class="comment">//应该相反,鼠标左移时图片右移</span></span><br><span class="line">&#125;</span><br><span class="line">box.addEventListener(<span class="string">&#x27;mouseout&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="comment">//鼠标放在盒子外时让mask和big隐藏</span></span><br><span class="line">    mask.style.display = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">    big.style.display = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JS案例-模态框拖动</title>
     <url>/2021/03/12/JS%E6%A1%88%E4%BE%8B-%E6%A8%A1%E6%80%81%E6%A1%86%E6%8B%96%E5%8A%A8/</url>
     <content><![CDATA[<p>本案例可以实现：点击即可弹出一个登录框，该登录框有点叉号关闭，鼠标拖动的功能</p>
@@ -1857,38 +1889,6 @@
 <p>注意：直接把鼠标坐标给盒子会导致盒子左上角跟随鼠标，不可以，因此需要考虑盒子的坐标，同时不能通过offsetleft求盒子坐标，而鼠标在盒子内的坐标是不变的，因此<strong>鼠标在页面坐标-鼠标在盒子内坐标=盒子坐标</strong></p>
 <p>完整代码：</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line"></span><br><span class="line">&lt;head lang=<span class="string">&quot;en&quot;</span>&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">&quot;UTF-8&quot;</span>&gt;</span><br><span class="line">    &lt;title&gt;&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        .login-header &#123;</span><br><span class="line">            width: <span class="number">100</span>%;</span><br><span class="line">            text-align: center;</span><br><span class="line">            height: 30px;</span><br><span class="line">            font-size: 24px;</span><br><span class="line">            line-height: 30px;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        ul,</span><br><span class="line">        li,</span><br><span class="line">        ol,</span><br><span class="line">        dl,</span><br><span class="line">        dt,</span><br><span class="line">        dd,</span><br><span class="line">        div,</span><br><span class="line">        p,</span><br><span class="line">        span,</span><br><span class="line">        h1,</span><br><span class="line">        h2,</span><br><span class="line">        h3,</span><br><span class="line">        h4,</span><br><span class="line">        h5,</span><br><span class="line">        h6,</span><br><span class="line">        a &#123;</span><br><span class="line">            padding: 0px;</span><br><span class="line">            margin: 0px;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        .login &#123;</span><br><span class="line">            display: none;</span><br><span class="line">            width: 512px;</span><br><span class="line">            height: 280px;</span><br><span class="line">            position: fixed;</span><br><span class="line">            border: #ebebeb solid 1px;</span><br><span class="line">            left: <span class="number">50</span>%;</span><br><span class="line">            top: <span class="number">50</span>%;</span><br><span class="line">            background: #ffffff;</span><br><span class="line">            box-shadow: 0px 0px 20px #ddd;</span><br><span class="line">            z-index: <span class="number">9999</span>;</span><br><span class="line">            transform: translate(-<span class="number">50</span>%, -<span class="number">50</span>%);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        .login-title &#123;</span><br><span class="line">            width: <span class="number">100</span>%;</span><br><span class="line">            margin: 10px 0px 0px 0px;</span><br><span class="line">            text-align: center;</span><br><span class="line">            line-height: 40px;</span><br><span class="line">            height: 40px;</span><br><span class="line">            font-size: 18px;</span><br><span class="line">            position: relative;</span><br><span class="line">            cursor: move;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        .login-input-content &#123;</span><br><span class="line">            margin-top: 20px;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        .login-button &#123;</span><br><span class="line">            width: <span class="number">50</span>%;</span><br><span class="line">            margin: 30px auto 0px auto;</span><br><span class="line">            line-height: 40px;</span><br><span class="line">            font-size: 14px;</span><br><span class="line">            border: #ebebeb 1px solid;</span><br><span class="line">            text-align: center;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        .login-bg &#123;</span><br><span class="line">            display: none;</span><br><span class="line">            width: <span class="number">100</span>%;</span><br><span class="line">            height: <span class="number">100</span>%;</span><br><span class="line">            position: fixed;</span><br><span class="line">            top: 0px;</span><br><span class="line">            left: 0px;</span><br><span class="line">            background: rgba(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">.3</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        a &#123;</span><br><span class="line">            text-decoration: none;</span><br><span class="line">            color: #000000;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        .login-button a &#123;</span><br><span class="line">            display: block;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        .login-input input.list-input &#123;</span><br><span class="line">            float: left;</span><br><span class="line">            line-height: 35px;</span><br><span class="line">            height: 35px;</span><br><span class="line">            width: 350px;</span><br><span class="line">            border: #ebebeb 1px solid;</span><br><span class="line">            text-indent: 5px;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        .login-input &#123;</span><br><span class="line">            overflow: hidden;</span><br><span class="line">            margin: 0px 0px 20px 0px;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        .login-input label &#123;</span><br><span class="line">            float: left;</span><br><span class="line">            width: 90px;</span><br><span class="line">            padding-right: 10px;</span><br><span class="line">            text-align: right;</span><br><span class="line">            line-height: 35px;</span><br><span class="line">            height: 35px;</span><br><span class="line">            font-size: 14px;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        .login-title span &#123;</span><br><span class="line">            position: absolute;</span><br><span class="line">            font-size: 12px;</span><br><span class="line">            right: -20px;</span><br><span class="line">            top: -30px;</span><br><span class="line">            background: #ffffff;</span><br><span class="line">            border: #ebebeb solid 1px;</span><br><span class="line">            width: 40px;</span><br><span class="line">            height: 40px;</span><br><span class="line">            border-radius: 20px;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;login-header&quot;</span>&gt;<span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">&quot;link&quot;</span> <span class="attr">href</span>=<span class="string">&quot;javascript:;&quot;</span>&gt;</span>点击，弹出登录框<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span>&lt;/div&gt;</span><br><span class="line">    &lt;div id=<span class="string">&quot;login&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;login&quot;</span>&gt;</span><br><span class="line">        &lt;div id=<span class="string">&quot;title&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;login-title&quot;</span>&gt;登录会员</span><br><span class="line">            &lt;span&gt;<span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">&quot;closeBtn&quot;</span> <span class="attr">href</span>=<span class="string">&quot;javascript:void(0);&quot;</span> <span class="attr">class</span>=<span class="string">&quot;close-login&quot;</span>&gt;</span>关闭<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span>&lt;/span&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;login-input-content&quot;</span>&gt;</span><br><span class="line">            &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;login-input&quot;</span>&gt;</span><br><span class="line">                &lt;label&gt;用户名：&lt;/label&gt;</span><br><span class="line">                &lt;input type=<span class="string">&quot;text&quot;</span> placeholder=<span class="string">&quot;请输入用户名&quot;</span> name=<span class="string">&quot;info[username]&quot;</span> id=<span class="string">&quot;username&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;list-input&quot;</span>&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;login-input&quot;</span>&gt;</span><br><span class="line">                &lt;label&gt;登录密码：&lt;/label&gt;</span><br><span class="line">                &lt;input type=<span class="string">&quot;password&quot;</span> placeholder=<span class="string">&quot;请输入登录密码&quot;</span> name=<span class="string">&quot;info[password]&quot;</span> id=<span class="string">&quot;password&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;list-input&quot;</span>&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div id=<span class="string">&quot;loginBtn&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;login-button&quot;</span>&gt;<span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;javascript:void(0);&quot;</span> <span class="attr">id</span>=<span class="string">&quot;login-button-submit&quot;</span>&gt;</span>登录会员<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span>&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;!-- 遮盖层 --&gt;</span><br><span class="line">    &lt;div id=<span class="string">&quot;bg&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;login-bg&quot;</span>&gt;&lt;/div&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        <span class="comment">// 1. 获取元素</span></span><br><span class="line">        <span class="keyword">var</span> login = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.login&#x27;</span>);</span><br><span class="line">        <span class="keyword">var</span> mask = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.login-bg&#x27;</span>);</span><br><span class="line">        <span class="keyword">var</span> link = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;#link&#x27;</span>);</span><br><span class="line">        <span class="keyword">var</span> closeBtn = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;#closeBtn&#x27;</span>);</span><br><span class="line">        <span class="keyword">var</span> title = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;#title&#x27;</span>);</span><br><span class="line">        <span class="comment">// 2. 点击弹出层这个链接 link  让mask 和login 显示出来</span></span><br><span class="line">        link.addEventListener(<span class="string">&#x27;click&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                mask.style.display = <span class="string">&#x27;block&#x27;</span>;</span><br><span class="line">                login.style.display = <span class="string">&#x27;block&#x27;</span>;</span><br><span class="line">            &#125;)</span><br><span class="line">            <span class="comment">// 3. 点击 closeBtn 就隐藏 mask 和 login </span></span><br><span class="line">        closeBtn.addEventListener(<span class="string">&#x27;click&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                mask.style.display = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">                login.style.display = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">            &#125;)</span><br><span class="line">            <span class="comment">// 4. 开始拖拽</span></span><br><span class="line">            <span class="comment">// (1) 当我们鼠标按下， 就获得鼠标在盒子内的坐标</span></span><br><span class="line">        title.addEventListener(<span class="string">&#x27;mousedown&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> x = e.pageX - login.offsetLeft;</span><br><span class="line">            <span class="keyword">var</span> y = e.pageY - login.offsetTop;</span><br><span class="line">            <span class="comment">// (2) 鼠标移动的时候，把鼠标在页面中的坐标，减去 鼠标在盒子内的坐标就是模态框的left和top值</span></span><br><span class="line">            <span class="built_in">document</span>.addEventListener(<span class="string">&#x27;mousemove&#x27;</span>, move)</span><br><span class="line"></span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">                login.style.left = e.pageX - x + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">                login.style.top = e.pageY - y + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// (3) 鼠标弹起，就让鼠标移动事件移除</span></span><br><span class="line">            <span class="built_in">document</span>.addEventListener(<span class="string">&#x27;mouseup&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="built_in">document</span>.removeEventListener(<span class="string">&#x27;mousemove&#x27;</span>, move);</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JS案例-仿京东放大镜效果</title>
-    <url>/2021/03/12/JS%E6%A1%88%E4%BE%8B-%E4%BB%BF%E4%BA%AC%E4%B8%9C%E6%94%BE%E5%A4%A7%E9%95%9C%E6%95%88%E6%9E%9C/</url>
-    <content><![CDATA[<p>本案例可以实现：当鼠标放在图片上时，图片上出现跟随鼠标移动的遮挡层，同时右边会出现一个放大的图片，展现出放大镜效果</p>
-<span id="more"></span>
-
-<ol>
-<li>鼠标经过小盒子，黄色的遮挡层和大图片盒子显示，离开隐藏</li>
-<li>遮挡层跟随鼠标</li>
-<li>移动黄色遮挡层，大盒子跟着移动</li>
-</ol>
-<p>*如果js分开一个文件写，必须加</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">window.addEventListener(&#39;load&#39;,function()&#123;&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>先加载完再执行js</p>
-<ul>
-<li>比例关系：大图片移动距离=遮挡层移动距离*大图片移动距离/遮挡层最大移动距离</li>
-<li>注意大盒子中图片移动应该与小盒子中遮罩反向移动</li>
-</ul>
-<p>完整代码：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;IE&#x3D;edge&quot;&gt;</span><br><span class="line">    &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;&#x2F;title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        .box &#123;</span><br><span class="line">            position: relative;</span><br><span class="line">            width: 400px;</span><br><span class="line">            height: 400px;</span><br><span class="line">            background-color: yellowgreen;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .box&gt;img &#123;</span><br><span class="line">            max-width: 100%;</span><br><span class="line">            max-height: 100%;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .mask &#123;</span><br><span class="line">            display: none;</span><br><span class="line">            position: absolute;</span><br><span class="line">            width: 100px;</span><br><span class="line">            height: 100px;</span><br><span class="line">            background-color: wheat;</span><br><span class="line">            opacity: .8;</span><br><span class="line">            top: 0;</span><br><span class="line">            left: 0;</span><br><span class="line">            border: 1px solid #ccc;</span><br><span class="line">            cursor: move;</span><br><span class="line">            &#x2F;* 鼠标样式变化 *&#x2F;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .big &#123;</span><br><span class="line">            &#x2F;* display: none; *&#x2F;</span><br><span class="line">            overflow: hidden;</span><br><span class="line">            position: absolute;</span><br><span class="line">            width: 500px;</span><br><span class="line">            height: 500px;</span><br><span class="line">            top: 0px;</span><br><span class="line">            left: 410px;</span><br><span class="line">            z-index: 10;</span><br><span class="line">            border: 1px solid #ccc;</span><br><span class="line">            &#x2F;* 保证优先级 *&#x2F;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .big img &#123;</span><br><span class="line">            position: absolute;</span><br><span class="line">            top: 0;</span><br><span class="line">            left: 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;&#x2F;style&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;box&quot;&gt;</span><br><span class="line">        &lt;img src&#x3D;&quot;images&#x2F;s3.png&quot; alt&#x3D;&quot;&quot;&gt;</span><br><span class="line">        &lt;div class&#x3D;&quot;mask&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div class&#x3D;&quot;big&quot;&gt;&lt;img src&#x3D;&quot;images&#x2F;big.jpg&quot; alt&#x3D;&quot;&quot; class&#x3D;&quot;bigImg&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">	&#x2F;&#x2F;js部分见下个代码框</span><br><span class="line">    &lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">box = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.box&#x27;</span>);</span><br><span class="line">mask = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.mask&#x27;</span>);</span><br><span class="line">big = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.big&#x27;</span>);</span><br><span class="line">box.addEventListener(<span class="string">&#x27;mouseover&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="comment">//鼠标放在盒子里时让mask和big出现</span></span><br><span class="line">    mask.style.display = <span class="string">&#x27;block&#x27;</span>;</span><br><span class="line">    big.style.display = <span class="string">&#x27;block&#x27;</span>;</span><br><span class="line">&#125;);</span><br><span class="line">box.addEventListener(<span class="string">&#x27;mousemove&#x27;</span>, move);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//获取鼠标在盒子内坐标</span></span><br><span class="line">    <span class="keyword">var</span> x = e.pageX - <span class="built_in">this</span>.offsetLeft;</span><br><span class="line">    <span class="keyword">var</span> y = e.pageY - <span class="built_in">this</span>.offsetTop;</span><br><span class="line">    <span class="keyword">var</span> maskX = x - mask.offsetWidth / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">var</span> maskY = y - mask.offsetHeight / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">var</span> maskMax = box.offsetWidth - mask.offsetWidth;<span class="comment">//遮挡层的最大移动距离</span></span><br><span class="line">    <span class="keyword">if</span> (maskX &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        maskX = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (maskX &gt; maskMax) &#123;</span><br><span class="line">        maskX = maskMax;<span class="comment">//x的上限距离左侧的位置</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (maskY &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        maskY = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (maskY &gt; maskMax) &#123;</span><br><span class="line">        maskY = maskMax;<span class="comment">//y的上限距离左侧的位置</span></span><br><span class="line">    &#125;</span><br><span class="line">    mask.style.left = maskX + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">    mask.style.top = maskY + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">    <span class="comment">//大图片移动距离=遮挡层移动距离*大图片移动距离/遮挡层最大移动距离</span></span><br><span class="line">    <span class="keyword">var</span> bigImg = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.bigImg&#x27;</span>);</span><br><span class="line">    <span class="keyword">var</span> bigMax = bigImg.offsetWidth - big.offsetWidth;<span class="comment">//大图片最大移动距离</span></span><br><span class="line">    <span class="keyword">var</span> bigX = maskX * bigMax / maskMax;</span><br><span class="line">    <span class="keyword">var</span> bigY = maskY * bigMax / maskMax;</span><br><span class="line">    bigImg.style.left = -bigX + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">    bigImg.style.top = -bigY + <span class="string">&#x27;px&#x27;</span>;<span class="comment">//应该相反,鼠标左移时图片右移</span></span><br><span class="line">&#125;</span><br><span class="line">box.addEventListener(<span class="string">&#x27;mouseout&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="comment">//鼠标放在盒子外时让mask和big隐藏</span></span><br><span class="line">    mask.style.display = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">    big.style.display = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
@@ -2000,27 +2000,6 @@
       </tags>
   </entry>
   <entry>
-    <title>‘JS案例-跟随鼠标的天使’</title>
-    <url>/2021/03/11/JS%E6%A1%88%E4%BE%8B-%E8%B7%9F%E9%9A%8F%E9%BC%A0%E6%A0%87%E7%9A%84%E5%A4%A9%E4%BD%BF/</url>
-    <content><![CDATA[<ol>
-<li>鼠标不断的移动，使用鼠标移动事件：mousemove</li>
-<li>在页面中移动，所以要给document注册事件</li>
-<li>图片要移动距离，而且不占位置，使用绝对定位</li>
-<li>核心原理：每次鼠标移动，都会得到最新的鼠标坐标，把这个xy作为图片的top和left值</li>
-</ol>
-<span id="more"></span>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    &lt;style&gt;</span><br><span class="line">        img &#123;</span><br><span class="line">            position: absolute;</span><br><span class="line">            top: 2px;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;&#x2F;style&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;img src&#x3D;&quot;images&#x2F;angel.gif&quot; alt&#x3D;&quot;&quot;&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var pic &#x3D; document.querySelector(&#39;img&#39;);</span><br><span class="line">        document.addEventListener(&#39;mousemove&#39;, function (e) &#123;</span><br><span class="line">            console.log(1);</span><br><span class="line">            &#x2F;&#x2F;mousemove鼠标每移动1px就会触发这个事件</span><br><span class="line">            var x &#x3D; e.pageX;</span><br><span class="line">            var y &#x3D; e.pageY;</span><br><span class="line">            pic.style.left &#x3D; x - 40 + &#39;px&#39;;&#x2F;&#x2F;减图片大小的一半，使鼠标居中</span><br><span class="line">            pic.style.top &#x3D; y - 50 + &#39;px&#39;;&#x2F;&#x2F;必须加单位</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Less基础</title>
     <url>/2021/03/17/Less%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h2 id="Less介绍"><a href="#Less介绍" class="headerlink" title="Less介绍"></a>Less介绍</h2><p>Less是一门CSS扩展语言，也称为CSS预处理器，没有减少CSS的功能，而是为CSS加入程序式语言特性，加入了变量、Mixin（混入），运算及函数等功能</p>
@@ -2053,6 +2032,27 @@
       </categories>
       <tags>
         <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>‘JS案例-跟随鼠标的天使’</title>
+    <url>/2021/03/11/JS%E6%A1%88%E4%BE%8B-%E8%B7%9F%E9%9A%8F%E9%BC%A0%E6%A0%87%E7%9A%84%E5%A4%A9%E4%BD%BF/</url>
+    <content><![CDATA[<ol>
+<li>鼠标不断的移动，使用鼠标移动事件：mousemove</li>
+<li>在页面中移动，所以要给document注册事件</li>
+<li>图片要移动距离，而且不占位置，使用绝对定位</li>
+<li>核心原理：每次鼠标移动，都会得到最新的鼠标坐标，把这个xy作为图片的top和left值</li>
+</ol>
+<span id="more"></span>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    &lt;style&gt;</span><br><span class="line">        img &#123;</span><br><span class="line">            position: absolute;</span><br><span class="line">            top: 2px;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;&#x2F;style&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;img src&#x3D;&quot;images&#x2F;angel.gif&quot; alt&#x3D;&quot;&quot;&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var pic &#x3D; document.querySelector(&#39;img&#39;);</span><br><span class="line">        document.addEventListener(&#39;mousemove&#39;, function (e) &#123;</span><br><span class="line">            console.log(1);</span><br><span class="line">            &#x2F;&#x2F;mousemove鼠标每移动1px就会触发这个事件</span><br><span class="line">            var x &#x3D; e.pageX;</span><br><span class="line">            var y &#x3D; e.pageY;</span><br><span class="line">            pic.style.left &#x3D; x - 40 + &#39;px&#39;;&#x2F;&#x2F;减图片大小的一半，使鼠标居中</span><br><span class="line">            pic.style.top &#x3D; y - 50 + &#39;px&#39;;&#x2F;&#x2F;必须加单位</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -2182,6 +2182,126 @@
       </categories>
       <tags>
         <tag>jQuery</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据链路层组成和原理</title>
+    <url>/2021/04/01/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E7%BB%84%E6%88%90%E5%92%8C%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<p>​    数据链路层定义了在单个链路上如何传输数据。这些协议与被讨论的各种介质有关。</p>
+<p>​    数据链路层必须具备一系列相应的功能，主要有：如何将数据组合成数据块，在数据链路层中称这种数据块为帧，帧是数据链路层的传送单位；如何控制帧在物理信道上的传输，包括如何处理传输差错，如何调节发送速率以使与接收方相匹配；以及在两个网络实体之间提供数据链路通路的建立、维持和释放的管理。 </p>
+<span id="more"></span>
+
+<p>#1.为网络层提供服务</p>
+<p>计算机网络分层结构的基本要求包括要保持下层对上层的独立性，上层单向使用下层提供的服务。</p>
+<p>数据链路层的上层是网络层，因此数据链路层需要上上层提供三种服务：</p>
+<ul>
+<li>无确认的无连接服务。适用于实时通信或误码率较低的通信信道，如以太网服务</li>
+<li>有确认的无连接服务。适用于误码率较高的通信信道，如无线通信</li>
+<li>有确认的面向连接服务。适合于通信要求较高的场合</li>
+</ul>
+<p>#2.链路管理</p>
+<p>主要用于面向连接的服务，链路两端的结点要通信，需要进行数据链路层连接的建立、维持和释放等过程。</p>
+<p>#3.帧定界、帧同步与透明传输</p>
+<p>为了把每帧区分开来，一般在一段数据的首尾添加首部和尾部字符串。</p>
+<p><strong>帧定界</strong>就是指确定帧的界限，<strong>帧同步</strong>就是让接收方能够区分帧的起始和终止，<strong>透明传输</strong>就是不管传的数据是怎样的组合都能在链路上正常传送(不被首尾字符串干扰)</p>
+<p>怎样实现上述功能？组帧，一般常用的是零比特填充的首尾标志法和违规编码法</p>
+<p>组帧的四种方法：</p>
+<ul>
+<li>字符计数法(头部使用一个技术字段表明帧内字符数，但是无法解决计数字段出错问题)</li>
+<li>字符填充的首尾定界符法(首部用SOH，尾部用EOT，中间特殊字符用ESC转义)</li>
+<li>零比特填充的首尾标志法(01111110标志帧开始和结束，中间遇到5个1则填0，接收方收到5个1去0)</li>
+<li>违规编码法(曼彻斯特编码，使用高-高或低-低用于表示首尾)</li>
+</ul>
+<p>#4.流量控制与可靠传输</p>
+<p>防止发送能力大于接收方的接收能力，对于数据链路层来说，控制的是相邻两节点之间数据链路上的流量。</p>
+<p>常见有两种方式：停止-等待协议和滑动窗口协议</p>
+<p><strong>停止等待协议</strong>：发送方每发送一帧都要等待接收方的应答信号，再发送下一帧；接收方收到就反馈一个应答帧，效率很低；</p>
+<p><strong>滑动窗口协议</strong>：设置一个发送窗口和一个接收窗口，用于控制哪些帧可以发送或者接收；</p>
+<p>​    发送方在未收到确认的情况下只能发送发送窗口里的帧；接收方只有接收到在接收窗口里的帧时才会手下，其他的全部舍弃。</p>
+<p>​    发送方每收到一个确认帧，发送窗口就向前移动；接收端收到一个数据帧就前移</p>
+<p><strong>可靠传输：</strong>确认和超时重传</p>
+<p>​    某些情况下将确认捎带到一个回复帧中，称为捎带确认</p>
+<p>​    发送某个数据帧后开启一个定时器，如果时间到后没回复，就重新发送直到发送成功，称为超时重传。</p>
+<p><strong>自动重传请求</strong>：</p>
+<p>​    是指接收方请求发送方重传出错的数据帧，是常用处理差错的方法之一。包括停止-等待ARQ、后退N帧ARQ和选择性重传ARQ。</p>
+<p>​    <strong>停止等待协议：</strong>①计时器满未收到确认重新发送②确认帧被破坏，发送方重新发送数据帧，接收方收到后丢弃重复帧，并重传一个确认帧。缺点：信道利用率低</p>
+<p>​    <strong>后退N帧协议(GBN)：</strong>①累积确认。连续收到好几个正确帧后一起确认，确认表明该帧及之前的帧都正确收到</p>
+<p>​    ②接收方只按序接收数据帧，不按序的数据帧无情丢弃</p>
+<p>​    ③接收方只确认序列号最大的按序发送的帧</p>
+<p>​    ④接收窗口长度为1，实现有序接收,发送窗口长度小于2^n^-1</p>
+<p>​    缺点：重传时必须把原来已经正确传送的数据帧重传</p>
+<p>​    <strong>选择重传协议(SR)</strong>:①对数据帧逐一确认，收一个确认一个</p>
+<p>​    ②接收方怀疑出错就会发送NAK帧，要求发送方重传NAK中指定的帧，只重传出错帧</p>
+<p>​    ③失序的帧先缓存，有序后一起后移窗口(缓冲区数目等于窗口大小)</p>
+<p>​    ④接收窗口和发送窗口的最大长度为2^n-1^</p>
+<p>#5.差错控制</p>
+<p>由于信道噪声等因素，传输中可能出现差错</p>
+<p>如何实现差错控制的呢？主要是检错编码和纠错编码</p>
+<p>​    检错编码包括奇偶校验码和循环冗余码，其中CRC码只使用检错功能，出错就直接丢弃；循环冗余码使用模2除运算余数即为冗余位。</p>
+<p>​    纠错编码主要是海明码，可以纠正单比特错误，发现双比特错误，海明码纠错d位，需要码距为2d+1的编码方案，检错d位，需要码距为d+1。</p>
+<h1 id="介质访问控制"><a href="#介质访问控制" class="headerlink" title="介质访问控制"></a>介质访问控制</h1><p>​    在广播信道中，可能有很多结点之间需要传送数据，但是同一个信道同时如果有多对结点在传送数据且不加处理就会发生冲突，因此就需要介质访问控制。用来决定广播信道中信道分配的协议属于数据链路层的一个子层，称为介质访问控制子层。</p>
+<p>##信道划分介质访问控制</p>
+<p>​    实质是通过分时、分频、分码等方法把原来的一条广播信道，逻辑上分为几条用于两个结点间通信的互不干扰的子信道，实际上就是把广播通信转变为点对点通信。</p>
+<p>​    频分多路复用(FDM)</p>
+<p>​    时分多路复用(TDM)</p>
+<p>​    波分多路复用(WDM)：利用光纤中信号波长的不同</p>
+<p>​    <strong>码分多路复用(CDM)</strong>:采用不同的编码来区分各路原始信号</p>
+<p>​        码分多址(CDMA Code Division Multiple Access),将每个比特时间再划分为m个短的时间槽，称为码片，发送1时，站点发送它的码片序列；发送0时，站点发送该码片序列的反码，多站点同时发送时，要求各个站点的码片序列相互正交。实质就是让每个站点码片分为不同相互正交的向量，接收端收到后再通过一定计算拆成各个分量。</p>
+<h2 id="随机访问介质访问控制"><a href="#随机访问介质访问控制" class="headerlink" title="随机访问介质访问控制"></a>随机访问介质访问控制</h2><p>​    不采用集中控制的方式解决发送信息的次序问题，所有用户能够根据自己的意愿发送信息，占用信道全部速率。又称争用型协议。实质是广播信道转化为点对点信道。</p>
+<h3 id="ALOHA协议"><a href="#ALOHA协议" class="headerlink" title="ALOHA协议"></a>ALOHA协议</h3><p>纯ALOHA协议：</p>
+<p>不进行检测就发送数据，超时没收到确认就是发生了冲突，<strong>随机</strong>等待一定时间后重新发送，直到发送成功</p>
+<p>时隙ALOHA协议：</p>
+<p>将时间划分为一段段等长的时隙，只有在每个时隙开始时才能发送一个帧，避免了用户发送数据的随意性，减少了数据产生冲突的可能性，提高了信道的利用率。</p>
+<h3 id="CSMA协议-Carrier-Sense-Multiple-Access"><a href="#CSMA协议-Carrier-Sense-Multiple-Access" class="headerlink" title="CSMA协议(Carrier Sense Multiple Access)"></a>CSMA协议(Carrier Sense Multiple Access)</h3><p>每个站点发送前先侦听一下共用信道，发现信道空闲后再发送。</p>
+<p>根据侦听方式和侦听到信道忙后的处理方式不同，CSMA协议分为三种。</p>
+<table>
+<thead>
+<tr>
+<th>信道状态</th>
+<th>1-坚持</th>
+<th>非坚持</th>
+<th>p-坚持</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>空闲</td>
+<td>立即发送数据</td>
+<td>立即发送数据</td>
+<td>以p概率发送数据，以1-p概率推迟到下一个时隙</td>
+</tr>
+<tr>
+<td>忙</td>
+<td>等待，坚持侦听，直到空闲，冲突则随机等待一段时间后重新开始侦听</td>
+<td>放弃侦听，等待一个随机时间后再侦听</td>
+<td>持续侦听，直至信道空闲</td>
+</tr>
+<tr>
+<td>特点</td>
+<td>容易冲突，受传播延迟影响大</td>
+<td>降低了冲突概率，但是增加了平均延迟</td>
+<td>前面两种的折中方案</td>
+</tr>
+</tbody></table>
+<h3 id="CSMA-CD协议-Carrier-Sense-Multiple-Access-with-Collision-Dection"><a href="#CSMA-CD协议-Carrier-Sense-Multiple-Access-with-Collision-Dection" class="headerlink" title="CSMA/CD协议(Carrier Sense Multiple Access with Collision Dection)"></a>CSMA/CD协议(Carrier Sense Multiple Access with Collision Dection)</h3><p>CSMA协议的改进方案，适用于总线型网络或半双工网络环境，如以太网。</p>
+<p>先听后发，边听边发，冲突停发，随机重发</p>
+<p>经过两倍的传输时延就额可以直到发送的帧没有发生碰撞，2τ称为<strong>争用期</strong>。</p>
+<p><strong>最小帧长</strong>=总线传播时延*数据传输速率 *2；</p>
+<p><strong>二进制指数退避算法(用于解决碰撞问题)：</strong></p>
+<p>k=min[重传次数，10]，从[0,1,…,2^k^]中随机取出一个数r，重传所需要退避的时间就是r倍的基本退避时间，即2rτ，重传16次后说明网络太拥挤，认为此帧无法发出，抛弃此帧并向高层报错</p>
+<h3 id="CSMA-CA协议"><a href="#CSMA-CA协议" class="headerlink" title="CSMA/CA协议"></a>CSMA/CA协议</h3><p>适用于无线局域网</p>
+<p>无线局域网并非所有站点都能听见对方，存在隐蔽站问题，且无线介质上信号强度动态变化范围很大，难以实现碰撞检测。所以把碰撞检测改为碰撞避免。</p>
+<p>在发送数据时广播告知其他结点，让其他结点在某段时间内不要发送数据</p>
+<h3 id="CSMA-CD与CSMA-CA区别"><a href="#CSMA-CD与CSMA-CA区别" class="headerlink" title="CSMA/CD与CSMA/CA区别"></a>CSMA/CD与CSMA/CA区别</h3><ul>
+<li>CSMA/CD可以检测冲突但无法避免；CA不能检测只能尽量避免</li>
+<li>CSMA/CD用于总线型以太网，CA用于无线局域网等</li>
+<li>检测方式不同，CD通过电缆中电压的变化来检测，CA采用能量检测、载波检测和能量载波混合检测等</li>
+</ul>
+]]></content>
+      <categories>
+        <category>408</category>
+      </categories>
+      <tags>
+        <tag>计网</tag>
       </tags>
   </entry>
   <entry>
@@ -2683,6 +2803,385 @@
       </categories>
       <tags>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机网络思维导图</title>
+    <url>/2021/04/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>计算机组成原理框架和重点</title>
+    <url>/2021/03/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E6%A1%86%E6%9E%B6%E5%92%8C%E9%87%8D%E7%82%B9/</url>
+    <content><![CDATA[<h1 id="计算机系统概述"><a href="#计算机系统概述" class="headerlink" title="计算机系统概述"></a>计算机系统概述</h1><p><img src="https://www.hualigs.cn/image/605a9d3639c59.jpg"></p>
+<p>冯诺依曼计算机特点：</p>
+<ul>
+<li>计算机由五大部件组成</li>
+<li>指令和数据以<strong>同等地位</strong>存储</li>
+<li>指令和数据用<strong>二进制</strong>表示</li>
+<li>指令由<strong>操作码和地址码</strong>组成</li>
+<li>存储程序</li>
+<li>以运算器为中心</li>
+</ul>
+<span id="more"></span>
+
+<p>软件和硬件的区别：</p>
+<p>软件和硬件具有逻辑上的等效性，硬件实现具有更高的执行速度，软件实现具有更好的灵活性。执行频繁硬件实现代价不高的功能通常用硬件实现</p>
+<h2 id="计算机系统层次结构"><a href="#计算机系统层次结构" class="headerlink" title="计算机系统层次结构"></a>计算机系统层次结构</h2><ol>
+<li>完整的计算机系统应该包括配套的硬件设备和软件系统。</li>
+</ol>
+<p>只写运算器、存储器、控制器等是不完整的</p>
+<ol start="2">
+<li>冯诺依曼的基本工作方式是==控制流驱动方式==。</li>
+<li>冯诺依曼计算机中指令和数据均以二进制形式存放在存储器中，CPU区分它们的依据是==指令周期的不同阶段==</li>
+</ol>
+<p>通常取指阶段取出的是指令，执行阶段取出的是数据</p>
+<ol start="4">
+<li>存放欲执行指令的寄存器是IR，存放下一条指令地址(跟踪下一条指令的地址）是PC</li>
+<li>MAR、MDR的位数分别为地址码长度、存储字长</li>
+<li>系列机的基本特性是指令向后兼容，即高版本可以执行低版本指令</li>
+<li>计算机硬件能后直接执行的==只有==机器语言程序</li>
+</ol>
+<p>##计算机性能和指标</p>
+<ol>
+<li>汇编程序员可以通过指定待执行命令地址来设置PC的值，状态寄存器、通用寄存器使用汇编语言可见，而IR、MAR、MDR都是不透明的</li>
+</ol>
+<p>只有指令寄存器是完全透明的</p>
+<ol start="2">
+<li>时钟周期是计算机操作的最小单位时间</li>
+<li>当前设计高性能计算机的重要技术途径是采用并行处理技术</li>
+<li>评价计算机系统性能的综合参数是吞吐率</li>
+<li>兼容指计算机软件或硬件的通用性，通常在同一系列不同型号的计算机间通用</li>
+</ol>
+<hr>
+<p>#数据表示和运算</p>
+<ol>
+<li>国际通用的ASCII码是由7位二进制代码表示的，从0000000到1111111共128种编码，大写字母在英文字母前</li>
+<li>数据的小端方案存储是指将最低有效字节存储在最小位置</li>
+</ol>
+<h2 id="定点数的表示和运算"><a href="#定点数的表示和运算" class="headerlink" title="定点数的表示和运算"></a>定点数的表示和运算</h2><ul>
+<li><p>对0的处理：原码和反码有+0和-0，补码和移码只有一个0，补码的1000表示-7</p>
+</li>
+<li><p>原码表示的数据个数：2^n-1^-1个，补码能表示的最大负数是==-2^n-1^==</p>
+</li>
+<li><p>N位(不考虑符号位)2进制补码小数可以表示的数的个数为2^N^,N位十进制小数可以表示的数的个数为10^N^</p>
+</li>
+<li><p>==使用补码表示时，若符号位相同，则数值位越大码值越大==(正数补码是本身所以正数也成立，可以用于判断当补码需要满足某个范围时x的取值)</p>
+</li>
+<li><p><strong>模2补码和模4补码：</strong></p>
+<p>​    模4补码具有模2补码的全部优点且更易检查加减运算中的溢出问题；存储模4补码仅需要一个符号位，因为任意一个正确的数值，模4补码的两个符号位总是相同的；只有在把两个模4补码的数送往ALU进行加减运算时，才把每个数的符号位的值同时送到ALU的双符号位中，即只在ALU中采取双符号位。</p>
+</li>
+<li><p><strong>溢出的三种判断方法</strong>：一位符号位(参加操作的两个数符号相同，结果与他们符号不同)、双符号位(某个数只有单符号位时可以直接将该位复制后进行判断，01正溢出10负溢出)、进位判断(符号位进位异或最高数位进位)</p>
+</li>
+<li><p><strong>乘除法：</strong>原码乘法符号位与数值位分开，最低位为1则加x后右移，最低位为0则加0后右移；补码乘法符号位则需要参与运算；原码除法单独计算符号位，补码除法一起计算</p>
+</li>
+<li><p>原码乘法移位和加法都是最多n次，补码一位乘法中，最多需要n次移位，n+1次加法</p>
+</li>
+<li><p>计算机中，通常用于表示主存地址的是无符号数</p>
+</li>
+<li><p><strong>逻辑移位和算术移位</strong>：逻辑移位左移和右移都补0，且所有数字移动；算术移位赌好玩不参加移位，右移补符号位，左移补0</p>
+</li>
+<li><p><strong>边界对齐</strong>：数据按边界对齐方式存储时，所有半字、字等占据的都是机器字长位数；如机器字长为32位时，则int占32位(一个机器字长);short定义的值会占据16位后，将剩下的16位填充，不用于写后面的数据，计算后面数据的地址是必须考虑到；</p>
+</li>
+</ul>
+<h2 id="浮点数的表示与运算"><a href="#浮点数的表示与运算" class="headerlink" title="浮点数的表示与运算"></a>浮点数的表示与运算</h2><ul>
+<li><p>浮点数表示中基数越大，范围越大，精度越低(变稀疏)；阶码越长范围越大；尾数越长精度越高</p>
+</li>
+<li><p>在浮点数编码表示中，==基数==在机器数中不出现是隐含的(一般是约定好的)</p>
+</li>
+<li><p>采用规格化浮点数最主要是为了增加数据的表示精度(规格化本质是使尾数最高位数是有效值)</p>
+</li>
+<li><p><strong>怎样判断数字是否规格化</strong></p>
+<p>原码表示：0.1 1.1  尾数第一位为1  基数为2^n^时则尾数前n为必须有一个1  补码表示 0.1 1.0 尾数第一位与符号位相反  IEEE:   1.1 隐含1 尾数首位为1</p>
+</li>
+<li><p><strong>IEEE 754单精度浮点数格式</strong>：1数符+8移码+23尾数</p>
+<p>该移码与一般的移码(补码符号位取反)有所不同，计算方式应该是原码+127；如3的移码为10000010</p>
+</li>
+<li><p><strong>IEEE 754最大值</strong>：尾数全取1时最大，此时尾数为1.1111111…小数点后23个1则可以表示为2-2^-23^,阶数为移码，最大为127,因此最大值为(2-2^-23^)*2^127^=2^128^-2^104^</p>
+</li>
+<li><p><strong>IEEE 754正数最小值</strong>：移码范围是1~254，阶码的值范围为-126到127,则最小的规格化正数为1.0*2^-126^</p>
+</li>
+<li><p>浮点运算中的上溢是指运算结果的==绝对值==大于机器所能表示的最大绝对值，下溢是结果绝对值小于最小绝对值</p>
+</li>
+<li><p><strong>对阶：</strong>小阶向大阶看齐，将阶码小的尾数右移，直到两个阶码相等，右移存在舍入问题</p>
+</li>
+<li><p><strong>移位</strong>：补码表示时，正数的符号位为0，左移最高位为0时数据不会丢失，负数符号位和左移最高位为1时数据不会丢失，即左移移走的最高位要与符号位相同；双符号位时，最高符号位代表真正的符号，低位符号用于参与移位操作以判断是否发生溢出，结果01表示结果正溢出，10表示结果负溢出</p>
+</li>
+<li><p><strong>舍入：</strong>只有浮点数需要考虑舍入的问题，定点数不需要；浮点数舍入的情况有两种：对阶和右规格化；舍入不一定产生误差，如11.000舍入到11.00没有误差  舍入包括0舍1入法和恒置1法。</p>
+</li>
+<li><p><strong>类型转换：</strong>double包容性最强，一般其他的转过去都不会有损失。float和int位数相同，但float包括阶数和尾数，表示的范围大但是精度低</p>
+</li>
+<li><p><strong>为什么要用移码表示阶码？</strong></p>
+</li>
+</ul>
+<ol>
+<li>浮点数进行加减运算经常需要比较阶码的大小，使用移码比较大小很方便</li>
+<li>检验移码的特殊值容易，移码的特殊值分别是全0和全1，全0表示阶码为负无穷，相当于分母无穷大，整个数无限接近0，若尾数也为0则可以表示0；全1表示指数正无穷大，若尾数为0表示正负无穷，尾数不为0则表示运算错误</li>
+</ol>
+<h1 id="存储系统"><a href="#存储系统" class="headerlink" title="存储系统"></a>存储系统</h1><p>计算机有多级存储系统：</p>
+<p>CPU</p>
+<hr>
+<p>寄存器</p>
+<p>Cache  </p>
+<p>主存</p>
+<p>磁盘</p>
+<p>磁带  光盘</p>
+<hr>
+<p>Cache-主存 解决CPU与主存数据不匹配的问题</p>
+<p>主存-辅存  解决存储系统的容量问题，形成了虚拟存储系统</p>
+<p>主要思想是上一级存储器作为低一层存储器的高速缓存</p>
+<p>##存储器</p>
+<ul>
+<li><p>存储器按存取方式分类可以分为**顺序存储(磁带)、直接存储(磁盘、光盘)、随机存储;**直接存储器既不像RAM那样随机的访问任何一个存储单元，又不像顺序存储那样完全按顺序存储，介于两者之间</p>
+</li>
+<li><p>注意单位换算 1MB=1024KB=2^10^ KB=2^20^B 如： 机器字长=64位=8B  按字编址=8B一个存储单元</p>
+</li>
+<li><p><strong>怎样计算RAM芯片的引脚数目？</strong></p>
+<p>例：芯片容量为1024*8位，则芯片容量为1024B，且以字节为单位进行存取，所以需要10根地址线(1024B=2^10^B), 8位说明数据线需要8根，加上片选线1根和读写控制线2根，一共需要21根</p>
+<p>注意：读写控制线有时只需要一根，需要看题目说明</p>
+</li>
+<li><p>RAM和ROM：</p>
+<p>RAM是随机存储器；具有易失性；包括SRAM(触发器、不需要刷新、Cache)、DRAM(电容、刷新、主存)</p>
+<p>ROM是只读存储器；具有非易失性；MROM、PROM、EPROM、Flash(U盘)、SSD固态硬盘</p>
+<p>都采用随机存取的方式进行信息访问</p>
+</li>
+</ul>
+<h2 id="主存储器与CPU连接"><a href="#主存储器与CPU连接" class="headerlink" title="主存储器与CPU连接"></a>主存储器与CPU连接</h2><ul>
+<li>地址分配：</li>
+</ul>
+<p>例：用若干2k×4位的芯片组成一个8k×8位的存储器，地址如何划分？0B1FH所在芯片最小地址为？</p>
+<p>每行两个芯片，每列4个芯片，地址分配如下：</p>
+<p>第一行：0000H~07FFH</p>
+<p>第二行：0800H~0FFFH</p>
+<p>第三行：1000H~17FFH</p>
+<p>第四行：1800H~1FFFH</p>
+<p>0B1FH在第二行，最小地址为0800H</p>
+<ul>
+<li>MAR位数：只与主存储器容量有关，如64MB=2^26^B, MAR位数即为26，与主存实际大小无关(可能会拓展)</li>
+<li>确定地址线实例</li>
+</ul>
+<p><img src="https://www.hualigs.cn/image/605df8c321686.jpg"></p>
+<ul>
+<li><p>设计DRAM芯片：</p>
+<p>保证地址引脚数最少：采用行列地址线复用的方式，32*64只需要6根地址线</p>
+<p>减少刷新开销：减小行数</p>
+</li>
+</ul>
+<h2 id="双端口RAM和多模块存储器"><a href="#双端口RAM和多模块存储器" class="headerlink" title="双端口RAM和多模块存储器"></a>双端口RAM和多模块存储器</h2><ul>
+<li><p>四位：四个存储器  高位交叉：顺序方式，一个存储器一个存储器排序  低位交叉：交叉方式，轮流编号</p>
+</li>
+<li><p><strong>例题：</strong>四位低位交叉存储器  ①读取6个连续地址单元中存放的存储字，重复80次②读取8个连续地址单元中存放的存储字，重复60次  其中①②所花费的时间之比为4:3</p>
+<blockquote>
+<p>情况②中第一轮可以按顺序读取完6个字，花费时间为3/2 T,但是重复第二次的时候，第一次的最后一次读取使用了M1还处于占用状态，必须等待1/2 T的时间，即共2T时间进入下一轮</p>
+<p>情况②直接依次读完8个字并继续下一轮，不存在等待情况，每轮仍然需要2T时间</p>
+<p>因此花费时间之比=80:60=4:3</p>
+</blockquote>
+</li>
+<li><p><strong>例题：</strong>某计算机主存按字节编址, 由4个64M*8位的DRAM芯片采用交叉编址方式构成，并与宽度为32位的存储器总线相连，主存每次最多读写32位数据。若double型变量x的主存地址为804001AH，则读取x需要的存储周期数是()</p>
+<blockquote>
+<p>double型：64位  4个DRAM：一个存储周期可以读4个字节的数据  地址为804001A，末两位为10，说明从编号为2的芯片开始存储，因此需要3个存储周期</p>
+<p>总线是32位，则每次连续读出32位数据，第一次实质上读出是模块2模块3的数据 第二次是0123 第三次是01 才能读出所有数据，共3次周期</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="高速缓冲存储器"><a href="#高速缓冲存储器" class="headerlink" title="高速缓冲存储器"></a>高速缓冲存储器</h2><p>这一章看似不难理解，实际做题很需要细节，对地址的各位理解也要求较高；</p>
+<ul>
+<li><p>主存块和cache的块必须大小相同，有时候题目不会告诉cach块的大小。</p>
+</li>
+<li><p>直接映射的地址结构为：标记+行号+块内地址</p>
+</li>
+<li><p><strong>例题：直接映射</strong></p>
+</li>
+<li><p>某 32 位计算机的 cache 容量为 16KB，cache 块的大小为 16B，若主存与 cache 的地址映射采用直接映射方式，则主存地址为 1234E8F8（十六进制）的单元装入的 cache 地址为C。</p>
+<p>A. 00 0100 0100 1101 (二进制)<br>B. 01 0010 0011 0100 (二进制)<br>C. 10 1000 1111 1000 (二进制)<br>D. 11 0100 1110 1000 (二进制)</p>
+<blockquote>
+<p>解：Cache大小为16KB，块大小为16B，所以Cache被分成16KB/16B=1024块，因210＝1024故需要10位来表示块数。</p>
+<p>24＝16故块内地址需要4位来表示。所以Cache的地址线位置为14位。</p>
+<p>由于采用直接映像的方式，所以==主存的后14位就是要装入的到Cache中的位置==。故选 C.</p>
+</blockquote>
+</li>
+<li><p><strong>例题：直接映射读数据</strong></p>
+</li>
+<li><p>有如下C语言程序段： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for(int k &#x3D; 0; k &lt; 1000; k++)</span><br><span class="line">&#123;</span><br><span class="line">    a[k] &#x3D; a[k]+32;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若数组a以及变量k均为int型，int型数据占4B，数据Cache采用直接映射 方式，数据区大小是1KB，块大小是16B，该程序段执行前Cache为空，则该程序段执行过程中，访问数组a的Cache的缺失率是：C <br>A. 1.25% <br>B. 2.5% <br>C. 12.5% <br>D. 25%</p>
+<blockquote>
+<p>首先读取a[k]需要访问一次a[k],之后将结果复制给a[k]需要访问一次，共访问两次</p>
+<p>本题中一个数据占4B，一个块大小是16B，这说明一个块中有4个数据;</p>
+<p>主存和块之间==按块==传数据，所以第一次读a[0]没找到，去主存中调数据时，实际是一次调了一个块的数据（4个int，即a[0]到a[3]）进cache。所以后面读写a[1]到a[3]时都已经在cache中了，算命中了 </p>
+<p>因此前8次读顺序可以理解为读0 读0 读1 读1 读2 读2 读3 读3 ，读0的时候就将0.1.2.3的数据全部放入了cache，第一次无法命中，后续的7个操作全部命中，缺失率为1/8=12.5%</p>
+</blockquote>
+</li>
+<li><p>全相联映射的地址结构：标记+块内地址  存储数据是以块为单位的，因此同一标记的内容会被一次读入到同一块中；后续访问这一标记的其他内容也视为命中</p>
+</li>
+<li><p>组相联映射的地址结构为：标记+组号+块内地址；标记一般是内存块号的前k位，k由地址总位数和后两部分所占位数决定；主存地址由三部分组成，存储对应的Cache块信息，而Cache存储的是标记+数据，标记用于判断命中。</p>
+</li>
+<li><p><strong>例题：相联映射</strong></p>
+</li>
+<li><p>某计算机的Cache共有16块，采用2路组相联映射方式(即每组2块)。每个主存块大小为32字节，按字节编址。主存129号单元所在主存块应装入到的Cache组号是( )。 </p>
+<blockquote>
+<p>解答：组相联映射方式下，主存块按模Q(Q为Cache组数)映射到Cache对应组中的任一块；</p>
+<p>Cache共有16块，采用2路组相联映射，故Cache共分16/2=8组；</p>
+<p>主存块大小为32字节，按字节编址，故主存129号单元所在主存块为第129/32=4块；</p>
+<p>4 Mod 8=4，故129号单元所在主存块应装入Cache第4组中任一块。 </p>
+</blockquote>
+<p>注意题目中129是单元数，不是块数</p>
+</li>
+<li><p><strong>例题：相联映射</strong></p>
+</li>
+<li><p>有效容量为128KB的Cache，每块16B，采用8位组相联，字节地址为1234567H的单元调入该Cache，则其tag为()</p>
+<blockquote>
+<p>128KB每块16B，则共有2^13^块，采用8位组相联，则有2^10^组，因此组号为10位；</p>
+<p>每块大小为16B，块内地址需要4位来表示；</p>
+<p>1234567H共28位，则其中后14位是组号+块内地址，前14位为标记字段即0001 0010 0011 01 -&gt;048DH</p>
+</blockquote>
+</li>
+<li><p>替换是以块为单位的，当映射到同一组，但是标记不同的时候，如果组满才需要替换，即将组中某一块取出，若未满直接插入</p>
+</li>
+<li><p>Cache容量计算</p>
+</li>
+</ul>
+<p><img src="https://www.hualigs.cn/image/605ef6f2d35c4.jpg"></p>
+<ul>
+<li>对于由高速缓存、主存、硬盘构成的三级存储体系，CPU访问该存储系统时发送的地址为主存物理地址</li>
+<li>采用指令Cache和数据Cache分离的主要目的是减少指令流水线资源冲突(取指和取数可以分别到不同的cache中寻找)</li>
+</ul>
+<h2 id="虚拟存储器"><a href="#虚拟存储器" class="headerlink" title="虚拟存储器"></a>虚拟存储器</h2><ul>
+<li>虚拟存储系统利用的是局部性原理</li>
+<li>在虚拟存储器中，当程序正在执行时，由操作系统完成地址映射，但也需要一部分硬件基础的支持</li>
+<li>页式虚拟存储器中，页面过小会导致虚拟存储器包含页面数过多，页表体积过大，操作变慢；页面很大时没页面数减少，页面调度频率较高，换页次数增加，降低操作速度</li>
+<li>快表采用的是<strong>相联存储器</strong>，按照查找内容访问，查找速度比慢表快；快表是单独的存储器，而慢表存储在主存中</li>
+<li>取数：先访问cache，没有再访问快表，没有再访问慢表，最少访问主存0次；写回时如果采用直写方式，则必须访问ache和主存，访问主存次数最少为1</li>
+<li>在请求分页系统中，当要访问的页面不在内存中时，CPU检测到异常变回产生<strong>缺页中断</strong>，请求<strong>操作系统</strong>将缺页调入内存。缺页中断处理程序会根据缺页故障的地址从外存读入缺失的页，完成后<strong>回到发生缺页的指令</strong>继续执行</li>
+</ul>
+<h1 id="指令系统"><a href="#指令系统" class="headerlink" title="指令系统"></a>指令系统</h1><p>##基本框架</p>
+<p><img src="https://www.hualigs.cn/image/60601fd0007b0.jpg"></p>
+<ul>
+<li><p>堆栈计算机中，有些堆栈零地址的运算类指令在指令格式中不给出操作数的地址，参加的两个操作数来自堆栈的栈顶和次栈顶单元。</p>
+<blockquote>
+<p>堆栈指令的访存次数取决于采用的是硬堆栈(由寄存器实现，只需要取指时访问一次内存)还是软堆栈(由内存实现，需要访问四次内存，取指、取数1、取数2、存结果)</p>
+</blockquote>
+</li>
+<li><p>指令的基本格式：操作码+地址码</p>
+</li>
+<li><p>例题：扩展操作码</p>
+</li>
+<li><p>一个计算机系统采用32条单字长指令，地址码为12位，若定义了250条二地址指令，则还可以有()条单地址指令</p>
+<p>二地址指令=两个地址码，每个地址码12位，那么操作码占了32-12-12=8位；</p>
+<p>250条二地址指令，则8位操作码共256个码剩余了6个；</p>
+<p>若要变为单地址指令，则最多可以将操作码拓展12位，可以有6*2^12^=24K条单地址指令</p>
+</li>
+<li><p>特权指令通常用于实现系统软件，这类指令一般不提供给用户</p>
+</li>
+</ul>
+<hr>
+<p>##不同字长的区别</p>
+<p><strong>机器字长：</strong>CPU一次能够处理的数据的位数。通常等于寄存器的位数。例子：windows 64位/32位，这里的64位和32位指的就是该操作系统的机器字长。</p>
+<p><strong>存储字长</strong>：计算机存储器中一个存储单元可以存储的位数。例子：某某计算机按照字节编址，即说明该计算机的存储字长为1B=8位。</p>
+<p><strong>指令字长</strong>：计算机内一条指令的位数。这里通常指的定长指令。</p>
+<p>机器字长与存储字长：两者没有必然的联系</p>
+<p>机器字长与指令字长：两者没有必然的联系。它既可以等于机器字长也可以大于或者小于机器字长。通常把等于机器字长的指令称为单字长指令。把等于半个机器字长的指令称为半字长指令。把等于两倍机器字长的指令称为双字长指令。</p>
+<p>存储字长和指令字长。各位可能经常看到这样的字眼：某某计算机按字节编址，指令长度为16位/32位。通常为了方便取址<strong>规定指令字长为存储字长的整数倍</strong>。现在的计算机指令长度基本都是存储字长的整数倍。</p>
+<hr>
+<h2 id="指令的寻址方式"><a href="#指令的寻址方式" class="headerlink" title="指令的寻址方式"></a>指令的寻址方式</h2><ul>
+<li><p>内存地址是无符号数，而相对偏移量可以有正负</p>
+</li>
+<li><p>不同寻址方式特点：简化地址结构可以选择隐地址(不占位置),缩短指令地址段位数可以用寄存器寻址(寄存器一共就那么多~几个位就表示了);最快速获取操作数选择立即寻址;处理数组选择变址寻址;多道程序设计中最重要的寻址方式是相对寻址(同时多个程序按一定顺序轮流执行，相对方便程序浮动)</p>
+</li>
+<li><p>相对寻址是以<strong>下条</strong>指令在内存中首地址为基准的偏移量</p>
+</li>
+<li><p>采用相对寻址进行转移指令的时候，要注意程序计数器数值的变化，根据题意取指令时PC会增加，增加的位数要考虑机器字长。(<strong>每当取出1字节时PC的值+1，要看指令是多少字节</strong>)</p>
+</li>
+<li><p>程序计数器(PC)给出下一条指令字的访存地址，长度取决于存储器的字数；指令寄存器(IR)用于接收取得的指令，长度取决于指令字长</p>
+</li>
+<li><p>基址寻址和变址寻址具体寻址操作：找到变址/基址寄存器内容和形式地址内容，相加，得到操作数的实际地址，再根据实际地址访问内存，获取操作数；基址寻址中程序员操作的是偏移地址，基址寄存器内容由操作系统控制；变址寻址中，程序员操作的是变址寄存器，偏移地址是固定不变的</p>
+</li>
+<li><p>注意区分题目中的寄存器间接寻址和一般的间接寻址，寄存器间接寻址不考虑嵌套，寄存器中存储的就是有效地址，间接寻址需要考虑首位，如果是1则是继续向下寻找</p>
+</li>
+<li><p><strong>堆栈寻址进出操作：</strong>进、出堆栈对栈顶指针的操作顺序相反，进栈先压数据再改指针，使指针指向栈顶空单元；出栈先改指针再出数据，因为指针要先指向数据才能把它推出去；</p>
+</li>
+</ul>
+<h1 id="中央处理器"><a href="#中央处理器" class="headerlink" title="中央处理器"></a>中央处理器</h1><p>##CPU功能和基本结构</p>
+<ul>
+<li><p><strong>程序计数器：</strong>内容为指令在主存中的地址，所以程序计数器的位数与存储器地址的位数相等，而存储器地址取决于存储器的容量，因此程序计数器的位数取决于存储器的容量;其中存储的地址可能是本条指令的地址，也可能是下条指令，具体取决于是取指令前还是取指令后</p>
+<blockquote>
+<p>例：某计算机的主存空间为4GB，字长为32位，按字节编址，采用32位字长指令字格式。若指令按字边界对齐存放，内存的字数=4GB*8/32=2^30^，则程序计数器的位数=30；指令寄存器IR的位数取决于指令长度为32</p>
+</blockquote>
+</li>
+<li><p><strong>指令译码</strong>是对指令的操作码字段进行译码</p>
+</li>
+<li><p>间址周期结束时，CPU内寄存器MDR中的内容为操作数地址。间址周期的作用是取操作数的有效地址，因此间址周期结束后，MDR中的内容为操作数的地址</p>
+</li>
+<li><p>溢出标志位根据溢出的三种判断方法来看，进位/借位标志位 如果是减法直接比较两个数大小即可判断，加法判断是否进位</p>
+</li>
+<li><p>计算机可以划分为控制部件和执行部件：控制部件包括指令寄存器、程序寄存器、操作寄存器；执行部件包括运算器、存储器、外围设备</p>
+</li>
+</ul>
+<h2 id="指令执行过程"><a href="#指令执行过程" class="headerlink" title="指令执行过程"></a>指令执行过程</h2><ul>
+<li>取指操作是控制器自动进行的，不需要得到相应指令，是所有指令周期的第一步</li>
+<li>指令执行方案包括单指令周期、多指令周期、流水线方案</li>
+<li>执行各条指令的机器周期数、各机器周期的长度都应该是可变的</li>
+</ul>
+<p>##不同周期的区分</p>
+<p>时钟周期：机器节拍，主频的倒数 </p>
+<p>CPU周期：同机器周期</p>
+<p>机器周期：完成一个基本操作所需时间，基本操作包括：取值、间址、执行、中断等。==通常使用存取周期来确定机器周期，就是说可以认为机器周期等于存取周期==</p>
+<p>指令周期：从主存中取出并执行一条指令所需完整时间； 指令周期划分为四个阶段：取址周期、间址周期、执行周期、中断周期。 </p>
+<p>存取周期：存储器进行两次独立存储器操作所需最小的时间间隔。 </p>
+<hr>
+<h2 id="控制器的功能和工作原理"><a href="#控制器的功能和工作原理" class="headerlink" title="控制器的功能和工作原理"></a>控制器的功能和工作原理</h2><p><img src="https://www.hualigs.cn/image/606076e7e826d.jpg"></p>
+<ul>
+<li><p>每条微指令存放在控制器的一个控制存储器单元中，控制存储器由ROM构成，在CPU中，只需要读操作不需要写</p>
+</li>
+<li><p>微程序&gt;微指令&gt;微命令&gt;微操作</p>
+<p>一条指令的功能由一段微程序实现；</p>
+<p>微指令包含操作控制字段(微操作码)、顺序控制字段(微地址码)(存放<strong>下一条</strong>要执行的微指令地址);</p>
+<p>微命令是控制部件向执行部件发出的各种控制命令，是构成控制序列的最小单位</p>
+<p>微操作是计算机最基本的、不可再分解的操作</p>
+</li>
+<li><p><strong>微程序控制器基本组成</strong>：控制存储器、微指令寄存器、微地址形成部件、微地址寄存器</p>
+</li>
+<li><p><strong>微指令格式：</strong>水平型微指令(并行)、垂直型微指令、混合型</p>
+</li>
+<li><p><strong>微指令编码方式</strong>：直接编码(一个指令一位二进制)、字段直接编码(互斥命令组合在同一字段中，相容性微命令组合在不同字段中，每个字段独立编码，每个小段留出一个状态)、字段间接编码方式</p>
+</li>
+<li><p><strong>微指令地址形成方式：</strong>断定方式(微指令的下地址字段指出)、根据机器指令操作码形成</p>
+</li>
+<li><p><strong>硬布线和微程序控制器对比</strong></p>
+</li>
+</ul>
+<p><img src="https://www.hualigs.cn/image/60609d767effd.jpg"></p>
+<h2 id="指令流水线"><a href="#指令流水线" class="headerlink" title="指令流水线"></a>指令流水线</h2><ul>
+<li><p>流水CPU是一种非常经济而实用的<strong>时间</strong>并行技术</p>
+</li>
+<li><p>题目中问的存在数据冒险的指令对是xx和xx，意思是这两个指令冲突–，不要理解成这两个指令和前面的冲突了</p>
+</li>
+<li><p>指令流水线数据通路包括程序计数器、算术逻辑运算部件、通用寄存器组、取指部件等，不包括控制部件</p>
+</li>
+<li><p>流水线冲突：对流水线影响最严重的是数据相关</p>
+<p>资源冲突：同一时刻争抢同一资源  ①后指令暂停 ②设置不同存储器</p>
+<p>数据冲突：下一条指令使用上一条结果 ①暂停，硬件阻塞和软件插入 ②数据旁路技术  ③编译器优化调整顺序</p>
+<p>控制冲突：转移、调用、返回时冲突  ①分支预测②预测转移成功与不成功指令</p>
+</li>
+<li><p>超标量流水线：</p>
+<p>超标量流水线技术：同一阶段并行执行多条指令；要求配置多个功能部件和指令译码电路</p>
+<p>超流水线技术：每个周期分段，一个周期内每个部件使用多次；对cache容量要求更大，需要执行的指令长度很长</p>
+<p>超长指令字：将多条能并行操作的指令组合成一条具有多个操作码字段的超长指令字</p>
+</li>
+<li><p>流水线按序流动，不会出现WAR、WAW，只有可能出现RAW相关</p>
+</li>
+<li><p>CPU时钟周期应该根据指令各功能部件执行的最大时间决定</p>
+</li>
+<li><p><strong>CPI</strong>表示执行指令所需的时钟周期数，对于一个程序或一套机器来说，其CPI是执行该程序或机器指令集中所有指令所需的平均时钟周期数。对于单周期CPU，指令周期=时钟周期，CPI=1；对于多周期CPU，CPU的执行分为几个阶段，每个阶段用一个时钟完成，每种指令所用的时钟数可以不同，CPI&gt;1；对于基本流水线CPU，让每个时钟周期流出一条指令，CPI=1；超标量流水线CPU，每个周期并发执行多条独立指令，CPI&lt;1</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>408</category>
+      </categories>
+      <tags>
+        <tag>计组</tag>
       </tags>
   </entry>
   <entry>
@@ -3233,378 +3732,6 @@
       </categories>
       <tags>
         <tag>数据结构</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>计算机组成原理框架和重点</title>
-    <url>/2021/03/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E6%A1%86%E6%9E%B6%E5%92%8C%E9%87%8D%E7%82%B9/</url>
-    <content><![CDATA[<h1 id="计算机系统概述"><a href="#计算机系统概述" class="headerlink" title="计算机系统概述"></a>计算机系统概述</h1><p><img src="https://www.hualigs.cn/image/605a9d3639c59.jpg"></p>
-<p>冯诺依曼计算机特点：</p>
-<ul>
-<li>计算机由五大部件组成</li>
-<li>指令和数据以<strong>同等地位</strong>存储</li>
-<li>指令和数据用<strong>二进制</strong>表示</li>
-<li>指令由<strong>操作码和地址码</strong>组成</li>
-<li>存储程序</li>
-<li>以运算器为中心</li>
-</ul>
-<p>软件和硬件的区别：</p>
-<p>软件和硬件具有逻辑上的等效性，硬件实现具有更高的执行速度，软件实现具有更好的灵活性。执行频繁硬件实现代价不高的功能通常用硬件实现</p>
-<h2 id="计算机系统层次结构"><a href="#计算机系统层次结构" class="headerlink" title="计算机系统层次结构"></a>计算机系统层次结构</h2><ol>
-<li>完整的计算机系统应该包括配套的硬件设备和软件系统。</li>
-</ol>
-<p>只写运算器、存储器、控制器等是不完整的</p>
-<ol start="2">
-<li>冯诺依曼的基本工作方式是==控制流驱动方式==。</li>
-<li>冯诺依曼计算机中指令和数据均以二进制形式存放在存储器中，CPU区分它们的依据是==指令周期的不同阶段==</li>
-</ol>
-<p>通常取指阶段取出的是指令，执行阶段取出的是数据</p>
-<ol start="4">
-<li>存放欲执行指令的寄存器是IR，存放下一条指令地址(跟踪下一条指令的地址）是PC</li>
-<li>MAR、MDR的位数分别为地址码长度、存储字长</li>
-<li>系列机的基本特性是指令向后兼容，即高版本可以执行低版本指令</li>
-<li>计算机硬件能后直接执行的==只有==机器语言程序</li>
-</ol>
-<p>##计算机性能和指标</p>
-<ol>
-<li>汇编程序员可以通过指定待执行命令地址来设置PC的值，状态寄存器、通用寄存器使用汇编语言可见，而IR、MAR、MDR都是不透明的</li>
-</ol>
-<p>只有指令寄存器是完全透明的</p>
-<ol start="2">
-<li>时钟周期是计算机操作的最小单位时间</li>
-<li>当前设计高性能计算机的重要技术途径是采用并行处理技术</li>
-<li>评价计算机系统性能的综合参数是吞吐率</li>
-<li>兼容指计算机软件或硬件的通用性，通常在同一系列不同型号的计算机间通用</li>
-</ol>
-<hr>
-<p>#数据表示和运算</p>
-<ol>
-<li>国际通用的ASCII码是由7位二进制代码表示的，从0000000到1111111共128种编码，大写字母在英文字母前</li>
-<li>数据的小端方案存储是指将最低有效字节存储在最小位置</li>
-</ol>
-<h2 id="定点数的表示和运算"><a href="#定点数的表示和运算" class="headerlink" title="定点数的表示和运算"></a>定点数的表示和运算</h2><ul>
-<li><p>对0的处理：原码和反码有+0和-0，补码和移码只有一个0，补码的1000表示-7</p>
-</li>
-<li><p>原码表示的数据个数：2^n-1^-1个，补码能表示的最大负数是==-2^n-1^==</p>
-</li>
-<li><p>N位(不考虑符号位)2进制补码小数可以表示的数的个数为2^N^,N位十进制小数可以表示的数的个数为10^N^</p>
-</li>
-<li><p>==使用补码表示时，若符号位相同，则数值位越大码值越大==(正数补码是本身所以正数也成立，可以用于判断当补码需要满足某个范围时x的取值)</p>
-</li>
-<li><p><strong>模2补码和模4补码：</strong></p>
-<p>​    模4补码具有模2补码的全部优点且更易检查加减运算中的溢出问题；存储模4补码仅需要一个符号位，因为任意一个正确的数值，模4补码的两个符号位总是相同的；只有在把两个模4补码的数送往ALU进行加减运算时，才把每个数的符号位的值同时送到ALU的双符号位中，即只在ALU中采取双符号位。</p>
-</li>
-<li><p><strong>溢出的三种判断方法</strong>：一位符号位(参加操作的两个数符号相同，结果与他们符号不同)、双符号位(某个数只有单符号位时可以直接将该位复制后进行判断，01正溢出10负溢出)、进位判断(符号位进位异或最高数位进位)</p>
-</li>
-<li><p><strong>乘除法：</strong>原码乘法符号位与数值位分开，最低位为1则加x后右移，最低位为0则加0后右移；补码乘法符号位则需要参与运算；原码除法单独计算符号位，补码除法一起计算</p>
-</li>
-<li><p>原码乘法移位和加法都是最多n次，补码一位乘法中，最多需要n次移位，n+1次加法</p>
-</li>
-<li><p>计算机中，通常用于表示主存地址的是无符号数</p>
-</li>
-<li><p><strong>逻辑移位和算术移位</strong>：逻辑移位左移和右移都补0，且所有数字移动；算术移位赌好玩不参加移位，右移补符号位，左移补0</p>
-</li>
-<li><p><strong>边界对齐</strong>：数据按边界对齐方式存储时，所有半字、字等占据的都是机器字长位数；如机器字长为32位时，则int占32位(一个机器字长);short定义的值会占据16位后，将剩下的16位填充，不用于写后面的数据，计算后面数据的地址是必须考虑到；</p>
-</li>
-</ul>
-<h2 id="浮点数的表示与运算"><a href="#浮点数的表示与运算" class="headerlink" title="浮点数的表示与运算"></a>浮点数的表示与运算</h2><ul>
-<li><p>浮点数表示中基数越大，范围越大，精度越低(变稀疏)；阶码越长范围越大；尾数越长精度越高</p>
-</li>
-<li><p>在浮点数编码表示中，==基数==在机器数中不出现是隐含的(一般是约定好的)</p>
-</li>
-<li><p>采用规格化浮点数最主要是为了增加数据的表示精度(规格化本质是使尾数最高位数是有效值)</p>
-</li>
-<li><p><strong>怎样判断数字是否规格化</strong></p>
-<p>原码表示：0.1 1.1  尾数第一位为1  基数为2^n^时则尾数前n为必须有一个1  补码表示 0.1 1.0 尾数第一位与符号位相反  IEEE:   1.1 隐含1 尾数首位为1</p>
-</li>
-<li><p><strong>IEEE 754单精度浮点数格式</strong>：1数符+8移码+23尾数</p>
-<p>该移码与一般的移码(补码符号位取反)有所不同，计算方式应该是原码+127；如3的移码为10000010</p>
-</li>
-<li><p><strong>IEEE 754最大值</strong>：尾数全取1时最大，此时尾数为1.1111111…小数点后23个1则可以表示为2-2^-23^,阶数为移码，最大为127,因此最大值为(2-2^-23^)*2^127^=2^128^-2^104^</p>
-</li>
-<li><p><strong>IEEE 754正数最小值</strong>：移码范围是1~254，阶码的值范围为-126到127,则最小的规格化正数为1.0*2^-126^</p>
-</li>
-<li><p>浮点运算中的上溢是指运算结果的==绝对值==大于机器所能表示的最大绝对值，下溢是结果绝对值小于最小绝对值</p>
-</li>
-<li><p><strong>对阶：</strong>小阶向大阶看齐，将阶码小的尾数右移，直到两个阶码相等，右移存在舍入问题</p>
-</li>
-<li><p><strong>移位</strong>：补码表示时，正数的符号位为0，左移最高位为0时数据不会丢失，负数符号位和左移最高位为1时数据不会丢失，即左移移走的最高位要与符号位相同；双符号位时，最高符号位代表真正的符号，低位符号用于参与移位操作以判断是否发生溢出，结果01表示结果正溢出，10表示结果负溢出</p>
-</li>
-<li><p><strong>舍入：</strong>只有浮点数需要考虑舍入的问题，定点数不需要；浮点数舍入的情况有两种：对阶和右规格化；舍入不一定产生误差，如11.000舍入到11.00没有误差  舍入包括0舍1入法和恒置1法。</p>
-</li>
-<li><p><strong>类型转换：</strong>double包容性最强，一般其他的转过去都不会有损失。float和int位数相同，但float包括阶数和尾数，表示的范围大但是精度低</p>
-</li>
-<li><p><strong>为什么要用移码表示阶码？</strong></p>
-</li>
-</ul>
-<ol>
-<li>浮点数进行加减运算经常需要比较阶码的大小，使用移码比较大小很方便</li>
-<li>检验移码的特殊值容易，移码的特殊值分别是全0和全1，全0表示阶码为负无穷，相当于分母无穷大，整个数无限接近0，若尾数也为0则可以表示0；全1表示指数正无穷大，若尾数为0表示正负无穷，尾数不为0则表示运算错误</li>
-</ol>
-<h1 id="存储系统"><a href="#存储系统" class="headerlink" title="存储系统"></a>存储系统</h1><p>计算机有多级存储系统：</p>
-<p>CPU</p>
-<hr>
-<p>寄存器</p>
-<p>Cache  </p>
-<p>主存</p>
-<p>磁盘</p>
-<p>磁带  光盘</p>
-<hr>
-<p>Cache-主存 解决CPU与主存数据不匹配的问题</p>
-<p>主存-辅存  解决存储系统的容量问题，形成了虚拟存储系统</p>
-<p>主要思想是上一级存储器作为低一层存储器的高速缓存</p>
-<p>##存储器</p>
-<ul>
-<li><p>存储器按存取方式分类可以分为**顺序存储(磁带)、直接存储(磁盘、光盘)、随机存储;**直接存储器既不像RAM那样随机的访问任何一个存储单元，又不像顺序存储那样完全按顺序存储，介于两者之间</p>
-</li>
-<li><p>注意单位换算 1MB=1024KB=2^10^ KB=2^20^B 如： 机器字长=64位=8B  按字编址=8B一个存储单元</p>
-</li>
-<li><p><strong>怎样计算RAM芯片的引脚数目？</strong></p>
-<p>例：芯片容量为1024*8位，则芯片容量为1024B，且以字节为单位进行存取，所以需要10根地址线(1024B=2^10^B), 8位说明数据线需要8根，加上片选线1根和读写控制线2根，一共需要21根</p>
-<p>注意：读写控制线有时只需要一根，需要看题目说明</p>
-</li>
-<li><p>RAM和ROM：</p>
-<p>RAM是随机存储器；具有易失性；包括SRAM(触发器、不需要刷新、Cache)、DRAM(电容、刷新、主存)</p>
-<p>ROM是只读存储器；具有非易失性；MROM、PROM、EPROM、Flash(U盘)、SSD固态硬盘</p>
-<p>都采用随机存取的方式进行信息访问</p>
-</li>
-</ul>
-<h2 id="主存储器与CPU连接"><a href="#主存储器与CPU连接" class="headerlink" title="主存储器与CPU连接"></a>主存储器与CPU连接</h2><ul>
-<li>地址分配：</li>
-</ul>
-<p>例：用若干2k×4位的芯片组成一个8k×8位的存储器，地址如何划分？0B1FH所在芯片最小地址为？</p>
-<p>每行两个芯片，每列4个芯片，地址分配如下：</p>
-<p>第一行：0000H~07FFH</p>
-<p>第二行：0800H~0FFFH</p>
-<p>第三行：1000H~17FFH</p>
-<p>第四行：1800H~1FFFH</p>
-<p>0B1FH在第二行，最小地址为0800H</p>
-<ul>
-<li>MAR位数：只与主存储器容量有关，如64MB=2^26^B, MAR位数即为26，与主存实际大小无关(可能会拓展)</li>
-<li>确定地址线实例</li>
-</ul>
-<p><img src="https://www.hualigs.cn/image/605df8c321686.jpg"></p>
-<ul>
-<li><p>设计DRAM芯片：</p>
-<p>保证地址引脚数最少：采用行列地址线复用的方式，32*64只需要6根地址线</p>
-<p>减少刷新开销：减小行数</p>
-</li>
-</ul>
-<h2 id="双端口RAM和多模块存储器"><a href="#双端口RAM和多模块存储器" class="headerlink" title="双端口RAM和多模块存储器"></a>双端口RAM和多模块存储器</h2><ul>
-<li><p>四位：四个存储器  高位交叉：顺序方式，一个存储器一个存储器排序  低位交叉：交叉方式，轮流编号</p>
-</li>
-<li><p><strong>例题：</strong>四位低位交叉存储器  ①读取6个连续地址单元中存放的存储字，重复80次②读取8个连续地址单元中存放的存储字，重复60次  其中①②所花费的时间之比为4:3</p>
-<blockquote>
-<p>情况②中第一轮可以按顺序读取完6个字，花费时间为3/2 T,但是重复第二次的时候，第一次的最后一次读取使用了M1还处于占用状态，必须等待1/2 T的时间，即共2T时间进入下一轮</p>
-<p>情况②直接依次读完8个字并继续下一轮，不存在等待情况，每轮仍然需要2T时间</p>
-<p>因此花费时间之比=80:60=4:3</p>
-</blockquote>
-</li>
-<li><p><strong>例题：</strong>某计算机主存按字节编址, 由4个64M*8位的DRAM芯片采用交叉编址方式构成，并与宽度为32位的存储器总线相连，主存每次最多读写32位数据。若double型变量x的主存地址为804001AH，则读取x需要的存储周期数是()</p>
-<blockquote>
-<p>double型：64位  4个DRAM：一个存储周期可以读4个字节的数据  地址为804001A，末两位为10，说明从编号为2的芯片开始存储，因此需要3个存储周期</p>
-<p>总线是32位，则每次连续读出32位数据，第一次实质上读出是模块2模块3的数据 第二次是0123 第三次是01 才能读出所有数据，共3次周期</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="高速缓冲存储器"><a href="#高速缓冲存储器" class="headerlink" title="高速缓冲存储器"></a>高速缓冲存储器</h2><p>这一章看似不难理解，实际做题很需要细节，对地址的各位理解也要求较高；</p>
-<ul>
-<li><p>主存块和cache的块必须大小相同，有时候题目不会告诉cach块的大小。</p>
-</li>
-<li><p>直接映射的地址结构为：标记+行号+块内地址</p>
-</li>
-<li><p><strong>例题：直接映射</strong></p>
-</li>
-<li><p>某 32 位计算机的 cache 容量为 16KB，cache 块的大小为 16B，若主存与 cache 的地址映射采用直接映射方式，则主存地址为 1234E8F8（十六进制）的单元装入的 cache 地址为C。</p>
-<p>A. 00 0100 0100 1101 (二进制)<br>B. 01 0010 0011 0100 (二进制)<br>C. 10 1000 1111 1000 (二进制)<br>D. 11 0100 1110 1000 (二进制)</p>
-<blockquote>
-<p>解：Cache大小为16KB，块大小为16B，所以Cache被分成16KB/16B=1024块，因210＝1024故需要10位来表示块数。</p>
-<p>24＝16故块内地址需要4位来表示。所以Cache的地址线位置为14位。</p>
-<p>由于采用直接映像的方式，所以==主存的后14位就是要装入的到Cache中的位置==。故选 C.</p>
-</blockquote>
-</li>
-<li><p><strong>例题：直接映射读数据</strong></p>
-</li>
-<li><p>有如下C语言程序段： </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for(int k &#x3D; 0; k &lt; 1000; k++)</span><br><span class="line">&#123;</span><br><span class="line">    a[k] &#x3D; a[k]+32;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>若数组a以及变量k均为int型，int型数据占4B，数据Cache采用直接映射 方式，数据区大小是1KB，块大小是16B，该程序段执行前Cache为空，则该程序段执行过程中，访问数组a的Cache的缺失率是：C <br>A. 1.25% <br>B. 2.5% <br>C. 12.5% <br>D. 25%</p>
-<blockquote>
-<p>首先读取a[k]需要访问一次a[k],之后将结果复制给a[k]需要访问一次，共访问两次</p>
-<p>本题中一个数据占4B，一个块大小是16B，这说明一个块中有4个数据;</p>
-<p>主存和块之间==按块==传数据，所以第一次读a[0]没找到，去主存中调数据时，实际是一次调了一个块的数据（4个int，即a[0]到a[3]）进cache。所以后面读写a[1]到a[3]时都已经在cache中了，算命中了 </p>
-<p>因此前8次读顺序可以理解为读0 读0 读1 读1 读2 读2 读3 读3 ，读0的时候就将0.1.2.3的数据全部放入了cache，第一次无法命中，后续的7个操作全部命中，缺失率为1/8=12.5%</p>
-</blockquote>
-</li>
-<li><p>全相联映射的地址结构：标记+块内地址  存储数据是以块为单位的，因此同一标记的内容会被一次读入到同一块中；后续访问这一标记的其他内容也视为命中</p>
-</li>
-<li><p>组相联映射的地址结构为：标记+组号+块内地址；标记一般是内存块号的前k位，k由地址总位数和后两部分所占位数决定；主存地址由三部分组成，存储对应的Cache块信息，而Cache存储的是标记+数据，标记用于判断命中。</p>
-</li>
-<li><p><strong>例题：相联映射</strong></p>
-</li>
-<li><p>某计算机的Cache共有16块，采用2路组相联映射方式(即每组2块)。每个主存块大小为32字节，按字节编址。主存129号单元所在主存块应装入到的Cache组号是( )。 </p>
-<blockquote>
-<p>解答：组相联映射方式下，主存块按模Q(Q为Cache组数)映射到Cache对应组中的任一块；</p>
-<p>Cache共有16块，采用2路组相联映射，故Cache共分16/2=8组；</p>
-<p>主存块大小为32字节，按字节编址，故主存129号单元所在主存块为第129/32=4块；</p>
-<p>4 Mod 8=4，故129号单元所在主存块应装入Cache第4组中任一块。 </p>
-</blockquote>
-<p>注意题目中129是单元数，不是块数</p>
-</li>
-<li><p><strong>例题：相联映射</strong></p>
-</li>
-<li><p>有效容量为128KB的Cache，每块16B，采用8位组相联，字节地址为1234567H的单元调入该Cache，则其tag为()</p>
-<blockquote>
-<p>128KB每块16B，则共有2^13^块，采用8位组相联，则有2^10^组，因此组号为10位；</p>
-<p>每块大小为16B，块内地址需要4位来表示；</p>
-<p>1234567H共28位，则其中后14位是组号+块内地址，前14位为标记字段即0001 0010 0011 01 -&gt;048DH</p>
-</blockquote>
-</li>
-<li><p>替换是以块为单位的，当映射到同一组，但是标记不同的时候，如果组满才需要替换，即将组中某一块取出，若未满直接插入</p>
-</li>
-<li><p>Cache容量计算</p>
-</li>
-</ul>
-<p><img src="https://www.hualigs.cn/image/605ef6f2d35c4.jpg"></p>
-<ul>
-<li>对于由高速缓存、主存、硬盘构成的三级存储体系，CPU访问该存储系统时发送的地址为主存物理地址</li>
-<li>采用指令Cache和数据Cache分离的主要目的是减少指令流水线资源冲突(取指和取数可以分别到不同的cache中寻找)</li>
-</ul>
-<h2 id="虚拟存储器"><a href="#虚拟存储器" class="headerlink" title="虚拟存储器"></a>虚拟存储器</h2><ul>
-<li>虚拟存储系统利用的是局部性原理</li>
-<li>在虚拟存储器中，当程序正在执行时，由操作系统完成地址映射，但也需要一部分硬件基础的支持</li>
-<li>页式虚拟存储器中，页面过小会导致虚拟存储器包含页面数过多，页表体积过大，操作变慢；页面很大时没页面数减少，页面调度频率较高，换页次数增加，降低操作速度</li>
-<li>快表采用的是<strong>相联存储器</strong>，按照查找内容访问，查找速度比慢表快；快表是单独的存储器，而慢表存储在主存中</li>
-<li>取数：先访问cache，没有再访问快表，没有再访问慢表，最少访问主存0次；写回时如果采用直写方式，则必须访问ache和主存，访问主存次数最少为1</li>
-<li>在请求分页系统中，当要访问的页面不在内存中时，CPU检测到异常变回产生<strong>缺页中断</strong>，请求<strong>操作系统</strong>将缺页调入内存。缺页中断处理程序会根据缺页故障的地址从外存读入缺失的页，完成后<strong>回到发生缺页的指令</strong>继续执行</li>
-</ul>
-<h1 id="指令系统"><a href="#指令系统" class="headerlink" title="指令系统"></a>指令系统</h1><p>##基本框架</p>
-<p><img src="https://www.hualigs.cn/image/60601fd0007b0.jpg"></p>
-<ul>
-<li><p>堆栈计算机中，有些堆栈零地址的运算类指令在指令格式中不给出操作数的地址，参加的两个操作数来自堆栈的栈顶和次栈顶单元。</p>
-<blockquote>
-<p>堆栈指令的访存次数取决于采用的是硬堆栈(由寄存器实现，只需要取指时访问一次内存)还是软堆栈(由内存实现，需要访问四次内存，取指、取数1、取数2、存结果)</p>
-</blockquote>
-</li>
-<li><p>指令的基本格式：操作码+地址码</p>
-</li>
-<li><p>例题：扩展操作码</p>
-</li>
-<li><p>一个计算机系统采用32条单字长指令，地址码为12位，若定义了250条二地址指令，则还可以有()条单地址指令</p>
-<p>二地址指令=两个地址码，每个地址码12位，那么操作码占了32-12-12=8位；</p>
-<p>250条二地址指令，则8位操作码共256个码剩余了6个；</p>
-<p>若要变为单地址指令，则最多可以将操作码拓展12位，可以有6*2^12^=24K条单地址指令</p>
-</li>
-<li><p>特权指令通常用于实现系统软件，这类指令一般不提供给用户</p>
-</li>
-</ul>
-<hr>
-<p>##不同字长的区别</p>
-<p><strong>机器字长：</strong>CPU一次能够处理的数据的位数。通常等于寄存器的位数。例子：windows 64位/32位，这里的64位和32位指的就是该操作系统的机器字长。</p>
-<p><strong>存储字长</strong>：计算机存储器中一个存储单元可以存储的位数。例子：某某计算机按照字节编址，即说明该计算机的存储字长为1B=8位。</p>
-<p><strong>指令字长</strong>：计算机内一条指令的位数。这里通常指的定长指令。</p>
-<p>机器字长与存储字长：两者没有必然的联系</p>
-<p>机器字长与指令字长：两者没有必然的联系。它既可以等于机器字长也可以大于或者小于机器字长。通常把等于机器字长的指令称为单字长指令。把等于半个机器字长的指令称为半字长指令。把等于两倍机器字长的指令称为双字长指令。</p>
-<p>存储字长和指令字长。各位可能经常看到这样的字眼：某某计算机按字节编址，指令长度为16位/32位。通常为了方便取址<strong>规定指令字长为存储字长的整数倍</strong>。现在的计算机指令长度基本都是存储字长的整数倍。</p>
-<hr>
-<h2 id="指令的寻址方式"><a href="#指令的寻址方式" class="headerlink" title="指令的寻址方式"></a>指令的寻址方式</h2><ul>
-<li><p>内存地址是无符号数，而相对偏移量可以有正负</p>
-</li>
-<li><p>不同寻址方式特点：简化地址结构可以选择隐地址(不占位置),缩短指令地址段位数可以用寄存器寻址(寄存器一共就那么多~几个位就表示了);最快速获取操作数选择立即寻址;处理数组选择变址寻址;多道程序设计中最重要的寻址方式是相对寻址(同时多个程序按一定顺序轮流执行，相对方便程序浮动)</p>
-</li>
-<li><p>相对寻址是以<strong>下条</strong>指令在内存中首地址为基准的偏移量</p>
-</li>
-<li><p>采用相对寻址进行转移指令的时候，要注意程序计数器数值的变化，根据题意取指令时PC会增加，增加的位数要考虑机器字长。(<strong>每当取出1字节时PC的值+1，要看指令是多少字节</strong>)</p>
-</li>
-<li><p>程序计数器(PC)给出下一条指令字的访存地址，长度取决于存储器的字数；指令寄存器(IR)用于接收取得的指令，长度取决于指令字长</p>
-</li>
-<li><p>基址寻址和变址寻址具体寻址操作：找到变址/基址寄存器内容和形式地址内容，相加，得到操作数的实际地址，再根据实际地址访问内存，获取操作数；基址寻址中程序员操作的是偏移地址，基址寄存器内容由操作系统控制；变址寻址中，程序员操作的是变址寄存器，偏移地址是固定不变的</p>
-</li>
-<li><p>注意区分题目中的寄存器间接寻址和一般的间接寻址，寄存器间接寻址不考虑嵌套，寄存器中存储的就是有效地址，间接寻址需要考虑首位，如果是1则是继续向下寻找</p>
-</li>
-<li><p><strong>堆栈寻址进出操作：</strong>进、出堆栈对栈顶指针的操作顺序相反，进栈先压数据再改指针，使指针指向栈顶空单元；出栈先改指针再出数据，因为指针要先指向数据才能把它推出去；</p>
-</li>
-</ul>
-<h1 id="中央处理器"><a href="#中央处理器" class="headerlink" title="中央处理器"></a>中央处理器</h1><p>##CPU功能和基本结构</p>
-<ul>
-<li><p><strong>程序计数器：</strong>内容为指令在主存中的地址，所以程序计数器的位数与存储器地址的位数相等，而存储器地址取决于存储器的容量，因此程序计数器的位数取决于存储器的容量;其中存储的地址可能是本条指令的地址，也可能是下条指令，具体取决于是取指令前还是取指令后</p>
-<blockquote>
-<p>例：某计算机的主存空间为4GB，字长为32位，按字节编址，采用32位字长指令字格式。若指令按字边界对齐存放，内存的字数=4GB*8/32=2^30^，则程序计数器的位数=30；指令寄存器IR的位数取决于指令长度为32</p>
-</blockquote>
-</li>
-<li><p><strong>指令译码</strong>是对指令的操作码字段进行译码</p>
-</li>
-<li><p>间址周期结束时，CPU内寄存器MDR中的内容为操作数地址。间址周期的作用是取操作数的有效地址，因此间址周期结束后，MDR中的内容为操作数的地址</p>
-</li>
-<li><p>溢出标志位根据溢出的三种判断方法来看，进位/借位标志位 如果是减法直接比较两个数大小即可判断，加法判断是否进位</p>
-</li>
-<li><p>计算机可以划分为控制部件和执行部件：控制部件包括指令寄存器、程序寄存器、操作寄存器；执行部件包括运算器、存储器、外围设备</p>
-</li>
-</ul>
-<h2 id="指令执行过程"><a href="#指令执行过程" class="headerlink" title="指令执行过程"></a>指令执行过程</h2><ul>
-<li>取指操作是控制器自动进行的，不需要得到相应指令，是所有指令周期的第一步</li>
-<li>指令执行方案包括单指令周期、多指令周期、流水线方案</li>
-<li>执行各条指令的机器周期数、各机器周期的长度都应该是可变的</li>
-</ul>
-<p>##不同周期的区分</p>
-<p>时钟周期：机器节拍，主频的倒数 </p>
-<p>CPU周期：同机器周期</p>
-<p>机器周期：完成一个基本操作所需时间，基本操作包括：取值、间址、执行、中断等。==通常使用存取周期来确定机器周期，就是说可以认为机器周期等于存取周期==</p>
-<p>指令周期：从主存中取出并执行一条指令所需完整时间； 指令周期划分为四个阶段：取址周期、间址周期、执行周期、中断周期。 </p>
-<p>存取周期：存储器进行两次独立存储器操作所需最小的时间间隔。 </p>
-<hr>
-<h2 id="控制器的功能和工作原理"><a href="#控制器的功能和工作原理" class="headerlink" title="控制器的功能和工作原理"></a>控制器的功能和工作原理</h2><p><img src="https://www.hualigs.cn/image/606076e7e826d.jpg"></p>
-<ul>
-<li><p>每条微指令存放在控制器的一个控制存储器单元中，控制存储器由ROM构成，在CPU中，只需要读操作不需要写</p>
-</li>
-<li><p>微程序&gt;微指令&gt;微命令&gt;微操作</p>
-<p>一条指令的功能由一段微程序实现；</p>
-<p>微指令包含操作控制字段(微操作码)、顺序控制字段(微地址码)(存放<strong>下一条</strong>要执行的微指令地址);</p>
-<p>微命令是控制部件向执行部件发出的各种控制命令，是构成控制序列的最小单位</p>
-<p>微操作是计算机最基本的、不可再分解的操作</p>
-</li>
-<li><p><strong>微程序控制器基本组成</strong>：控制存储器、微指令寄存器、微地址形成部件、微地址寄存器</p>
-</li>
-<li><p><strong>微指令格式：</strong>水平型微指令(并行)、垂直型微指令、混合型</p>
-</li>
-<li><p><strong>微指令编码方式</strong>：直接编码(一个指令一位二进制)、字段直接编码(互斥命令组合在同一字段中，相容性微命令组合在不同字段中，每个字段独立编码，每个小段留出一个状态)、字段间接编码方式</p>
-</li>
-<li><p><strong>微指令地址形成方式：</strong>断定方式(微指令的下地址字段指出)、根据机器指令操作码形成</p>
-</li>
-<li><p><strong>硬布线和微程序控制器对比</strong></p>
-</li>
-</ul>
-<p><img src="https://www.hualigs.cn/image/60609d767effd.jpg"></p>
-<h2 id="指令流水线"><a href="#指令流水线" class="headerlink" title="指令流水线"></a>指令流水线</h2><ul>
-<li><p>流水CPU是一种非常经济而实用的<strong>时间</strong>并行技术</p>
-</li>
-<li><p>题目中问的存在数据冒险的指令对是xx和xx，意思是这两个指令冲突–，不要理解成这两个指令和前面的冲突了</p>
-</li>
-<li><p>指令流水线数据通路包括程序计数器、算术逻辑运算部件、通用寄存器组、取指部件等，不包括控制部件</p>
-</li>
-<li><p>流水线冲突：对流水线影响最严重的是数据相关</p>
-<p>资源冲突：同一时刻争抢同一资源  ①后指令暂停 ②设置不同存储器</p>
-<p>数据冲突：下一条指令使用上一条结果 ①暂停，硬件阻塞和软件插入 ②数据旁路技术  ③编译器优化调整顺序</p>
-<p>控制冲突：转移、调用、返回时冲突  ①分支预测②预测转移成功与不成功指令</p>
-</li>
-<li><p>超标量流水线：</p>
-<p>超标量流水线技术：同一阶段并行执行多条指令；要求配置多个功能部件和指令译码电路</p>
-<p>超流水线技术：每个周期分段，一个周期内每个部件使用多次；对cache容量要求更大，需要执行的指令长度很长</p>
-<p>超长指令字：将多条能并行操作的指令组合成一条具有多个操作码字段的超长指令字</p>
-</li>
-<li><p>流水线按序流动，不会出现WAR、WAW，只有可能出现RAW相关</p>
-</li>
-<li><p>CPU时钟周期应该根据指令各功能部件执行的最大时间决定</p>
-</li>
-<li><p><strong>CPI</strong>表示执行指令所需的时钟周期数，对于一个程序或一套机器来说，其CPI是执行该程序或机器指令集中所有指令所需的平均时钟周期数。对于单周期CPU，指令周期=时钟周期，CPI=1；对于多周期CPU，CPU的执行分为几个阶段，每个阶段用一个时钟完成，每种指令所用的时钟数可以不同，CPI&gt;1；对于基本流水线CPU，让每个时钟周期流出一条指令，CPI=1；超标量流水线CPU，每个周期并发执行多条独立指令，CPI&lt;1</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>408</category>
-      </categories>
-      <tags>
-        <tag>计组</tag>
       </tags>
   </entry>
 </search>
